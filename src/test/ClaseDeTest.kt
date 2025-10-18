@@ -2,7 +2,7 @@ package test
 
 import main.kotlin.data.Event
 import main.kotlin.data.PaymentMethod
-import main.kotlin.data.Ticket
+import data.Ticket
 import main.kotlin.data.TicketCollection
 import main.kotlin.data.User
 import main.kotlin.repositories.EventRepository

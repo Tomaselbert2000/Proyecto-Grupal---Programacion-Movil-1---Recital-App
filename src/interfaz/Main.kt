@@ -1,6 +1,9 @@
 package interfaz
 
+import customExceptions.BlankSelectionException
 import customExceptions.BlankUserDataException
+import customExceptions.InvalidInputDataException
+import customExceptions.InvalidSelectionException
 import main.kotlin.data.Event
 import main.kotlin.data.User
 import main.kotlin.repositories.EventRepository
@@ -8,10 +11,12 @@ import main.kotlin.repositories.PaymentMethodRepository
 import main.kotlin.repositories.TicketCollectionRepository
 import main.kotlin.repositories.TicketsRepository
 import main.kotlin.repositories.UserRepository
+import java.time.LocalDate
 
 fun main(){
 
     val repoUsuarios = UserRepository
+    println("\n")
     println("""
         +=== Sistema de gestion ===+
         |==========================|
@@ -56,40 +61,105 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository){
     var apellido : String
     var nickname : String
     var password : String
+    var newUser : User? = null
+    var excepcionLanzada = false
 
-    try {
-        println("""
+    do {
+        try {
+            println("""
             .=== Ingresar nombre (incluyendo 2do nombre si corresponde) ===.
         """.trimIndent())
-        nombre = readln()
-        println("""
+            nombre = readln()
+            println("""
             .=== Ingresar apellido (incluyendo 2do apellido si corresponde) ===.
         """.trimIndent())
-        apellido = readln()
-        println("""
+            apellido = readln()
+            println("""
             .=== Ingresar nickname de usuario ===.
         """.trimIndent())
-        nickname = readln()
-        println("""
-            .=== Ingresar contraseña (se recomienda 8+ caracteres) ===.
+            nickname = readln()
+            do {
+                println("""
+            .=== Ingresar contraseña ===.
+            =============================
+            Requisitos minimos:
+            1 letra mayuscula
+            1 caracter especial
+            1 caracter numerico
+            8 caracteres de longitud
+            =============================
         """.trimIndent())
-        password = readln()
+                password = readln()
+                if(!passwordValida(password)){
+                    println(".=== La contraseña ingresada no cumple los requisitos minimos de seguridad. Intente nuevamente ===.")
+                }else{
+                    newUser = User(1L, nickname, password, nombre, apellido, 0.0, LocalDate.now().toString())
+                }
+            }while(!passwordValida(password))
 
-        if (nombre.isBlank() || apellido.isBlank() || nickname.isBlank() || password.isBlank()){
-            throw BlankUserDataException()
+            if (nombre.isBlank() || apellido.isBlank() || nickname.isBlank() || password.isBlank()){
+                excepcionLanzada = true
+                throw BlankUserDataException()
+            }
+            else if(nombre.any { it.isDigit() } || apellido.any { it.isDigit() } || nombre.any { it.toInt() in 33..38 } || apellido.any { it.toInt() in 33..38 }){
+                excepcionLanzada = true
+                throw InvalidInputDataException()
+            }
+        }catch (e: Exception){
+            println(e.message)
         }
-        if(nombre.any { it.isDigit() } || apellido.any { it.isDigit() }){
-            throw Exception(".=== Los campos de nombre o apellido no pueden contener numeros o caracteres especiales. Intente nuevamente ===.")
+    }while (newUser == null)
+
+    if(repoUsuarios.registrarNuevoUsuario(newUser) && !excepcionLanzada){
+        println("""
+            .=== Usuario creado exitosamente ===.
+            =====================================
+                Volviendo al menu principal...
+            =====================================
+        """.trimIndent())
+        main()
+    }else{
+        println("""
+              .=== Error al crear el usuario. Intente nuevamente ===.
+            ===========================================================
+            ¿Desea reintentar la operacion? Ingresar S/N para continuar
+            ===========================================================
+        """.trimIndent())
+        var confirmacion : String
+
+        try {
+            do {
+                confirmacion = readln()
+                if (confirmacion != "S" && confirmacion != "N") {
+                    println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
+                }else if(confirmacion.isBlank()){
+                    throw BlankUserDataException()
+                }else if (confirmacion.any{it.isDigit()}){
+                    throw InvalidSelectionException()
+                }
+            }while (confirmacion != "S" && confirmacion != "N")
+        }catch (e: Exception){
+            println(e.message)
         }
-        val newUser = User(1L, nickname, password, nombre, apellido, 0.0, "2025-10-17")
-        if(repoUsuarios.registrarNuevoUsuario(newUser)){
-            println(".=== Usuario creado exitosamente. Ingresar con credenciales para acceder al sistema ===.")
-            iniciarSesion(repoUsuarios)
-        }
-    }catch (e: Exception){
-        println(e.message)
-        crearNuevoUsuario(repoUsuarios)
     }
+}
+
+fun passwordValida(password: String): Boolean {
+    var contadorMayusculas = 0
+    var contadorEspeciales = 0
+    var contadorNumeros = 0
+
+    for(letter in password){
+        if(letter.isDigit()){
+            contadorNumeros++
+        }else if((letter).code in 33..38){
+            contadorEspeciales++
+        }else if (letter.isUpperCase()){
+            contadorMayusculas++
+        }
+    }
+
+    return contadorMayusculas >= 1 && contadorEspeciales >= 1 && contadorNumeros >= 1 && password.length >= 8
 }
 
 fun iniciarSesion(repoUsuarios: UserRepository){
@@ -104,11 +174,11 @@ fun iniciarSesion(repoUsuarios: UserRepository){
             println(".=== Ingresar contraseña ===.")
             password = readln()
 
-            loggedUser = repoUsuarios.login(nickname, password)
-
             if (nickname.isBlank() || password.isBlank()){
                 throw BlankUserDataException()
             }
+
+            loggedUser = repoUsuarios.login(nickname, password)
 
             if(loggedUser == null){
                 println("""
@@ -121,9 +191,9 @@ fun iniciarSesion(repoUsuarios: UserRepository){
                     val confirmacion = readln()
                     do {
                         if (confirmacion.isBlank()){
-                            throw Exception(".=== El campo de confirmacion no puede quedar en blanco ===.")
+                            throw BlankUserDataException()
                         }else if(confirmacion.any{it.isDigit()}){
-                            throw Exception(".=== El campo de confirmacion no puede ser un numero ===.")
+                            throw InvalidSelectionException()
                         }
                     }while(confirmacion != "S" && confirmacion != "N" || confirmacion.isBlank() || confirmacion.any{it.isDigit()})
 
@@ -264,7 +334,10 @@ fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
                 val confirmacion = readln()
                 do {
                     if(confirmacion.isBlank()){
-                        throw Exception(".=== El campo de confirmacion no puede quedar en blanco ===.")
+                        throw BlankSelectionException()
+                    }
+                    else if(confirmacion.any{it.isDigit()}){
+                        throw InvalidSelectionException()
                     }
                 }while (confirmacion != "S" && confirmacion != "N")
 
@@ -317,8 +390,20 @@ fun mostrarHistorialDeComprasDeUsuario(
                     Artista: ${eventoAsociado?.artist}
                     Sección del estadio: ${ticketParaMostrar?.section}
                     ==============================================
+                    Valor total del ticket: $${ticketParaMostrar?.precio}
+                    ==============================================
                 """.trimIndent())
+                println("\n")
             }
+        }else {
+            println("""
+                .=== No se registran compras de tickets hasta el momento ===.
+                =============================================================
+                        Presionar Enter para volver al menu anterior
+                =============================================================
+            """.trimIndent())
+            readln()
+            menuPrincipalSistema(loggedUser)
         }
     }
     println(".=== Presione cualquier tecla para volver al menu anterior ===.")
