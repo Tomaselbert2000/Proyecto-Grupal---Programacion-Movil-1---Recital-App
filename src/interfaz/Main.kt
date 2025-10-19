@@ -1,28 +1,25 @@
 package interfaz
 
-import customExceptions.BlankSelectionException
 import customExceptions.BlankUserDataException
 import customExceptions.InvalidInputDataException
 import customExceptions.InvalidSelectionException
 import main.kotlin.data.Event
 import main.kotlin.data.User
-import main.kotlin.repositories.EventRepository
-import main.kotlin.repositories.PaymentMethodRepository
-import main.kotlin.repositories.TicketCollectionRepository
-import main.kotlin.repositories.TicketsRepository
-import main.kotlin.repositories.UserRepository
+import main.kotlin.repositories.*
 import java.time.LocalDate
+import java.util.Locale.getDefault
+import kotlin.system.exitProcess
 
 fun main(){
 
     val repoUsuarios = UserRepository
     println("\n")
     println("""
-        +=== Sistema de gestion ===+
-        |==========================|
-        |1. Iniciar sesion         |
-        |2. Crear nuevo usuario    |
-        |3. Salir del programa     |
+        .=== Sistema de gestion ===.
+        +==========================+
+        | 1. Iniciar sesion        |
+        | 2. Crear nuevo usuario   |
+        | 3. Salir del programa    |
         +==========================+
     """.trimIndent())
     var opcionMenuSeleccionada : Int?
@@ -48,6 +45,7 @@ fun main(){
         }
         3 -> {
             println(".=== Programa finalizado por el usuario ===.")
+            exitProcess(0)
         }
     }
 }
@@ -66,18 +64,15 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository){
 
     do {
         try {
-            println("""
-            .=== Ingresar nombre (incluyendo 2do nombre si corresponde) ===.
-        """.trimIndent())
+            println(".=== Ingresar nombre (incluyendo 2do nombre si corresponde) ===.")
             nombre = readln()
-            println("""
-            .=== Ingresar apellido (incluyendo 2do apellido si corresponde) ===.
-        """.trimIndent())
+
+            println(".=== Ingresar apellido (incluyendo 2do apellido si corresponde) ===.")
             apellido = readln()
-            println("""
-            .=== Ingresar nickname de usuario ===.
-        """.trimIndent())
+
+            println(".=== Ingresar nickname de usuario ===.")
             nickname = readln()
+
             do {
                 println("""
             .=== Ingresar contraseña ===.
@@ -101,7 +96,7 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository){
                 excepcionLanzada = true
                 throw BlankUserDataException()
             }
-            else if(nombre.any { it.isDigit() } || apellido.any { it.isDigit() } || nombre.any { it.toInt() in 33..38 } || apellido.any { it.toInt() in 33..38 }){
+            else if(nombre.any { it.isDigit() } || apellido.any { it.isDigit() } || nombre.any { it.code in 33..38 } || apellido.any { it.code in 33..38 }){
                 excepcionLanzada = true
                 throw InvalidInputDataException()
             }
@@ -110,7 +105,8 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository){
         }
     }while (newUser == null)
 
-    if(repoUsuarios.registrarNuevoUsuario(newUser) && !excepcionLanzada){
+    if(!excepcionLanzada){
+        repoUsuarios.registrarNuevoUsuario(newUser)
         println("""
             .=== Usuario creado exitosamente ===.
             =====================================
@@ -120,46 +116,20 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository){
         main()
     }else{
         println("""
-              .=== Error al crear el usuario. Intente nuevamente ===.
+                        .=== Error al crear el usuario ===.
             ===========================================================
             ¿Desea reintentar la operacion? Ingresar S/N para continuar
             ===========================================================
         """.trimIndent())
-        var confirmacion : String
 
-        try {
-            do {
-                confirmacion = readln()
-                if (confirmacion != "S" && confirmacion != "N") {
-                    println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
-                }else if(confirmacion.isBlank()){
-                    throw BlankUserDataException()
-                }else if (confirmacion.any{it.isDigit()}){
-                    throw InvalidSelectionException()
-                }
-            }while (confirmacion != "S" && confirmacion != "N")
-        }catch (e: Exception){
-            println(e.message)
+        val reiniciarOperacion = solicitarConfirmacionDeUsuario()
+
+        if(reiniciarOperacion){
+            crearNuevoUsuario(repoUsuarios)
+        }else{
+            main()
         }
     }
-}
-
-fun passwordValida(password: String): Boolean {
-    var contadorMayusculas = 0
-    var contadorEspeciales = 0
-    var contadorNumeros = 0
-
-    for(letter in password){
-        if(letter.isDigit()){
-            contadorNumeros++
-        }else if((letter).code in 33..38){
-            contadorEspeciales++
-        }else if (letter.isUpperCase()){
-            contadorMayusculas++
-        }
-    }
-
-    return contadorMayusculas >= 1 && contadorEspeciales >= 1 && contadorNumeros >= 1 && password.length >= 8
 }
 
 fun iniciarSesion(repoUsuarios: UserRepository){
@@ -187,24 +157,15 @@ fun iniciarSesion(repoUsuarios: UserRepository){
                     ¿Desea reintentar la operacion? Ingresar S/N para continuar
                     ===========================================================
                 """.trimIndent())
-                try {
-                    val confirmacion = readln()
-                    do {
-                        if (confirmacion.isBlank()){
-                            throw BlankUserDataException()
-                        }else if(confirmacion.any{it.isDigit()}){
-                            throw InvalidSelectionException()
-                        }
-                    }while(confirmacion != "S" && confirmacion != "N" || confirmacion.isBlank() || confirmacion.any{it.isDigit()})
 
-                    if(confirmacion == "S"){
-                        iniciarSesion(repoUsuarios)
-                    }else{
-                        main()
-                    }
-                }catch (e : Exception){
-                    println(e.message)
+                val reiniciarOperacion = solicitarConfirmacionDeUsuario()
+
+                if (reiniciarOperacion){
+                    iniciarSesion(repoUsuarios)
+                }else{
+                    main()
                 }
+
             }else{
                 return menuPrincipalSistema(loggedUser)
             }
@@ -225,31 +186,32 @@ fun menuPrincipalSistema(loggedUser: User) {
     println("""
             .=== Menu principal ===.
         Bienvenido ${loggedUser.nickname}
-        =================================
+        ===================================
         1. Ver eventos disponibles.
         2. Comprar tickets.
         3. Cargar saldo.
         4. Ver historial de compras.
         5. Ver saldo actual de usuario.
-        6. Cerrar sesion.
-        7. Salir del programa.
-        =================================
-        Ingresar un valor para continuar
-        =================================
+        6. Ver metodos de pago disponibles
+        7. Cerrar sesion.
+        8. Salir del programa.
+        ==================================
+         Ingresar un valor para continuar
+        ==================================
     """.trimIndent())
     var opcionSeleccionada : Int? = null
 
     do {
         try {
             opcionSeleccionada = readln().toInt()
-            if (opcionSeleccionada !in 1..7){
+            if (opcionSeleccionada !in 1..8){
                 println("El valor ingresado no corresponde a una opcion del menu. Intente nuevamente.")
                 opcionSeleccionada = null
             }
         }catch (_: NumberFormatException){
             println(".=== El valor ingresado no corresponde a un tipo de dato valido, intente nuevamente ===.")
         }
-    }while (opcionSeleccionada == null || opcionSeleccionada !in 1..7)
+    }while (opcionSeleccionada == null || opcionSeleccionada !in 1..8)
 
     when (opcionSeleccionada){
         1 -> {
@@ -267,11 +229,15 @@ fun menuPrincipalSistema(loggedUser: User) {
         5 -> {
             verSaldoActualUsuario(loggedUser)
         }
-        6 -> {
-            cerrarSesion(loggedUser)
+        6 ->{
+            mostrarMetodosDePagoDisponibles(loggedUser, repoMediosPago)
         }
         7 -> {
+            cerrarSesion(loggedUser)
+        }
+        8 -> {
             println(".=== Programa finalizado por el usuario ===.")
+            exitProcess(0)
         }
     }
 }
@@ -291,7 +257,11 @@ fun mostrarEventos(loggedUser: User, repoEventos: EventRepository) {
             =========================================================================================================================================================================
         """.trimIndent())
     }
-    println(".=== Presione cualquier tecla para volver al menu anterior ===.")
+    println("""
+        ===========================================
+        Presione Enter para volver al menu anterior
+        ===========================================
+    """.trimIndent())
     readln()
     menuPrincipalSistema(loggedUser)
 }
@@ -304,6 +274,7 @@ fun comprarTickets(
     repoTicketCollection: TicketCollectionRepository,
     repoMediosPago: PaymentMethodRepository
 ) {
+    TODO()
 }
 
 fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
@@ -330,31 +301,22 @@ fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
                 ¿Desea reintentar la operacion? Ingresar S/N para continuar
                 ===========================================================
             """.trimIndent())
-            try {
-                val confirmacion = readln()
-                do {
-                    if(confirmacion.isBlank()){
-                        throw BlankSelectionException()
-                    }
-                    else if(confirmacion.any{it.isDigit()}){
-                        throw InvalidSelectionException()
-                    }
-                }while (confirmacion != "S" && confirmacion != "N")
+            val reiniciarOperacion = solicitarConfirmacionDeUsuario()
 
-                if (confirmacion == "S"){
-                    cargarSaldo(loggedUser, repoUsuarios)
-                }else{
-                    menuPrincipalSistema(loggedUser)
-                }
-
-            }catch (e: Exception){
-                println(e.message)
+            if (reiniciarOperacion){
+                cargarSaldo(loggedUser, repoUsuarios)
+            }else{
+                menuPrincipalSistema(loggedUser)
             }
         }
     }catch (e : Exception){
         println(e.message)
     }
-    println(".=== Presione cualquier tecla para volver al menu anterior ===.")
+    println("""
+        ===========================================
+        Presione Enter para volver al menu anterior
+        ===========================================
+    """.trimIndent())
     readln()
     menuPrincipalSistema(loggedUser)
 }
@@ -406,7 +368,7 @@ fun mostrarHistorialDeComprasDeUsuario(
             menuPrincipalSistema(loggedUser)
         }
     }
-    println(".=== Presione cualquier tecla para volver al menu anterior ===.")
+    println(".=== Presione Enter para volver al menu anterior ===.")
     readln()
     menuPrincipalSistema(loggedUser)
 }
@@ -422,8 +384,73 @@ fun verSaldoActualUsuario(loggedUser: User) {
     menuPrincipalSistema(loggedUser)
 }
 
+fun mostrarMetodosDePagoDisponibles(loggedUser: User, repoMediosPago: PaymentMethodRepository) {
+    val listaDeIDsMediosDePago = repoMediosPago.obtenerListaDeIDs()
+    println("""
+        .=== Medios de pago disponibles actualmente ===.
+        ================================================
+    """.trimIndent())
+    for(id in listaDeIDsMediosDePago){
+        val medioDePago = repoMediosPago.obtenerMedioDePagoPorId(id)
+        println("""
+            Metodo de pago: ${medioDePago?.name}
+            Comision aplicada: ${medioDePago?.fee?.times(100)}%
+            ================================================
+        """.trimIndent())
+    }
+    println("""
+        ===========================================
+        Presione Enter para volver al menu anterior
+        ===========================================
+    """.trimIndent())
+    readln()
+    menuPrincipalSistema(loggedUser)
+}
+
 fun cerrarSesion(loggedUser: User) {
     loggedUser.estadoDeSesion = false
     println(".=== Sesion finalizada por el usuario ===.")
     main()
+}
+
+fun solicitarConfirmacionDeUsuario(): Boolean {
+    var confirmacion : String
+    try {
+        do {
+            confirmacion = readln().uppercase()
+            if (confirmacion != "S" && confirmacion != "N") {
+                println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
+            }else if(confirmacion.isBlank()){
+                throw BlankUserDataException()
+            }else if (confirmacion.any{it.isDigit()} || confirmacion.any{it.code in 33..38}){
+                throw InvalidSelectionException()
+            }else if(confirmacion == "S"){
+                println(".=== Reiniciando operacion... ===.")
+                return true
+            }else{
+                return false
+            }
+        }while (true)
+    }catch (e: Exception){
+        println(e.message)
+    }
+    return false
+}
+
+fun passwordValida(password: String): Boolean {
+    var contadorMayusculas = 0
+    var contadorEspeciales = 0
+    var contadorNumeros = 0
+
+    for(letter in password){
+        if(letter.isDigit()){
+            contadorNumeros++
+        }else if((letter).code in 33..38){
+            contadorEspeciales++
+        }else if (letter.isUpperCase()){
+            contadorMayusculas++
+        }
+    }
+
+    return contadorMayusculas >= 1 && contadorEspeciales >= 1 && contadorNumeros >= 1 && password.length >= 8
 }
