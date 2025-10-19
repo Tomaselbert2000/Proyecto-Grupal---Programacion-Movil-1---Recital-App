@@ -1,4 +1,4 @@
-package main.kotlin.data
+package data
 
 data class Event(
     val id: Long,

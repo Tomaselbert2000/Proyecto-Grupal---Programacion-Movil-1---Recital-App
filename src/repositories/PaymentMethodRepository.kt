@@ -1,6 +1,6 @@
 package main.kotlin.repositories
 
-import main.kotlin.data.PaymentMethod
+import data.PaymentMethod
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime

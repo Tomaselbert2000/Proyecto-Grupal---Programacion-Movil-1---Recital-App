@@ -1,14 +1,14 @@
 package test
 
-import main.kotlin.data.Event
-import main.kotlin.data.PaymentMethod
+import data.Event
+import data.PaymentMethod
 import data.Ticket
-import main.kotlin.data.TicketCollection
-import main.kotlin.data.User
-import main.kotlin.repositories.EventRepository
+import data.TicketCollection
+import data.User
+import repositories.EventRepository
 import main.kotlin.repositories.PaymentMethodRepository
 import main.kotlin.repositories.TicketCollectionRepository
-import main.kotlin.repositories.TicketsRepository
+import repositories.TicketsRepository
 import main.kotlin.repositories.UserRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

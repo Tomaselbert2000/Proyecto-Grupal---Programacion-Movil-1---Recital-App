@@ -1,6 +1,6 @@
 package main.kotlin.repositories
 
-import main.kotlin.data.User
+import data.User
 
 object UserRepository {
 

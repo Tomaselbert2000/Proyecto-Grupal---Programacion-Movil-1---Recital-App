@@ -3,11 +3,12 @@ package interfaz
 import customExceptions.BlankUserDataException
 import customExceptions.InvalidInputDataException
 import customExceptions.InvalidSelectionException
-import main.kotlin.data.Event
-import main.kotlin.data.User
+import data.Event
+import data.User
 import main.kotlin.repositories.*
+import repositories.EventRepository
+import repositories.TicketsRepository
 import java.time.LocalDate
-import java.util.Locale.getDefault
 import kotlin.system.exitProcess
 
 fun main(){
@@ -274,6 +275,59 @@ fun comprarTickets(
     repoTicketCollection: TicketCollectionRepository,
     repoMediosPago: PaymentMethodRepository
 ) {
+    println("""
+        .=== Pestaña de compra de tickets ===.
+        ======================================
+        Saldo actual de usuario: $${loggedUser.money}
+        ======================================
+    """.trimIndent())
+    println("""
+        .=== Seleccione una opcion para iniciar la compra ===.
+        1. Ver lista de eventos programados.
+        2. Ver lista de artistas.
+        ======================================================
+    """.trimIndent())
+    try {
+        var opcionSeleccionada : Int
+        do {
+            opcionSeleccionada = readln().toInt()
+            if (opcionSeleccionada.toString().isBlank()){
+                throw Exception(".=== El campo de seleccion no puede quedar en blanco. Intente nuevamente ===.")
+            }else if(opcionSeleccionada.toString().any{it.isLetter()} || opcionSeleccionada.toString().any{it.code in 33..38}){
+                throw Exception(".=== El campo de seleccion no puede contener letras o caracteres especiales. Intente nuevamente ===.")
+            }else if(opcionSeleccionada !in 1..2){
+                println(".=== El valor ingresado no corresponde a una opcion valida. Intente nuevamente ===.")
+            }
+        }while (opcionSeleccionada !in 1..2 || opcionSeleccionada.toString().isBlank() || opcionSeleccionada.toString().any{it.isLetter()} || opcionSeleccionada.toString().any{it.code in 33..38})
+
+        if(opcionSeleccionada == 1){
+            mostrarEventos(loggedUser, repoEventos)
+        }else{
+            println("""
+                .=== Lista de artistas con eventos programados ===.
+                Ingrese el valor asociado al artista para continuar
+                ===================================================
+            """.trimIndent())
+            var index = 1
+            for(evento in repoEventos.obtenerListaDeEventos()){
+                println("${index}. ${evento.artist}")
+                index++
+            }
+            println("===================================================")
+
+            try {
+                var artistaSeleccionado: Int
+                do{
+                    artistaSeleccionado = readln().toInt()
+
+                }while (artistaSeleccionado !in 1..index)
+            }catch (e : Exception){
+                println(e.message)
+            }
+        }
+    }catch (e:Exception){
+        println(e.message)
+    }
     TODO()
 }
 

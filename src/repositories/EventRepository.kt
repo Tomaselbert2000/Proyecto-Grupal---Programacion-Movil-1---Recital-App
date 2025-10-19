@@ -1,6 +1,6 @@
-package main.kotlin.repositories
+package repositories
 
-import main.kotlin.data.Event
+import data.Event
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeParseException

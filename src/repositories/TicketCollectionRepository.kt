@@ -1,6 +1,8 @@
 package main.kotlin.repositories
 
-import main.kotlin.data.TicketCollection
+import data.TicketCollection
+import repositories.EventRepository
+import repositories.TicketsRepository
 
 object TicketCollectionRepository {
 

@@ -1,4 +1,4 @@
-package main.kotlin.data
+package data
 
 data class User(
     val id: Long,

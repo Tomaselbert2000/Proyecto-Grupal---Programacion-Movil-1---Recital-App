@@ -1,4 +1,4 @@
-package main.kotlin.repositories
+package repositories
 
 import data.Ticket
 
@@ -297,6 +297,9 @@ object TicketsRepository {
             listaDeIDsDeTicketsRegistrados.add(ticket.id)
         }
         return listaDeIDsDeTicketsRegistrados
+    }
+
+    fun obtenerListaDeTicketsPorSeccion(seccionDeseada: Int) {
     }
 
     private fun validarEventoAsociado(nuevoTicket: Ticket, listaDeIDsEventosRegistrados: MutableList<Long>): Boolean {
