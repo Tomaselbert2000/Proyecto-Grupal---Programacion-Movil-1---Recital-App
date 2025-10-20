@@ -138,26 +138,6 @@ object TicketCollectionRepository {
         return false
     }
 
-    fun obtenerTotalDeTicketsCompradosPorUserId(userIdQueBuscamos: Long): Int {
-        var cantidad = 0
-        for(item in this.ticketCollections){
-            if (item.userId == userIdQueBuscamos){
-                cantidad += item.ticketCollection.size
-            }
-        }
-        return cantidad
-    }
-
-    fun obtenerMontoTotalAcumuladoPorCompras(userIdQueBuscamos: Long): Double {
-        var montoTotal = 0.0 // inicializamos un acumulador aca
-        for (item in this.ticketCollections){ // iteramos sobre todas las compras
-            if (item.userId == userIdQueBuscamos){ // vemos si se corresponde el userId con el que buscamos
-                montoTotal += item.ticketCollection.size * 10000 // en caso de serlo, multiplicamos el size de esa compra (la cantidad de tickets) por el precio unitario
-            }
-        }
-        return montoTotal
-    }
-
     fun obtenerSaldoUsuarioAsociado(userIdQueBuscamos: Long, userRepo: UserRepository): Double {
         return userRepo.obtenerSaldoDeUsuario(userIdQueBuscamos)
     }
@@ -170,14 +150,6 @@ object TicketCollectionRepository {
             }
         }
         return listaDeComprasDelUsuario
-    }
-
-    fun obtenerListaDeIDsDeColecciones(): MutableList<Long> {
-        val listaDeIDsDeColeccionesRegistrados = mutableListOf<Long>()
-        for(item in this.ticketCollections){
-            listaDeIDsDeColeccionesRegistrados.add(item.id)
-        }
-        return listaDeIDsDeColeccionesRegistrados
     }
 
     fun limpiarInstancia() {

@@ -287,6 +287,7 @@ fun comprarTickets(
         .=== Seleccione una opcion para iniciar la compra ===.
         1. Ver lista de eventos programados.
         2. Ver lista de artistas.
+        3. Volver al menu anterior.
         ======================================================
     """.trimIndent())
     try {
@@ -297,42 +298,47 @@ fun comprarTickets(
                 throw Exception(".=== El campo de seleccion no puede quedar en blanco. Intente nuevamente ===.")
             }else if(opcionSeleccionada.toString().any{it.isLetter()} || opcionSeleccionada.toString().any{it.code in 33..38}){
                 throw Exception(".=== El campo de seleccion no puede contener letras o caracteres especiales. Intente nuevamente ===.")
-            }else if(opcionSeleccionada !in 1..2){
+                TODO()
+            }else if(opcionSeleccionada !in 1..3){
                 println(".=== El valor ingresado no corresponde a una opcion valida. Intente nuevamente ===.")
             }
-        }while (opcionSeleccionada !in 1..2 || opcionSeleccionada.toString().isBlank() || opcionSeleccionada.toString().any{it.isLetter()} || opcionSeleccionada.toString().any{it.code in 33..38})
+        }while (opcionSeleccionada !in 1..3 || opcionSeleccionada.toString().isBlank() || opcionSeleccionada.toString().any{it.isLetter()} || opcionSeleccionada.toString().any{it.code in 33..38})
 
-        if(opcionSeleccionada == 1){
-            mostrarEventos(loggedUser, repoEventos)
-        }else{
-            mostrarListaArtistas(repoEventos)
+        when (opcionSeleccionada) {
+            1 -> {
+                mostrarEventos(loggedUser, repoEventos)
+            }
+            2 -> {
+                seleccionarArtista(repoEventos)
+            }
+            else -> {
+                println(
+                    """
+                    =======================================
+                    .=== Volviendo al menu anterior... ===.
+                    =======================================
+                """.trimIndent()
+                )
+                menuPrincipalSistema(loggedUser)
+            }
         }
     }catch (e:Exception){
         println(e.message)
     }
 }
 
-fun mostrarListaArtistas(repoEventos: EventRepository) {
-    println("""
-                .=== Lista de artistas con eventos programados ===.
-                Ingrese el valor asociado al artista para continuar
-                ===================================================
-            """.trimIndent())
-    var index = 1
-    for(evento in repoEventos.obtenerListaDeEventos()){
-        println("${index}. ${evento.artist}")
-        index++
+fun seleccionarArtista(repoEventos: EventRepository) {
+
+    val nombresArtistas = mutableListOf<String>()
+
+    for(ev in repoEventos.obtenerListaDeEventos()){
+        nombresArtistas.add(ev.artist)
     }
-    println("===================================================")
 
-    try {
-        var artistaSeleccionado: Int
-        do{
-            artistaSeleccionado = readln().toInt()
+    println(".=== Lista de artistas ===.")
 
-        }while (artistaSeleccionado !in 1..index)
-    }catch (e : Exception){
-        println(e.message)
+    for(nombre in nombresArtistas){
+        println("${nombresArtistas.indexOf(nombre) + 1} . $nombre")
     }
 }
 
@@ -405,12 +411,18 @@ fun mostrarHistorialDeComprasDeUsuario(
         menuPrincipalSistema(loggedUser)
     }else {
         for(compra in listaCompras){
+
             val medioDePagoUsadoEnLaCompra = repoMediosPago.obtenerMedioDePagoPorId(compra.paymentId)
+
             println("""
             .=== Numero de compra: ${compra.id} ===.
             Medio de pago utilizado: ${medioDePagoUsadoEnLaCompra?.name}
         """.trimIndent())
             if(compra.ticketCollection.isNotEmpty()){
+
+                var acumuladorTotal: Double = 0.0
+                var acumuladorCantidadEntradas = 0
+
                 for (ticketId in compra.ticketCollection){
                     val ticketParaMostrar = repoTickets.obtenerTicketPorId(ticketId)
                     val eventoAsociado = repoEventos.obtenerEventoPorId(ticketParaMostrar?.eventId)
@@ -429,13 +441,26 @@ fun mostrarHistorialDeComprasDeUsuario(
                     ==============================================
                 """.trimIndent())
                     println("\n")
+
+                    if(ticketParaMostrar != null){
+                        acumuladorTotal += ticketParaMostrar.precio
+                        acumuladorCantidadEntradas ++
+                    }
                 }
+
+                println("""
+                    ================================================
+                    .=== Cantidad total de entradas adquiridas: $acumuladorCantidadEntradas
+                    .=== Monto total abonado en entradas: $${acumuladorTotal}
+                    ================================================
+                """.trimIndent())
             }
         }
     }
     println(".=== Presione Enter para volver al menu anterior ===.")
     readln()
     menuPrincipalSistema(loggedUser)
+    TODO()
 }
 
 fun verSaldoActualUsuario(loggedUser: User) {
