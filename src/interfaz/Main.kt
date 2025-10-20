@@ -1,5 +1,6 @@
 package interfaz
 
+import customExceptions.BlankSelectionException
 import customExceptions.BlankUserDataException
 import customExceptions.InvalidInputDataException
 import customExceptions.InvalidSelectionException
@@ -327,21 +328,6 @@ fun comprarTickets(
     }
 }
 
-fun seleccionarArtista(repoEventos: EventRepository) {
-
-    val nombresArtistas = mutableListOf<String>()
-
-    for(ev in repoEventos.obtenerListaDeEventos()){
-        nombresArtistas.add(ev.artist)
-    }
-
-    println(".=== Lista de artistas ===.")
-
-    for(nombre in nombresArtistas){
-        println("${nombresArtistas.indexOf(nombre) + 1} . $nombre")
-    }
-}
-
 fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
     try {
         println("""
@@ -544,3 +530,39 @@ fun passwordValida(password: String): Boolean {
 
     return contadorMayusculas >= 1 && contadorEspeciales >= 1 && contadorNumeros >= 1 && password.length >= 8
 }
+
+fun seleccionarArtista(repoEventos: EventRepository): Int {
+
+    val nombresArtistas = mutableListOf<String>()
+
+    for(ev in repoEventos.obtenerListaDeEventos()){
+        nombresArtistas.add(ev.artist)
+    }
+    println(".=== Lista de artistas ===.")
+    for(nombre in nombresArtistas){
+        println("${nombresArtistas.indexOf(nombre)} . $nombre")
+    }
+    println(".=== Ingrese el numero de artista para continuar ===.")
+    var artista : Int = -1
+
+    do {
+        try {
+            artista = readln().toInt()
+
+            if(artista !in 0..<nombresArtistas.size){
+                println(".=== El valor ingresado no corresponde con una opcion del menu. Intente nuevamente ===.")
+            }else if(artista.toString().any{it.code in 33..38} || artista.toString().any{it.isLetter()}){
+                throw InvalidSelectionException()
+            }else if (artista.toString().isBlank()){
+                throw BlankSelectionException()
+            }else{
+                println(".=== Artista seleccionado: ${nombresArtistas[artista]}")
+            }
+        }catch (e : Exception){
+            println(e.message)
+        }
+    }while (artista == -1 || artista !in 0..<nombresArtistas.size || artista.toString().any{it.code in 33..38} || artista.toString().any{it.isLetter()} || artista.toString().isBlank())
+
+    return artista
+}
+
