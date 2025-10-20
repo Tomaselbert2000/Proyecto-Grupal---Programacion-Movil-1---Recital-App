@@ -30,7 +30,7 @@ data class User(
     }
 
     fun cargarSaldo(saldoACargar: Double): Boolean {
-        if(saldoACargar > 1000.0){
+        if(saldoACargar > 1000.0 && saldoACargar < 1000000.0){
             this.money += saldoACargar
             return true
         }

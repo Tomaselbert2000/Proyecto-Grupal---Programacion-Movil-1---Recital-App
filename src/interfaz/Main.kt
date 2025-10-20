@@ -303,27 +303,7 @@ fun comprarTickets(
         if(opcionSeleccionada == 1){
             mostrarEventos(loggedUser, repoEventos)
         }else{
-            println("""
-                .=== Lista de artistas con eventos programados ===.
-                Ingrese el valor asociado al artista para continuar
-                ===================================================
-            """.trimIndent())
-            var index = 1
-            for(evento in repoEventos.obtenerListaDeEventos()){
-                println("${index}. ${evento.artist}")
-                index++
-            }
-            println("===================================================")
-
-            try {
-                var artistaSeleccionado: Int
-                do{
-                    artistaSeleccionado = readln().toInt()
-
-                }while (artistaSeleccionado !in 1..index)
-            }catch (e : Exception){
-                println(e.message)
-            }
+            mostrarListaArtistas(repoEventos)
         }
     }catch (e:Exception){
         println(e.message)
@@ -331,10 +311,35 @@ fun comprarTickets(
     TODO()
 }
 
+fun mostrarListaArtistas(repoEventos: EventRepository) {
+    println("""
+                .=== Lista de artistas con eventos programados ===.
+                Ingrese el valor asociado al artista para continuar
+                ===================================================
+            """.trimIndent())
+    var index = 1
+    for(evento in repoEventos.obtenerListaDeEventos()){
+        println("${index}. ${evento.artist}")
+        index++
+    }
+    println("===================================================")
+
+    try {
+        var artistaSeleccionado: Int
+        do{
+            artistaSeleccionado = readln().toInt()
+
+        }while (artistaSeleccionado !in 1..index)
+    }catch (e : Exception){
+        println(e.message)
+    }
+}
+
 fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
     try {
         println("""
         .=== Carga de saldo de usuario ===.
+         Saldo actual: $${loggedUser.money}
         ===================================
               Ingresar saldo a cargar:
         ===================================
@@ -346,14 +351,17 @@ fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
         }
         if(loggedUser.cargarSaldo(saldoACargar)){
             println("""
-                .=== Saldo agregado en cuenta de manera exitosa ===.   
-                ===================================================
+                .=== Saldo agregado en cuenta de manera exitosa ===.
+                .=== Valor de la operacion: $${saldoACargar}    ===.
+                .=== Saldo actualizado: $${loggedUser.money}    ===.
+                ====================================================
             """.trimIndent())
         }else{
             println("""
                 .=== El saldo minimo para realizar un ingreso es $1000 ===.
-                ¿Desea reintentar la operacion? Ingresar S/N para continuar
-                ===========================================================
+                .=== El saldo maximo para realizar un ingreso es $1000000 ===.
+                  ¿Desea reintentar la operacion? Ingresar S/N para continuar
+                ==============================================================
             """.trimIndent())
             val reiniciarOperacion = solicitarConfirmacionDeUsuario()
 
