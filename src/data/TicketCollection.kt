@@ -5,5 +5,4 @@ data class TicketCollection(
     val userId: Long,
     val paymentId: Long,
     val ticketCollection: MutableList<Long>,
-
 )

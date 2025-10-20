@@ -7,7 +7,9 @@ import data.Event
 import data.User
 import main.kotlin.repositories.*
 import repositories.EventRepository
+import repositories.TicketCollectionRepository
 import repositories.TicketsRepository
+import repositories.UserRepository
 import java.time.LocalDate
 import kotlin.system.exitProcess
 
@@ -308,7 +310,6 @@ fun comprarTickets(
     }catch (e:Exception){
         println(e.message)
     }
-    TODO()
 }
 
 fun mostrarListaArtistas(repoEventos: EventRepository) {
@@ -393,17 +394,27 @@ fun mostrarHistorialDeComprasDeUsuario(
     val userId = loggedUser.id
     val listaCompras = repoTicketCollection.buscarComprasPorId(userId)
 
-    for(compra in listaCompras){
-        val medioDePagoUsadoEnLaCompra = repoMediosPago.obtenerMedioDePagoPorId(compra.paymentId)
+    if(!listaCompras.isNotEmpty()){
         println("""
+                .=== No se registran compras de tickets hasta el momento ===.
+                =============================================================
+                        Presionar Enter para volver al menu anterior
+                =============================================================
+            """.trimIndent())
+        readln()
+        menuPrincipalSistema(loggedUser)
+    }else {
+        for(compra in listaCompras){
+            val medioDePagoUsadoEnLaCompra = repoMediosPago.obtenerMedioDePagoPorId(compra.paymentId)
+            println("""
             .=== Numero de compra: ${compra.id} ===.
             Medio de pago utilizado: ${medioDePagoUsadoEnLaCompra?.name}
         """.trimIndent())
-        if(compra.ticketCollection.isNotEmpty()){
-            for (ticketId in compra.ticketCollection){
-                val ticketParaMostrar = repoTickets.obtenerTicketPorId(ticketId)
-                val eventoAsociado = repoEventos.obtenerEventoPorId(ticketParaMostrar?.eventId)
-                println("""
+            if(compra.ticketCollection.isNotEmpty()){
+                for (ticketId in compra.ticketCollection){
+                    val ticketParaMostrar = repoTickets.obtenerTicketPorId(ticketId)
+                    val eventoAsociado = repoEventos.obtenerEventoPorId(ticketParaMostrar?.eventId)
+                    println("""
                     ==============================================
                     Número de ticket comprado: $ticketId
                     ==============================================
@@ -417,17 +428,9 @@ fun mostrarHistorialDeComprasDeUsuario(
                     Valor total del ticket: $${ticketParaMostrar?.precio}
                     ==============================================
                 """.trimIndent())
-                println("\n")
+                    println("\n")
+                }
             }
-        }else {
-            println("""
-                .=== No se registran compras de tickets hasta el momento ===.
-                =============================================================
-                        Presionar Enter para volver al menu anterior
-                =============================================================
-            """.trimIndent())
-            readln()
-            menuPrincipalSistema(loggedUser)
         }
     }
     println(".=== Presione Enter para volver al menu anterior ===.")

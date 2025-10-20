@@ -7,9 +7,9 @@ import data.TicketCollection
 import data.User
 import repositories.EventRepository
 import main.kotlin.repositories.PaymentMethodRepository
-import main.kotlin.repositories.TicketCollectionRepository
+import repositories.TicketCollectionRepository
 import repositories.TicketsRepository
-import main.kotlin.repositories.UserRepository
+import repositories.UserRepository
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
