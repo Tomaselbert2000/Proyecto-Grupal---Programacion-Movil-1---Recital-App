@@ -14,6 +14,10 @@ import repositories.UserRepository
 import java.time.LocalDate
 import kotlin.system.exitProcess
 
+val contieneNumerosOCaracteresEspeciales = { input: String -> input.any { it.isDigit() || it.code in 33..47 || it.code in 58..64}}
+val contieneLetrasOCaracteresEspeciales = { input: String -> input.any { it.isLetter() || it.code in 33..47 || it.code in 58..64}}
+val estaEnBlanco = {input: String -> input.isBlank() || input == "" }
+
 fun main(){
 
     val repoUsuarios = UserRepository
@@ -26,19 +30,22 @@ fun main(){
         | 3. Salir del programa    |
         +==========================+
     """.trimIndent())
-    var opcionMenuSeleccionada : Int?
+    var opcionMenuSeleccionada : Int = -1
     do {
         try {
            println("Ingrese un valor: ")
             opcionMenuSeleccionada = readln().toInt()
             if(opcionMenuSeleccionada !in 1..3){
                 println(".=== El valor ingresado no corresponde a una opcion del menu, intente nuevamente ===.")
+            }else if(estaEnBlanco(opcionMenuSeleccionada.toString())){
+                throw BlankSelectionException()
+            }else if(contieneLetrasOCaracteresEspeciales(opcionMenuSeleccionada.toString())){
+                throw InvalidSelectionException()
             }
         }catch (_ : NumberFormatException){
             println(".=== Solo se aceptan valores numericos, intente nuevamente ===.")
-            opcionMenuSeleccionada = null
         }
-    }while (opcionMenuSeleccionada !in 1..3 || opcionMenuSeleccionada == null)
+    }while (opcionMenuSeleccionada !in 1..3 || estaEnBlanco(opcionMenuSeleccionada.toString()) || contieneLetrasOCaracteresEspeciales(opcionMenuSeleccionada.toString()))
 
     when(opcionMenuSeleccionada){
         1 -> {
@@ -96,11 +103,11 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository){
                 }
             }while(!passwordValida(password))
 
-            if (nombre.isBlank() || apellido.isBlank() || nickname.isBlank() || password.isBlank()){
+            if (estaEnBlanco(nombre) || estaEnBlanco(apellido) || estaEnBlanco(nickname) || estaEnBlanco(password)){
                 excepcionLanzada = true
                 throw BlankUserDataException()
             }
-            else if(nombre.any { it.isDigit() } || apellido.any { it.isDigit() } || nombre.any { it.code in 33..38 } || apellido.any { it.code in 33..38 }){
+            else if(contieneNumerosOCaracteresEspeciales(nombre) || contieneNumerosOCaracteresEspeciales(apellido)){
                 excepcionLanzada = true
                 throw InvalidInputDataException()
             }
@@ -148,7 +155,7 @@ fun iniciarSesion(repoUsuarios: UserRepository){
             println(".=== Ingresar contraseña ===.")
             password = readln()
 
-            if (nickname.isBlank() || password.isBlank()){
+            if (estaEnBlanco(nickname) || estaEnBlanco(password)){
                 throw BlankUserDataException()
             }
 
@@ -211,9 +218,13 @@ fun menuPrincipalSistema(loggedUser: User) {
             if (opcionSeleccionada !in 1..8){
                 println("El valor ingresado no corresponde a una opcion del menu. Intente nuevamente.")
                 opcionSeleccionada = null
+            }else if(contieneLetrasOCaracteresEspeciales(opcionSeleccionada.toString())){
+                throw InvalidSelectionException()
+            }else if(estaEnBlanco(opcionSeleccionada.toString())){
+                throw BlankSelectionException()
             }
-        }catch (_: NumberFormatException){
-            println(".=== El valor ingresado no corresponde a un tipo de dato valido, intente nuevamente ===.")
+        }catch (e : Exception){
+            println(e.message)
         }
     }while (opcionSeleccionada == null || opcionSeleccionada !in 1..8)
 
@@ -295,15 +306,14 @@ fun comprarTickets(
         var opcionSeleccionada : Int
         do {
             opcionSeleccionada = readln().toInt()
-            if (opcionSeleccionada.toString().isBlank()){
-                throw Exception(".=== El campo de seleccion no puede quedar en blanco. Intente nuevamente ===.")
-            }else if(opcionSeleccionada.toString().any{it.isLetter()} || opcionSeleccionada.toString().any{it.code in 33..38}){
-                throw Exception(".=== El campo de seleccion no puede contener letras o caracteres especiales. Intente nuevamente ===.")
-                TODO()
+            if (estaEnBlanco(opcionSeleccionada.toString())){
+                throw BlankSelectionException()
+            }else if(contieneLetrasOCaracteresEspeciales(opcionSeleccionada.toString())){
+                throw InvalidSelectionException()
             }else if(opcionSeleccionada !in 1..3){
                 println(".=== El valor ingresado no corresponde a una opcion valida. Intente nuevamente ===.")
             }
-        }while (opcionSeleccionada !in 1..3 || opcionSeleccionada.toString().isBlank() || opcionSeleccionada.toString().any{it.isLetter()} || opcionSeleccionada.toString().any{it.code in 33..38})
+        }while (opcionSeleccionada !in 1..3 || estaEnBlanco(opcionSeleccionada.toString()) || contieneLetrasOCaracteresEspeciales(opcionSeleccionada.toString()))
 
         when (opcionSeleccionada) {
             1 -> {
@@ -345,8 +355,8 @@ fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
         if(loggedUser.cargarSaldo(saldoACargar)){
             println("""
                 .=== Saldo agregado en cuenta de manera exitosa ===.
-                .=== Valor de la operacion: $${saldoACargar}    ===.
-                .=== Saldo actualizado: $${loggedUser.money}    ===.
+                - Valor de la operacion: $${saldoACargar}
+                - Saldo actualizado: $${loggedUser.money}
                 ====================================================
             """.trimIndent())
         }else{
@@ -490,26 +500,23 @@ fun cerrarSesion(loggedUser: User) {
 }
 
 fun solicitarConfirmacionDeUsuario(): Boolean {
-    var confirmacion : String
-    try {
-        do {
-            confirmacion = readln().uppercase()
-            if (confirmacion != "S" && confirmacion != "N") {
-                println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
-            }else if(confirmacion.isBlank()){
-                throw BlankUserDataException()
-            }else if (confirmacion.any{it.isDigit()} || confirmacion.any{it.code in 33..38}){
+    var opcionSeleccionada = ""
+    do {
+        try {
+            opcionSeleccionada = readln()
+            if (opcionSeleccionada == "") {
+                throw BlankSelectionException()
+            }else if(contieneNumerosOCaracteresEspeciales(opcionSeleccionada)){
                 throw InvalidSelectionException()
-            }else if(confirmacion == "S"){
-                println(".=== Reiniciando operacion... ===.")
-                return true
+            }else if(opcionSeleccionada != "S" && opcionSeleccionada != "N"){
+                println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
             }else{
-                return false
+                return opcionSeleccionada == "S"
             }
-        }while (true)
-    }catch (e: Exception){
-        println(e.message)
-    }
+        }catch (e:Exception){
+            println(e.message)
+        }
+    }while (opcionSeleccionada == "" || contieneNumerosOCaracteresEspeciales(opcionSeleccionada) || opcionSeleccionada != "S" && opcionSeleccionada != "N")
     return false
 }
 
@@ -517,7 +524,6 @@ fun passwordValida(password: String): Boolean {
     var contadorMayusculas = 0
     var contadorEspeciales = 0
     var contadorNumeros = 0
-
     for(letter in password){
         if(letter.isDigit()){
             contadorNumeros++
@@ -527,14 +533,11 @@ fun passwordValida(password: String): Boolean {
             contadorMayusculas++
         }
     }
-
     return contadorMayusculas >= 1 && contadorEspeciales >= 1 && contadorNumeros >= 1 && password.length >= 8
 }
 
 fun seleccionarArtista(repoEventos: EventRepository): Int {
-
     val nombresArtistas = mutableListOf<String>()
-
     for(ev in repoEventos.obtenerListaDeEventos()){
         nombresArtistas.add(ev.artist)
     }
@@ -551,9 +554,9 @@ fun seleccionarArtista(repoEventos: EventRepository): Int {
 
             if(artista !in 0..<nombresArtistas.size){
                 println(".=== El valor ingresado no corresponde con una opcion del menu. Intente nuevamente ===.")
-            }else if(artista.toString().any{it.code in 33..38} || artista.toString().any{it.isLetter()}){
+            }else if(contieneLetrasOCaracteresEspeciales(artista.toString())){
                 throw InvalidSelectionException()
-            }else if (artista.toString().isBlank()){
+            }else if (estaEnBlanco(artista.toString())){
                 throw BlankSelectionException()
             }else{
                 println(".=== Artista seleccionado: ${nombresArtistas[artista]}")
@@ -561,8 +564,6 @@ fun seleccionarArtista(repoEventos: EventRepository): Int {
         }catch (e : Exception){
             println(e.message)
         }
-    }while (artista == -1 || artista !in 0..<nombresArtistas.size || artista.toString().any{it.code in 33..38} || artista.toString().any{it.isLetter()} || artista.toString().isBlank())
-
+    }while (artista !in 0..<nombresArtistas.size || contieneLetrasOCaracteresEspeciales(artista.toString()) || estaEnBlanco(artista.toString()))
     return artista
 }
-
