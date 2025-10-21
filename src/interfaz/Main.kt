@@ -5,6 +5,8 @@ import customExceptions.BlankUserDataException
 import customExceptions.InvalidInputDataException
 import customExceptions.InvalidSelectionException
 import data.Event
+import data.Ticket
+import data.TicketCollection
 import data.User
 import main.kotlin.repositories.*
 import repositories.EventRepository
@@ -257,73 +259,156 @@ fun comprarTickets(
     repoTicketCollection: TicketCollectionRepository,
     repoMediosPago: PaymentMethodRepository
 ) {
-    println("""
+    println(
+        """
         .=== Pestaña de compra de tickets ===.
         ======================================
         Saldo actual de usuario: $${loggedUser.money}
         ======================================
-    """.trimIndent())
-    println("""
+    """.trimIndent()
+    )
+    println(
+        """
         .=== Seleccione una opcion para iniciar la compra ===.
         1. Ver lista de eventos programados.
         2. Ver lista de artistas.
         3. Volver al menu anterior.
         ======================================================
-    """.trimIndent())
+    """.trimIndent()
+    )
 
     var opcionSeleccionada = "0"
 
     do {
         try {
             opcionSeleccionada = readln()
-            if(estaEnBlanco(opcionSeleccionada)){
+            if (estaEnBlanco(opcionSeleccionada)) {
                 throw BlankSelectionException()
-            }else if(contieneLetrasOCaracteresEspeciales(opcionSeleccionada)){
+            } else if (contieneLetrasOCaracteresEspeciales(opcionSeleccionada)) {
                 throw InvalidSelectionException()
-            }else if(opcionSeleccionada.toInt() !in 1..3){
+            } else if (opcionSeleccionada.toInt() !in 1..3) {
                 println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
-            }else{
-                when(opcionSeleccionada.toInt()){
+            } else {
+                when (opcionSeleccionada.toInt()) {
                     1 -> {
                         mostrarEventos(loggedUser, repoEventos)
                     }
+
                     2 -> {
                         val artistaSeleccionado = seleccionarArtista(repoEventos)
-                        val listaDeEventosDelArtista = repoEventos.obtenerListaDeEventosPorNombreDeArtista(artistaSeleccionado)
-                        println(".=== Fechas programadas para el artista seleccionado ===.")
+                        val listaDeEventosDelArtista =
+                            repoEventos.obtenerListaDeEventosPorNombreDeArtista(artistaSeleccionado)
 
-                        for(eventoProgramado in listaDeEventosDelArtista){
-                            println("""
-                                Tarjeta: ${listaDeEventosDelArtista.indexOf(eventoProgramado)}
+                        println(".=== Fechas programadas para el artista seleccionado ===.")
+                        for ((index, eventoProgramado) in listaDeEventosDelArtista.withIndex()) {
+                            println(
+                                """
+                                Tarjeta: ${index + 1}
                                 =========================================
                                 Fecha: ${eventoProgramado.date}
                                 Hora: ${eventoProgramado.time}
                                 Lugar: ${eventoProgramado.location}
+                                Asientos disponibles: ${eventoProgramado.cantidadDeAsientosDisponibles}
                                 =========================================
-                            """.trimIndent())
+                            """.trimIndent()
+                            )
                         }
-                        println("""
+                        println(
+                            """
                             =============================================================
-                            Ingrese el numero correspondiente a la tarjeta para continuar
+                            Ingrese el número correspondiente a la tarjeta para continuar
                             =============================================================
-                        """.trimIndent())
+                        """.trimIndent()
+                        )
 
                         val tarjetaSeleccionada = seleccionarTarjeta(listaDeEventosDelArtista)
+                        val eventoSeleccionado = listaDeEventosDelArtista[tarjetaSeleccionada - 1]
 
-                        val eventoSeleccionado = listaDeEventosDelArtista[tarjetaSeleccionada]
+
+                        println(".=== Ingrese la cantidad de entradas que desea comprar (máximo ${eventoSeleccionado.cantidadDeAsientosDisponibles}) ===.")
+                        val cantidad = readln().toInt()
+
+                        if (cantidad > eventoSeleccionado.cantidadDeAsientosDisponibles) {
+                            println(".=== No hay suficientes entradas disponibles ===.")
+                            menuPrincipalSistema(loggedUser)
+                        }
+
 
                         val seccionElegida = elegirSeccionEnElEstadio()
 
+
+                        println(".=== Seleccione el medio de pago ===.")
+                        val listaMedios = repoMediosPago.obtenerListaDeIDs()
+                        for (id in listaMedios) {
+                            val medio = repoMediosPago.obtenerMedioDePagoPorId(id)
+                            println("$id - ${medio?.name} (Comisión ${medio?.fee?.times(100)}%)")
+                        }
+                        val medioSeleccionadoId = readln().toLong()
+
+
+                        val precioBase = 10000.0 * cantidad
+                        val medioPago = repoMediosPago.obtenerMedioDePagoPorId(medioSeleccionadoId)
+                        val totalConComision = precioBase + (precioBase * (medioPago?.fee ?: 0.0))
+
+                        if (loggedUser.money < totalConComision) {
+                            println(".=== Saldo insuficiente. Recargue dinero para continuar ===.")
+                            menuPrincipalSistema(loggedUser)
+                        }
+
+
+                        val nuevoTicket = Ticket(
+                            id = (0..10000).random().toLong(),
+                            eventId = eventoSeleccionado.id,
+                            quantity = cantidad,
+                            section = seccionElegida
+                        )
+                        repoTickets.registrarNuevoTicket(nuevoTicket, repoEventos.obtenerListaDeIDsEventos())
+
+                        val nuevaColeccion = TicketCollection(
+                            id = (0..10000).random().toLong(),
+                            userId = loggedUser.id,
+                            paymentId = medioSeleccionadoId,
+                            ticketCollection = mutableListOf(nuevoTicket.id)
+                        )
+
+                        val registroExitoso = repoTicketCollection.registrarNuevaColeccion(
+                            nuevaColeccion,
+                            repoUsuarios.obtenerListaDeIDsDeUsuarios(),
+                            repoTickets.obtenerListaDeIDsDeTickets()
+                        )
+
+                        if (registroExitoso) {
+                            println(
+                                """
+                                .=== Compra realizada con éxito ===.
+                                ===========================================
+                                Entradas compradas: $cantidad
+                                Total abonado (con comisión): $${totalConComision}
+                                Nuevo saldo: $${loggedUser.money}
+                                ===========================================
+                            """.trimIndent()
+                            )
+                        } else {
+                            println(".=== Error al registrar la compra. Verifique los datos e intente nuevamente ===.")
+                        }
+
+                        println("Presione Enter para volver al menú principal")
+                        readln()
+                        menuPrincipalSistema(loggedUser)
                     }
+
                     3 -> {
                         menuPrincipalSistema(loggedUser)
                     }
                 }
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             println(e.message)
         }
-    }while (opcionSeleccionada != "0" || opcionSeleccionada.toInt() !in 1..3 || estaEnBlanco(opcionSeleccionada) || contieneLetrasOCaracteresEspeciales(opcionSeleccionada))
+    } while (opcionSeleccionada != "0" || opcionSeleccionada.toInt() !in 1..3 || estaEnBlanco(opcionSeleccionada) || contieneLetrasOCaracteresEspeciales(
+            opcionSeleccionada
+        )
+    )
 }
 
 fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
@@ -446,6 +531,9 @@ fun mostrarHistorialDeComprasDeUsuario(
     menuPrincipalSistema(loggedUser)
 }
 
+
+
+
 fun verSaldoActualUsuario(loggedUser: User) {
     println("""
         .=== Saldo actual de usuario: $${loggedUser.money}
@@ -502,7 +590,7 @@ fun seleccionarOpcionDelMenu(rangoInferior : Int, rangoSuperior: Int): Int {
         }catch (_ : NumberFormatException){
             println(".=== Solo se aceptan valores numericos, intente nuevamente ===.")
         }
-    }while (opcionMenuSeleccionada !in 1..3 || estaEnBlanco(opcionMenuSeleccionada.toString()) || contieneLetrasOCaracteresEspeciales(opcionMenuSeleccionada.toString()))
+    }while (opcionMenuSeleccionada !in rangoInferior..rangoSuperior || estaEnBlanco(opcionMenuSeleccionada.toString()) || contieneLetrasOCaracteresEspeciales(opcionMenuSeleccionada.toString()))
     return opcionMenuSeleccionada
 }
 
@@ -577,23 +665,30 @@ fun seleccionarArtista(repoEventos: EventRepository): String {
 }
 
 fun seleccionarTarjeta(listaDeEventosDelArtista: MutableList<Event>): Int {
-    var tarjetaSeleccionada = "0"
+    var tarjetaSeleccionada = -1
     do {
         try {
-            tarjetaSeleccionada = readln()
-            if(estaEnBlanco(tarjetaSeleccionada)){
+            val input = readln()
+            if (estaEnBlanco(input)) {
                 throw BlankSelectionException()
-            }else if(contieneLetrasOCaracteresEspeciales(tarjetaSeleccionada)){
+            } else if (contieneLetrasOCaracteresEspeciales(input)) {
                 throw InvalidSelectionException()
-            }else if(tarjetaSeleccionada.toInt() !in 1..<listaDeEventosDelArtista.size){
-                println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
             }
-        }catch (e: Exception){
+
+            tarjetaSeleccionada = input.toInt()
+
+            if (tarjetaSeleccionada !in 1..listaDeEventosDelArtista.size) {
+                println(".=== El valor ingresado no corresponde a una opción del menú. Intente nuevamente ===.")
+                tarjetaSeleccionada = -1
+            }
+        } catch (e: Exception) {
             println(e.message)
         }
-    }while (tarjetaSeleccionada.toInt() !in 1..<listaDeEventosDelArtista.size)
-    return tarjetaSeleccionada.toInt()
+    } while (tarjetaSeleccionada !in 1..listaDeEventosDelArtista.size)
+
+    return tarjetaSeleccionada
 }
+
 
 fun elegirSeccionEnElEstadio(): String {
     var seccionElegida = ""
