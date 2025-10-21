@@ -30,22 +30,7 @@ fun main(){
         | 3. Salir del programa    |
         +==========================+
     """.trimIndent())
-    var opcionMenuSeleccionada : Int = -1
-    do {
-        try {
-           println("Ingrese un valor: ")
-            opcionMenuSeleccionada = readln().toInt()
-            if(opcionMenuSeleccionada !in 1..3){
-                println(".=== El valor ingresado no corresponde a una opcion del menu, intente nuevamente ===.")
-            }else if(estaEnBlanco(opcionMenuSeleccionada.toString())){
-                throw BlankSelectionException()
-            }else if(contieneLetrasOCaracteresEspeciales(opcionMenuSeleccionada.toString())){
-                throw InvalidSelectionException()
-            }
-        }catch (_ : NumberFormatException){
-            println(".=== Solo se aceptan valores numericos, intente nuevamente ===.")
-        }
-    }while (opcionMenuSeleccionada !in 1..3 || estaEnBlanco(opcionMenuSeleccionada.toString()) || contieneLetrasOCaracteresEspeciales(opcionMenuSeleccionada.toString()))
+    val opcionMenuSeleccionada : Int = seleccionarOpcionDelMenu(1, 3)
 
     when(opcionMenuSeleccionada){
         1 -> {
@@ -210,23 +195,7 @@ fun menuPrincipalSistema(loggedUser: User) {
          Ingresar un valor para continuar
         ==================================
     """.trimIndent())
-    var opcionSeleccionada : Int? = null
-
-    do {
-        try {
-            opcionSeleccionada = readln().toInt()
-            if (opcionSeleccionada !in 1..8){
-                println("El valor ingresado no corresponde a una opcion del menu. Intente nuevamente.")
-                opcionSeleccionada = null
-            }else if(contieneLetrasOCaracteresEspeciales(opcionSeleccionada.toString())){
-                throw InvalidSelectionException()
-            }else if(estaEnBlanco(opcionSeleccionada.toString())){
-                throw BlankSelectionException()
-            }
-        }catch (e : Exception){
-            println(e.message)
-        }
-    }while (opcionSeleccionada == null || opcionSeleccionada !in 1..8)
+    val opcionSeleccionada = seleccionarOpcionDelMenu(1, 8)
 
     when (opcionSeleccionada){
         1 -> {
@@ -256,7 +225,6 @@ fun menuPrincipalSistema(loggedUser: User) {
         }
     }
 }
-
 
 fun mostrarEventos(loggedUser: User, repoEventos: EventRepository) {
     val listaDeEventos : MutableList<Event> = repoEventos.obtenerListaDeEventos()
@@ -326,7 +294,7 @@ fun comprarTickets(
 
                         for(eventoProgramado in listaDeEventosDelArtista){
                             println("""
-                                ${listaDeEventosDelArtista.indexOf(eventoProgramado)}
+                                Tarjeta: ${listaDeEventosDelArtista.indexOf(eventoProgramado)}
                                 =========================================
                                 Fecha: ${eventoProgramado.date}
                                 Hora: ${eventoProgramado.time}
@@ -342,6 +310,9 @@ fun comprarTickets(
 
                         val tarjetaSeleccionada = seleccionarTarjeta(listaDeEventosDelArtista)
 
+                        val eventoSeleccionado = listaDeEventosDelArtista[tarjetaSeleccionada]
+
+                        val seccionElegida = elegirSeccionEnElEstadio()
 
                     }
                     3 -> {
@@ -515,6 +486,26 @@ fun cerrarSesion(loggedUser: User) {
     main()
 }
 
+fun seleccionarOpcionDelMenu(rangoInferior : Int, rangoSuperior: Int): Int {
+    var opcionMenuSeleccionada = 0
+    do {
+        try {
+            println("Ingrese un valor: ")
+            opcionMenuSeleccionada = readln().toInt()
+            if(opcionMenuSeleccionada !in rangoInferior..rangoSuperior){
+                println(".=== El valor ingresado no corresponde a una opcion del menu, intente nuevamente ===.")
+            }else if(estaEnBlanco(opcionMenuSeleccionada.toString())){
+                throw BlankSelectionException()
+            }else if(contieneLetrasOCaracteresEspeciales(opcionMenuSeleccionada.toString())){
+                throw InvalidSelectionException()
+            }
+        }catch (_ : NumberFormatException){
+            println(".=== Solo se aceptan valores numericos, intente nuevamente ===.")
+        }
+    }while (opcionMenuSeleccionada !in 1..3 || estaEnBlanco(opcionMenuSeleccionada.toString()) || contieneLetrasOCaracteresEspeciales(opcionMenuSeleccionada.toString()))
+    return opcionMenuSeleccionada
+}
+
 fun solicitarConfirmacionDeUsuario(): Boolean {
     var opcionSeleccionada = ""
     do {
@@ -585,7 +576,7 @@ fun seleccionarArtista(repoEventos: EventRepository): String {
     return nombresArtistas[artista]
 }
 
-fun seleccionarTarjeta(listaDeEventosDelArtista: MutableList<Event>): String {
+fun seleccionarTarjeta(listaDeEventosDelArtista: MutableList<Event>): Int {
     var tarjetaSeleccionada = "0"
     do {
         try {
@@ -601,5 +592,37 @@ fun seleccionarTarjeta(listaDeEventosDelArtista: MutableList<Event>): String {
             println(e.message)
         }
     }while (tarjetaSeleccionada.toInt() !in 1..<listaDeEventosDelArtista.size)
-    return tarjetaSeleccionada
+    return tarjetaSeleccionada.toInt()
+}
+
+fun elegirSeccionEnElEstadio(): String {
+    var seccionElegida = ""
+    println("""
+        .=== Seleccionar el tipo de ubicacion deseada ===.
+        1 . Campo.
+        2 . Platea.
+        3 . Palco.
+        ==================================================
+    """.trimIndent())
+    do {
+        try {
+            seccionElegida = readln()
+            if(estaEnBlanco(seccionElegida)){
+                throw BlankSelectionException()
+            }else if(contieneLetrasOCaracteresEspeciales(seccionElegida)){
+                throw InvalidSelectionException()
+            }else if(seccionElegida.toInt() !in 1..3){
+                println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
+            }else{
+                when (seccionElegida.toInt()){
+                    1 -> return "Campo"
+                    2 -> return "Platea"
+                    3 -> return "Palco"
+                }
+            }
+        }catch (e:Exception){
+            println(e.message)
+        }
+    }while (seccionElegida.toInt() !in 1..3 || estaEnBlanco(seccionElegida) || contieneLetrasOCaracteresEspeciales(seccionElegida))
+    return seccionElegida
 }
