@@ -302,40 +302,57 @@ fun comprarTickets(
         3. Volver al menu anterior.
         ======================================================
     """.trimIndent())
-    try {
-        var opcionSeleccionada : Int
-        do {
-            opcionSeleccionada = readln().toInt()
-            if (estaEnBlanco(opcionSeleccionada.toString())){
-                throw BlankSelectionException()
-            }else if(contieneLetrasOCaracteresEspeciales(opcionSeleccionada.toString())){
-                throw InvalidSelectionException()
-            }else if(opcionSeleccionada !in 1..3){
-                println(".=== El valor ingresado no corresponde a una opcion valida. Intente nuevamente ===.")
-            }
-        }while (opcionSeleccionada !in 1..3 || estaEnBlanco(opcionSeleccionada.toString()) || contieneLetrasOCaracteresEspeciales(opcionSeleccionada.toString()))
 
-        when (opcionSeleccionada) {
-            1 -> {
-                mostrarEventos(loggedUser, repoEventos)
+    var opcionSeleccionada = "0"
+
+    do {
+        try {
+            opcionSeleccionada = readln()
+            if(estaEnBlanco(opcionSeleccionada)){
+                throw BlankSelectionException()
+            }else if(contieneLetrasOCaracteresEspeciales(opcionSeleccionada)){
+                throw InvalidSelectionException()
+            }else if(opcionSeleccionada.toInt() !in 1..3){
+                println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
+            }else{
+                when(opcionSeleccionada.toInt()){
+                    1 -> {
+                        mostrarEventos(loggedUser, repoEventos)
+                    }
+                    2 -> {
+                        val artistaSeleccionado = seleccionarArtista(repoEventos)
+                        val listaDeEventosDelArtista = repoEventos.obtenerListaDeEventosPorNombreDeArtista(artistaSeleccionado)
+                        println(".=== Fechas programadas para el artista seleccionado ===.")
+
+                        for(eventoProgramado in listaDeEventosDelArtista){
+                            println("""
+                                ${listaDeEventosDelArtista.indexOf(eventoProgramado)}
+                                =========================================
+                                Fecha: ${eventoProgramado.date}
+                                Hora: ${eventoProgramado.time}
+                                Lugar: ${eventoProgramado.location}
+                                =========================================
+                            """.trimIndent())
+                        }
+                        println("""
+                            =============================================================
+                            Ingrese el numero correspondiente a la tarjeta para continuar
+                            =============================================================
+                        """.trimIndent())
+
+                        val tarjetaSeleccionada = seleccionarTarjeta(listaDeEventosDelArtista)
+
+
+                    }
+                    3 -> {
+                        menuPrincipalSistema(loggedUser)
+                    }
+                }
             }
-            2 -> {
-                seleccionarArtista(repoEventos)
-            }
-            else -> {
-                println(
-                    """
-                    =======================================
-                    .=== Volviendo al menu anterior... ===.
-                    =======================================
-                """.trimIndent()
-                )
-                menuPrincipalSistema(loggedUser)
-            }
+        }catch (e:Exception){
+            println(e.message)
         }
-    }catch (e:Exception){
-        println(e.message)
-    }
+    }while (opcionSeleccionada != "0" || opcionSeleccionada.toInt() !in 1..3 || estaEnBlanco(opcionSeleccionada) || contieneLetrasOCaracteresEspeciales(opcionSeleccionada))
 }
 
 fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
@@ -416,7 +433,7 @@ fun mostrarHistorialDeComprasDeUsuario(
         """.trimIndent())
             if(compra.ticketCollection.isNotEmpty()){
 
-                var acumuladorTotal: Double = 0.0
+                var acumuladorTotal = 0.0
                 var acumuladorCantidadEntradas = 0
 
                 for (ticketId in compra.ticketCollection){
@@ -456,7 +473,6 @@ fun mostrarHistorialDeComprasDeUsuario(
     println(".=== Presione Enter para volver al menu anterior ===.")
     readln()
     menuPrincipalSistema(loggedUser)
-    TODO()
 }
 
 fun verSaldoActualUsuario(loggedUser: User) {
@@ -536,7 +552,7 @@ fun passwordValida(password: String): Boolean {
     return contadorMayusculas >= 1 && contadorEspeciales >= 1 && contadorNumeros >= 1 && password.length >= 8
 }
 
-fun seleccionarArtista(repoEventos: EventRepository): Int {
+fun seleccionarArtista(repoEventos: EventRepository): String {
     val nombresArtistas = mutableListOf<String>()
     for(ev in repoEventos.obtenerListaDeEventos()){
         nombresArtistas.add(ev.artist)
@@ -565,5 +581,25 @@ fun seleccionarArtista(repoEventos: EventRepository): Int {
             println(e.message)
         }
     }while (artista !in 0..<nombresArtistas.size || contieneLetrasOCaracteresEspeciales(artista.toString()) || estaEnBlanco(artista.toString()))
-    return artista
+
+    return nombresArtistas[artista]
+}
+
+fun seleccionarTarjeta(listaDeEventosDelArtista: MutableList<Event>): String {
+    var tarjetaSeleccionada = "0"
+    do {
+        try {
+            tarjetaSeleccionada = readln()
+            if(estaEnBlanco(tarjetaSeleccionada)){
+                throw BlankSelectionException()
+            }else if(contieneLetrasOCaracteresEspeciales(tarjetaSeleccionada)){
+                throw InvalidSelectionException()
+            }else if(tarjetaSeleccionada.toInt() !in 1..<listaDeEventosDelArtista.size){
+                println(".=== El valor ingresado no corresponde a una opcion del menu. Intente nuevamente ===.")
+            }
+        }catch (e: Exception){
+            println(e.message)
+        }
+    }while (tarjetaSeleccionada.toInt() !in 1..<listaDeEventosDelArtista.size)
+    return tarjetaSeleccionada
 }

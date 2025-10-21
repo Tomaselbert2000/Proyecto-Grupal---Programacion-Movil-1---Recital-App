@@ -198,6 +198,16 @@ object EventRepository {
         return this.events
     }
 
+    fun obtenerListaDeEventosPorNombreDeArtista(artistaSeleccionado: String): MutableList<Event> {
+        val listaDeEventosPorArtista = mutableListOf<Event>()
+        for(evento in this.events){
+            if(evento.artist.equals(artistaSeleccionado)){
+                listaDeEventosPorArtista.add(evento)
+            }
+        }
+        return listaDeEventosPorArtista
+    }
+
     fun obtenerAsientosDisponibles(id: Long): Int? {
         for (e in this.events){
             if (e.id == id){
