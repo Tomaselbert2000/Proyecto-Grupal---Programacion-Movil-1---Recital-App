@@ -35,10 +35,7 @@ fun main() {
         +==========================+
     """.trimIndent()
         )
-        val opcionMenuSeleccionada: Int = seleccionarOpcionDelMenu(
-            1,
-            3
-        ) // llamamos a la funcion y especificamos como rango las opciones en este input
+        val opcionMenuSeleccionada: Int = seleccionarOpcionDelMenu(1, 3) // llamamos a la funcion y especificamos como rango las opciones en este input
 
         when (opcionMenuSeleccionada) {
             1 -> {
@@ -327,8 +324,8 @@ fun comprarTickets(
                     .=== Revise la informacion de compra antes de continuar ===.
                     . Evento seleccionado: ${eventoSeleccionado.artist}
                     . A realizarse el dia ${eventoSeleccionado.date} a las ${eventoSeleccionado.time} en ${eventoSeleccionado.location}
-                    . El presente ticket otorga derecho de acceso a $cantidadDeAsientos en la seccion $tipoSeccionElegida
-                    . Valor unitario ${nuevoTicket.precio}
+                    . El presente ticket otorga derecho de acceso a $cantidadDeAsientos plazas en la seccion: $tipoSeccionElegida
+                    . Valor unitario por asiento: $${nuevoTicket.precio}
                     . Medio de pago elegido: ${medioDePagoElegido.name}, se aplica una comision de $$comisionPorMedioDePago
                     === Total a abonar por su compra: $${montoTotalAAbonar}
                 """.trimIndent())
@@ -342,6 +339,7 @@ fun comprarTickets(
                                 loggedUser, nuevoTicket, repoTickets, repoEventos, repoTicketCollection, montoTotalAAbonar
                             )
                         ) {
+                            println(".=== Compra realizada con exito. Muchas gracias :) ===.")
                             break
                         } else {
                             println(".=== Ocurrio un error al procesar la compra. Intente nuevamente ===.")
@@ -351,6 +349,7 @@ fun comprarTickets(
                         break
                     }
                 }else{
+                    println(".=== Operacion de compra cancelada por el usuario ===.")
                     break
                 }
             }
@@ -421,7 +420,7 @@ fun generarNuevoId(repoTickets: TicketsRepository): Long {
     var nuevoId: Long
     do {
         nuevoId = Random.nextLong()
-        if (nuevoId !in repoTickets.obtenerListaDeIDsDeTickets()) {
+        if (nuevoId !in repoTickets.obtenerListaDeIDsDeTickets() || nuevoId !in 31..7000) {
             return nuevoId
         }
     } while (nuevoId in repoTickets.obtenerListaDeIDsDeTickets())
@@ -544,7 +543,7 @@ fun mostrarMetodosDePagoDisponibles(repoMediosPago: PaymentMethodRepository) {
     for (medio in listaMediosDePago) {
         println(
             """
-            ${medio.name}, comision aplicable: ${medio.fee * 100}%
+            ${repoMediosPago.listaMetodosDePago.indexOf(medio)} . ${medio.name}, comision aplicable: ${medio.fee * 100}%
             ====================================================
         """.trimIndent()
         )
