@@ -7,9 +7,9 @@ import java.time.LocalDateTime
 class Mastercard(override val id: Long, override val name: String = "Mastercard", override var fee: Double = 0.03) : PaymentMethod.MetodoDePago(id, name,
     fee
 ) {
-    override fun calcularMontoFinal(montoBase: Double, fechaHoraCompra: LocalDateTime): Double {
+    override fun calcularMontoComision(montoBase: Double, fechaHoraCompra: LocalDateTime): Double {
         val dia = fechaHoraCompra.dayOfWeek
         fee = if (dia == DayOfWeek.SATURDAY || dia == DayOfWeek.SUNDAY) 0.03 else 0.0075
-        return montoBase + montoBase * fee
+        return montoBase * fee
     }
 }

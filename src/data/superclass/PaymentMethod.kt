@@ -8,6 +8,6 @@ abstract class PaymentMethod {
         open val name: String,
         open var fee : Double = 0.0
     ) {
-        abstract fun calcularMontoFinal(montoBase: Double, fechaHoraCompra: LocalDateTime = LocalDateTime.now()): Double
+        abstract fun calcularMontoComision(montoBase: Double, fechaHoraCompra: LocalDateTime = LocalDateTime.now()): Double
     }
 }

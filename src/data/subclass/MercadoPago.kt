@@ -8,7 +8,7 @@ class MercadoPago(override val id: Long, override val name: String = "Mercado Pa
         id, name,
         fee
     ) {
-    override fun calcularMontoFinal(montoBase: Double, fechaHoraCompra: LocalDateTime): Double {
-        return montoBase + montoBase * fee
+    override fun calcularMontoComision(montoBase: Double, fechaHoraCompra: LocalDateTime): Double {
+        return montoBase * fee
     }
 }

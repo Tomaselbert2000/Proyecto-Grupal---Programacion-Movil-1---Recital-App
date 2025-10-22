@@ -5,6 +5,7 @@ import customExceptions.BlankUserDataException
 import customExceptions.InvalidInputDataException
 import customExceptions.InvalidSelectionException
 import data.superclass.Event
+import data.superclass.PaymentMethod
 import data.superclass.Ticket
 import data.superclass.User
 import repositories.*
@@ -265,7 +266,6 @@ fun menuPrincipalSistema(loggedUser: User) {
 }
 
 
-
 fun mostrarEventos(repoEventos: EventRepository) {
     val listaDeEventos: MutableList<Event> = repoEventos.obtenerListaDeEventos()
     println(".=== Información de eventos ===.")
@@ -290,7 +290,7 @@ fun comprarTickets(
     repoEventos: EventRepository,
     repoTickets: TicketsRepository,
     repoTicketCollection: TicketCollectionRepository,
-    repoMediosDePago: PaymentMethodRepository
+    repoMediosPago: PaymentMethodRepository
 ) {
     println(
         """
@@ -317,25 +317,44 @@ fun comprarTickets(
                 val eventoSeleccionado = seleccionarEvento(repoEventos)
                 val tipoSeccionElegida = elegirSeccionEnElEstadio()
                 val cantidadDeAsientos = ingresarCantidadAsientos(eventoSeleccionado)
+                val medioDePagoElegido = seleccionarMedioDePago(repoMediosPago)
+                val nuevoTicket =
+                    Ticket(generarNuevoId(repoTickets), eventoSeleccionado.id, cantidadDeAsientos, tipoSeccionElegida)
+                val comisionPorMedioDePago = medioDePagoElegido.calcularMontoComision(nuevoTicket.calcularTotalPorTicket())
+                val montoTotalAAbonar = nuevoTicket.calcularTotalPorTicket() + comisionPorMedioDePago
 
-                // pasamos a crear la instancia del ticket que queremos registrar
-                val nuevoTicket = Ticket(generarNuevoId(repoTickets), eventoSeleccionado.id, cantidadDeAsientos, tipoSeccionElegida)
+                println("""
+                    .=== Revise la informacion de compra antes de continuar ===.
+                    . Evento seleccionado: ${eventoSeleccionado.artist}
+                    . A realizarse el dia ${eventoSeleccionado.date} a las ${eventoSeleccionado.time} en ${eventoSeleccionado.location}
+                    . El presente ticket otorga derecho de acceso a $cantidadDeAsientos en la seccion $tipoSeccionElegida
+                    . Valor unitario ${nuevoTicket.precio}
+                    . Medio de pago elegido: ${medioDePagoElegido.name}, se aplica una comision de $$comisionPorMedioDePago
+                    === Total a abonar por su compra: $${montoTotalAAbonar}
+                """.trimIndent())
+                println("\n.=== ¿Desea confirmar la compra? ===." +
+                        "\n.=== Ingresar S/N para continuar ===.\n")
+                val confirmarCompra = solicitarConfirmacionDeUsuario()
 
-
-                //val medioDePagoElegido = seleccionarMedioDePago(repoMediosDePago)
-                TODO()
-
-                if (loggedUser.money >= nuevoTicket.calcularTotalPorTicket()) {
-                    if (procesarCompra(loggedUser, nuevoTicket, repoTickets, repoEventos, repoTicketCollection)) {
-                        break
+                if(confirmarCompra){
+                    if (loggedUser.money >= montoTotalAAbonar) {
+                        if (procesarCompra(
+                                loggedUser, nuevoTicket, repoTickets, repoEventos, repoTicketCollection, montoTotalAAbonar
+                            )
+                        ) {
+                            break
+                        } else {
+                            println(".=== Ocurrio un error al procesar la compra. Intente nuevamente ===.")
+                        }
                     } else {
-                        println(".=== Ocurrio un error al procesar la compra. Intente nuevamente ===.")
+                        println(".=== Saldo insuficiente para completar la compra ===.")
+                        break
                     }
-                } else {
-                    println(".=== Saldo insuficiente para completar la compra ===.")
+                }else{
                     break
                 }
             }
+
             2 -> {
                 break
             }
@@ -356,7 +375,6 @@ fun seleccionarEvento(repoEventos: EventRepository): Event {
             println(".=== Este campo solo acepta valores numericos. Intente nuevamente ===.")
         }
     } while (indiceEventoSeleccionado !in 0..<repoEventos.obtenerListaDeEventos().size)
-
     return repoEventos.obtenerListaDeEventos()[indiceEventoSeleccionado]
 }
 
@@ -378,21 +396,36 @@ fun ingresarCantidadAsientos(eventoSeleccionado: Event): Int {
     return cantidadAsientosElegida
 }
 
-fun seleccionarMedioDePago() {
+fun seleccionarMedioDePago(repoMediosPago: PaymentMethodRepository): PaymentMethod.MetodoDePago {
+    mostrarMetodosDePagoDisponibles(repoMediosPago)
     println(".=== Seleccione un medio de pago a continuacion ===.")
-    // mostrarMetodosDePagoDisponibles()
-    TODO()
+    var indiceMedioDePago: Int = -1
+    do {
+        try {
+            indiceMedioDePago = readln().toInt()
+            if(indiceMedioDePago !in 0..<repoMediosPago.listaMetodosDePago.size){
+                println(".=== El valor ingresado no corresponde a un metodo de pago disponible. Intente nuevamente ===.")
+            }
+        }catch (_: NumberFormatException) {
+            mostrarErrorSoloSeAceptanValoresNumericos()
+        }
+    }while (indiceMedioDePago !in 0..<repoMediosPago.listaMetodosDePago.size)
+    return repoMediosPago.listaMetodosDePago[indiceMedioDePago]
+}
+
+fun mostrarErrorSoloSeAceptanValoresNumericos() {
+    println(".=== Este campo solo acepta valores numericos. Intente nuevamente ===.")
 }
 
 fun generarNuevoId(repoTickets: TicketsRepository): Long {
-    var nuevoId : Long
+    var nuevoId: Long
     do {
         nuevoId = Random.nextLong()
-        if (nuevoId !in repoTickets.obtenerListaDeIDsDeTickets()){
+        if (nuevoId !in repoTickets.obtenerListaDeIDsDeTickets()) {
             return nuevoId
         }
-    }while(nuevoId in repoTickets.obtenerListaDeIDsDeTickets())
-    return 0
+    } while (nuevoId in repoTickets.obtenerListaDeIDsDeTickets())
+    return nuevoId
 }
 
 fun procesarCompra(
@@ -400,11 +433,12 @@ fun procesarCompra(
     nuevoTicket: Ticket,
     repoTickets: TicketsRepository,
     repoEventos: EventRepository,
-    repoTicketCollection: TicketCollectionRepository
+    repoTicketCollection: TicketCollectionRepository,
+    montoTotalAAbonar: Double,
 ): Boolean {
     if (repoTickets.registrarNuevoTicket(nuevoTicket, repoEventos.obtenerListaDeIDsEventos())) {
         repoTicketCollection.buscarComprasPorId(loggedUser.id).add(nuevoTicket.id)
-        loggedUser.descontarSaldo(nuevoTicket.calcularTotalPorTicket())
+        loggedUser.descontarSaldo(montoTotalAAbonar)
         return true
     } else {
         return false
@@ -504,14 +538,16 @@ fun verSaldoActualUsuario(loggedUser: User) {
     println(".=== Saldo actual del usuario: $${loggedUser.money} ===.\n")
 }
 
-fun mostrarMetodosDePagoDisponibles(repoMediosPago: PaymentMethodRepository){
+fun mostrarMetodosDePagoDisponibles(repoMediosPago: PaymentMethodRepository) {
     println(".=== Medios de pago disponibles actualmente ===.")
     val listaMediosDePago = repoMediosPago.listaMetodosDePago
-    for(medio in listaMediosDePago){
-        println("""
-            ${medio.name}, comision aplicable: ${medio.fee*100}%
+    for (medio in listaMediosDePago) {
+        println(
+            """
+            ${medio.name}, comision aplicable: ${medio.fee * 100}%
             ====================================================
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 }
 
