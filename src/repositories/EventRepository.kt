@@ -1,6 +1,6 @@
 package repositories
 
-import data.Event
+import data.superclass.Event
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeParseException
@@ -201,7 +201,7 @@ object EventRepository {
     fun obtenerListaDeEventosPorNombreDeArtista(artistaSeleccionado: String): MutableList<Event> {
         val listaDeEventosPorArtista = mutableListOf<Event>()
         for(evento in this.events){
-            if(evento.artist.equals(artistaSeleccionado)){
+            if(evento.artist == artistaSeleccionado){
                 listaDeEventosPorArtista.add(evento)
             }
         }

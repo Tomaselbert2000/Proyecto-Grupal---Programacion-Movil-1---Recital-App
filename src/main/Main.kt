@@ -1,14 +1,15 @@
-package interfaz
+package main
 
 import customExceptions.BlankSelectionException
 import customExceptions.BlankUserDataException
 import customExceptions.InvalidInputDataException
 import customExceptions.InvalidSelectionException
-import data.Event
-import data.Ticket
-import data.User
+import data.superclass.Event
+import data.superclass.Ticket
+import data.superclass.User
 import repositories.*
 import java.time.LocalDate
+import kotlin.random.Random
 import kotlin.system.exitProcess
 
 val contieneNumerosOCaracteresEspeciales =
@@ -194,7 +195,6 @@ fun iniciarSesion(repoUsuarios: UserRepository) {
         } catch (e: Exception) {
             println(e.message)
         }
-
     } while (loggedUser == null)
 }
 
@@ -232,7 +232,7 @@ fun menuPrincipalSistema(loggedUser: User) {
 
             2 -> {
 
-                comprarTickets(loggedUser, repoEventos, repoTickets, repoTicketCollection)
+                comprarTickets(loggedUser, repoEventos, repoTickets, repoTicketCollection, repoMediosPago)
             }
 
             3 -> {
@@ -248,7 +248,7 @@ fun menuPrincipalSistema(loggedUser: User) {
             }
 
             6 -> {
-                // mostrarMetodosDePagoDisponibles(repoMediosPago)
+                mostrarMetodosDePagoDisponibles(repoMediosPago)
             }
 
             7 -> {
@@ -263,6 +263,8 @@ fun menuPrincipalSistema(loggedUser: User) {
         }
     }
 }
+
+
 
 fun mostrarEventos(repoEventos: EventRepository) {
     val listaDeEventos: MutableList<Event> = repoEventos.obtenerListaDeEventos()
@@ -287,7 +289,8 @@ fun comprarTickets(
     loggedUser: User,
     repoEventos: EventRepository,
     repoTickets: TicketsRepository,
-    repoTicketCollection: TicketCollectionRepository
+    repoTicketCollection: TicketCollectionRepository,
+    repoMediosDePago: PaymentMethodRepository
 ) {
     println(
         """
@@ -316,9 +319,11 @@ fun comprarTickets(
                 val cantidadDeAsientos = ingresarCantidadAsientos(eventoSeleccionado)
 
                 // pasamos a crear la instancia del ticket que queremos registrar
-                val nuevoTicket = Ticket(60L, eventoSeleccionado.id, cantidadDeAsientos, tipoSeccionElegida)
+                val nuevoTicket = Ticket(generarNuevoId(repoTickets), eventoSeleccionado.id, cantidadDeAsientos, tipoSeccionElegida)
 
-                val medioDePagoElegido = seleccionarMedioDePago()
+
+                //val medioDePagoElegido = seleccionarMedioDePago(repoMediosDePago)
+                TODO()
 
                 if (loggedUser.money >= nuevoTicket.calcularTotalPorTicket()) {
                     if (procesarCompra(loggedUser, nuevoTicket, repoTickets, repoEventos, repoTicketCollection)) {
@@ -331,7 +336,6 @@ fun comprarTickets(
                     break
                 }
             }
-
             2 -> {
                 break
             }
@@ -376,6 +380,19 @@ fun ingresarCantidadAsientos(eventoSeleccionado: Event): Int {
 
 fun seleccionarMedioDePago() {
     println(".=== Seleccione un medio de pago a continuacion ===.")
+    // mostrarMetodosDePagoDisponibles()
+    TODO()
+}
+
+fun generarNuevoId(repoTickets: TicketsRepository): Long {
+    var nuevoId : Long
+    do {
+        nuevoId = Random.nextLong()
+        if (nuevoId !in repoTickets.obtenerListaDeIDsDeTickets()){
+            return nuevoId
+        }
+    }while(nuevoId in repoTickets.obtenerListaDeIDsDeTickets())
+    return 0
 }
 
 fun procesarCompra(
@@ -485,6 +502,17 @@ fun mostrarHistorialDeComprasDeUsuario(
 
 fun verSaldoActualUsuario(loggedUser: User) {
     println(".=== Saldo actual del usuario: $${loggedUser.money} ===.\n")
+}
+
+fun mostrarMetodosDePagoDisponibles(repoMediosPago: PaymentMethodRepository){
+    println(".=== Medios de pago disponibles actualmente ===.")
+    val listaMediosDePago = repoMediosPago.listaMetodosDePago
+    for(medio in listaMediosDePago){
+        println("""
+            ${medio.name}, comision aplicable: ${medio.fee*100}%
+            ====================================================
+        """.trimIndent())
+    }
 }
 
 fun cerrarSesion(loggedUser: User) {

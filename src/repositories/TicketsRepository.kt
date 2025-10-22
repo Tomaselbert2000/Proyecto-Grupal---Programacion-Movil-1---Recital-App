@@ -1,6 +1,6 @@
 package repositories
 
-import data.Ticket
+import data.superclass.Ticket
 
 object TicketsRepository {
 

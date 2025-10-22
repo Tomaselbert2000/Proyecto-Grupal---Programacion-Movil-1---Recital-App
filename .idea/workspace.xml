@@ -60,6 +60,12 @@
     <key name="CreateKotlinClassDialog.RecentsKey">
       <recent name="customExceptions" />
     </key>
+    <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="data.superclass" />
+      <recent name="data.subclass" />
+      <recent name="data" />
+      <recent name="herencia" />
+    </key>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

@@ -1,11 +1,12 @@
-package herencia
+package data.superclass
 
 import java.time.LocalDateTime
 
-abstract class MetodoPago {
+abstract class PaymentMethod {
     abstract class MetodoDePago (
         open val id: Long,
-        open val name: String
+        open val name: String,
+        open var fee : Double = 0.0
     ) {
         abstract fun calcularMontoFinal(montoBase: Double, fechaHoraCompra: LocalDateTime = LocalDateTime.now()): Double
     }

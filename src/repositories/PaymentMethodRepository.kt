@@ -1,13 +1,13 @@
 package repositories
 
-import herencia.Mastercard
-import herencia.MercadoPago
-import herencia.MetodoPago
-import herencia.Visa
+import data.subclass.Mastercard
+import data.subclass.MercadoPago
+import data.superclass.PaymentMethod
+import data.subclass.Visa
 
 object PaymentMethodRepository {
 
-    val listaMetodosDePago = mutableListOf<MetodoPago.MetodoDePago>()
+    val listaMetodosDePago = mutableListOf<PaymentMethod.MetodoDePago>()
 
     init {
         listaMetodosDePago.add(MercadoPago(1L))
@@ -15,20 +15,20 @@ object PaymentMethodRepository {
         listaMetodosDePago.add(Mastercard(3L))
     }
 
-    fun buscarMetodoDePagoPorId(id : Long) : MetodoPago.MetodoDePago? {
+    fun buscarMetodoDePagoPorId(id : Long) : PaymentMethod.MetodoDePago? {
         return listaMetodosDePago.find { it.id == id }
     }
 
-    fun registrarMetodoDePago(metodo : MetodoPago.MetodoDePago): Boolean {
+    fun registrarMetodoDePago(metodo : PaymentMethod.MetodoDePago): Boolean {
         return this.idDuplicado(metodo) && !this.nombreDuplicado(metodo) && this.idValido(metodo) && this.listaMetodosDePago.add(metodo)
     }
 }
 
-fun PaymentMethodRepository.idValido(metodo: MetodoPago.MetodoDePago): Boolean {
+fun PaymentMethodRepository.idValido(metodo: PaymentMethod.MetodoDePago): Boolean {
     return metodo.id > 0
 }
 
-fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: MetodoPago.MetodoDePago): Boolean {
+fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {
     for(metodo in this.listaMetodosDePago){
         if(metodo.name == nuevoMetodo.name){
             return true
@@ -37,7 +37,7 @@ fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: MetodoPago.MetodoDePago
     return false
 }
 
-fun PaymentMethodRepository.idDuplicado(nuevoMetodo: MetodoPago.MetodoDePago): Boolean {
+fun PaymentMethodRepository.idDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {
     for(metodo in this.listaMetodosDePago){
         if(metodo.id == nuevoMetodo.id){
             return true

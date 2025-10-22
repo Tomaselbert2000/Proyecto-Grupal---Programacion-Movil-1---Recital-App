@@ -1,12 +1,12 @@
 /*package test
 
-import data.Event
+import data.superclass.Event
 import data.PaymentMethod
-import data.Ticket
-import data.TicketCollection
-import data.User
+import data.superclass.Ticket
+import data.superclass.TicketCollection
+import data.superclass.User
 import repositories.EventRepository
-import repositories.PaymentMethodRepository
+import repositories.PaymentMethodRepository.kt
 import repositories.TicketCollectionRepository
 import repositories.TicketsRepository
 import repositories.UserRepository
@@ -27,7 +27,7 @@ class ClaseDeTest {
     var repoEventos : EventRepository = EventRepository
     var repoTickets : TicketsRepository = TicketsRepository
     var repoTicketsCollection: TicketCollectionRepository = TicketCollectionRepository
-    var repoMediosDePago : PaymentMethodRepository = PaymentMethodRepository
+    var repoMediosDePago : PaymentMethodRepository.kt = PaymentMethodRepository.kt
 
     @Before // este metodo se ejecuta antes de comenzar cada test para proporcionar un escenario de pruebas apropiado
     fun inicializarObjetos(){
@@ -453,7 +453,7 @@ class ClaseDeTest {
         assertFalse(fueAgregado) // como la lista de IDs de tickets contiene 31L, nos aseguramos que el sistema no registra este objeto de manera erronea
     }
 
-    // +--- Funciones de test para la clase PaymentMethodRepository ---+
+    // +--- Funciones de test para la clase PaymentMethodRepository.kt ---+
 
     @Test
     fun dadoQueExisteUnRepoDeMediosDePagoSiRegistroUnoNuevoObtengoTrue(){

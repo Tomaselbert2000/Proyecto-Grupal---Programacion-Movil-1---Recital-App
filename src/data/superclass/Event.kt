@@ -1,4 +1,4 @@
-package data
+package data.superclass
 
 data class Event(
     val id: Long,

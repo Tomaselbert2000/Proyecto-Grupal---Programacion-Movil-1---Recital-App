@@ -1,6 +1,6 @@
 package repositories
 
-import data.User
+import data.superclass.User
 
 object UserRepository {
 
