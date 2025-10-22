@@ -7,5 +7,7 @@ data class Ticket(
     val section: String,
     val precio: Double = 10000.0
 ) {
-
+    fun calcularTotalPorTicket(): Double {
+        return quantity * precio
+    }
 }

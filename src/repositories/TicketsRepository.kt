@@ -316,7 +316,7 @@ object TicketsRepository {
     }
 
     private fun validarUbicacion(nuevoTicket: Ticket): Boolean {
-        return nuevoTicket.section == "Platea" || nuevoTicket.section == "Campo"
+        return nuevoTicket.section == "Platea" || nuevoTicket.section == "Campo" || nuevoTicket.section == "Palco"
     }
 
     private fun esDuplicado(nuevoTicket: Ticket): Boolean {

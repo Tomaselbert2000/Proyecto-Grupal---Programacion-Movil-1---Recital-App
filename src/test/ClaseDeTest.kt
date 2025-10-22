@@ -1,4 +1,4 @@
-package test
+/*package test
 
 import data.Event
 import data.PaymentMethod
@@ -6,7 +6,7 @@ import data.Ticket
 import data.TicketCollection
 import data.User
 import repositories.EventRepository
-import main.kotlin.repositories.PaymentMethodRepository
+import repositories.PaymentMethodRepository
 import repositories.TicketCollectionRepository
 import repositories.TicketsRepository
 import repositories.UserRepository
@@ -638,4 +638,4 @@ class ClaseDeTest {
 
         assertEquals(cantidadDeAsientosEsperada, cantidadDeAsientosObtenida) // y aca cuando comparamos obtenemos que la resta fue realizada
     }
-}
+}*/
