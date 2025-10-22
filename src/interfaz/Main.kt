@@ -8,12 +8,13 @@ import data.Event
 import data.Ticket
 import data.TicketCollection
 import data.User
-import main.kotlin.repositories.*
+import main.kotlin.repositories.PaymentMethodRepository
 import repositories.EventRepository
 import repositories.TicketCollectionRepository
 import repositories.TicketsRepository
 import repositories.UserRepository
 import java.time.LocalDate
+import java.util.Locale.getDefault
 import kotlin.system.exitProcess
 
 val contieneNumerosOCaracteresEspeciales = { input: String -> input.any { it.isDigit() || it.code in 33..47 || it.code in 58..64}}
@@ -21,10 +22,11 @@ val contieneLetrasOCaracteresEspeciales = { input: String -> input.any { it.isLe
 val estaEnBlanco = {input: String -> input.isBlank() || input == "" }
 
 fun main(){
-
     val repoUsuarios = UserRepository
-    println("\n")
-    println("""
+
+    while (true){
+        println("\n")
+        println("""
         .=== Sistema de gestion ===.
         +==========================+
         | 1. Iniciar sesion        |
@@ -32,18 +34,19 @@ fun main(){
         | 3. Salir del programa    |
         +==========================+
     """.trimIndent())
-    val opcionMenuSeleccionada : Int = seleccionarOpcionDelMenu(1, 3)
+        val opcionMenuSeleccionada : Int = seleccionarOpcionDelMenu(1, 3)
 
-    when(opcionMenuSeleccionada){
-        1 -> {
-            iniciarSesion(repoUsuarios)
-        }
-        2 -> {
-            crearNuevoUsuario(repoUsuarios)
-        }
-        3 -> {
-            println(".=== Programa finalizado por el usuario ===.")
-            exitProcess(0)
+        when(opcionMenuSeleccionada){
+            1 -> {
+                iniciarSesion(repoUsuarios)
+            }
+            2 -> {
+                crearNuevoUsuario(repoUsuarios)
+            }
+            3 -> {
+                println(".=== Programa finalizado por el usuario ===.")
+                exitProcess(0)
+            }
         }
     }
 }
@@ -53,26 +56,27 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository){
         .=== Alta de nuevo usuario en el sistema ===.
         =============================================
     """.trimIndent())
-    var nombre : String
-    var apellido : String
-    var nickname : String
-    var password : String
-    var newUser : User? = null
-    var excepcionLanzada = false
 
-    do {
-        try {
-            println(".=== Ingresar nombre (incluyendo 2do nombre si corresponde) ===.")
-            nombre = readln()
+    while (true){
+        var nombre : String
+        var apellido : String
+        var nickname : String
+        var password : String
+        var newUser : User? = null
+        var excepcionLanzada = false
+        do {
+            try {
+                println(".=== Ingresar nombre (incluyendo 2do nombre si corresponde) ===.")
+                nombre = readln()
 
-            println(".=== Ingresar apellido (incluyendo 2do apellido si corresponde) ===.")
-            apellido = readln()
+                println(".=== Ingresar apellido (incluyendo 2do apellido si corresponde) ===.")
+                apellido = readln()
 
-            println(".=== Ingresar nickname de usuario ===.")
-            nickname = readln()
+                println(".=== Ingresar nickname de usuario ===.")
+                nickname = readln()
 
-            do {
-                println("""
+                do {
+                    println("""
             .=== Ingresar contraseña ===.
             =============================
             Requisitos minimos:
@@ -82,50 +86,49 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository){
             8 caracteres de longitud
             =============================
         """.trimIndent())
-                password = readln()
-                if(!passwordValida(password)){
-                    println(".=== La contraseña ingresada no cumple los requisitos minimos de seguridad. Intente nuevamente ===.")
-                }else{
-                    newUser = User(1L, nickname, password, nombre, apellido, 0.0, LocalDate.now().toString())
+                    password = readln()
+                    if(!passwordValida(password)){
+                        println(".=== La contraseña ingresada no cumple los requisitos minimos de seguridad. Intente nuevamente ===.")
+                    }else{
+                        newUser = User(1L, nickname, password, nombre, apellido, 0.0, LocalDate.now().toString())
+                    }
+                }while(!passwordValida(password))
+
+                if (estaEnBlanco(nombre) || estaEnBlanco(apellido) || estaEnBlanco(nickname) || estaEnBlanco(password)){
+                    excepcionLanzada = true
+                    throw BlankUserDataException()
                 }
-            }while(!passwordValida(password))
-
-            if (estaEnBlanco(nombre) || estaEnBlanco(apellido) || estaEnBlanco(nickname) || estaEnBlanco(password)){
-                excepcionLanzada = true
-                throw BlankUserDataException()
+                else if(contieneNumerosOCaracteresEspeciales(nombre) || contieneNumerosOCaracteresEspeciales(apellido)){
+                    excepcionLanzada = true
+                    throw InvalidInputDataException()
+                }
+            }catch (e: Exception){
+                println(e.message)
             }
-            else if(contieneNumerosOCaracteresEspeciales(nombre) || contieneNumerosOCaracteresEspeciales(apellido)){
-                excepcionLanzada = true
-                throw InvalidInputDataException()
-            }
-        }catch (e: Exception){
-            println(e.message)
-        }
-    }while (newUser == null)
+        }while (newUser == null)
 
-    if(!excepcionLanzada){
-        repoUsuarios.registrarNuevoUsuario(newUser)
-        println("""
+        if(!excepcionLanzada){
+            repoUsuarios.registrarNuevoUsuario(newUser)
+            println("""
             .=== Usuario creado exitosamente ===.
             =====================================
                 Volviendo al menu principal...
             =====================================
         """.trimIndent())
-        main()
-    }else{
-        println("""
+            return
+        }else{
+            println("""
                         .=== Error al crear el usuario ===.
             ===========================================================
             ¿Desea reintentar la operacion? Ingresar S/N para continuar
             ===========================================================
         """.trimIndent())
-
-        val reiniciarOperacion = solicitarConfirmacionDeUsuario()
-
-        if(reiniciarOperacion){
-            crearNuevoUsuario(repoUsuarios)
-        }else{
-            main()
+            val reiniciarOperacion = solicitarConfirmacionDeUsuario()
+            if(reiniciarOperacion){
+                continue
+            }else{
+                return
+            }
         }
     }
 }
@@ -159,9 +162,9 @@ fun iniciarSesion(repoUsuarios: UserRepository){
                 val reiniciarOperacion = solicitarConfirmacionDeUsuario()
 
                 if (reiniciarOperacion){
-                    iniciarSesion(repoUsuarios)
+                    // iniciarSesion(repoUsuarios)
                 }else{
-                    main()
+                    break
                 }
 
             }else{
@@ -181,7 +184,8 @@ fun menuPrincipalSistema(loggedUser: User) {
     val repoTicketCollection = TicketCollectionRepository
     val repoMediosPago = PaymentMethodRepository
 
-    println("""
+    while (true){
+        println("""
             .=== Menu principal ===.
         Bienvenido ${loggedUser.nickname}
         ===================================
@@ -197,38 +201,40 @@ fun menuPrincipalSistema(loggedUser: User) {
          Ingresar un valor para continuar
         ==================================
     """.trimIndent())
-    val opcionSeleccionada = seleccionarOpcionDelMenu(1, 8)
+        val opcionSeleccionada = seleccionarOpcionDelMenu(1, 8)
 
-    when (opcionSeleccionada){
-        1 -> {
-            mostrarEventos(loggedUser, repoEventos)
-        }
-        2 -> {
-            comprarTickets(loggedUser, repoUsuarios, repoEventos, repoTickets, repoTicketCollection, repoMediosPago)
-        }
-        3 -> {
-            cargarSaldo(loggedUser, repoUsuarios)
-        }
-        4 ->{
-            mostrarHistorialDeComprasDeUsuario(loggedUser, repoTicketCollection, repoTickets, repoEventos, repoMediosPago)
-        }
-        5 -> {
-            verSaldoActualUsuario(loggedUser)
-        }
-        6 ->{
-            mostrarMetodosDePagoDisponibles(loggedUser, repoMediosPago)
-        }
-        7 -> {
-            cerrarSesion(loggedUser)
-        }
-        8 -> {
-            println(".=== Programa finalizado por el usuario ===.")
-            exitProcess(0)
+        when (opcionSeleccionada){
+            1 -> {
+                mostrarEventos(repoEventos)
+            }
+            2 -> {
+                comprarTickets(loggedUser, repoUsuarios, repoEventos, repoTickets, repoTicketCollection, repoMediosPago)
+            }
+            3 -> {
+                cargarSaldo(loggedUser)
+            }
+            4 ->{
+                mostrarHistorialDeComprasDeUsuario(loggedUser, repoTicketCollection, repoTickets, repoEventos, repoMediosPago)
+            }
+            5 -> {
+                verSaldoActualUsuario(loggedUser)
+            }
+            6 ->{
+                mostrarMetodosDePagoDisponibles(loggedUser, repoMediosPago)
+            }
+            7 -> {
+                cerrarSesion(loggedUser)
+                break
+            }
+            8 -> {
+                println(".=== Programa finalizado por el usuario ===.")
+                exitProcess(0)
+            }
         }
     }
 }
 
-fun mostrarEventos(loggedUser: User, repoEventos: EventRepository) {
+fun mostrarEventos(repoEventos: EventRepository) {
     val listaDeEventos : MutableList<Event> = repoEventos.obtenerListaDeEventos()
     println(".=== Información de eventos ===.")
     for (event in listaDeEventos){
@@ -242,13 +248,6 @@ fun mostrarEventos(loggedUser: User, repoEventos: EventRepository) {
             =========================================================================================================================================================================
         """.trimIndent())
     }
-    println("""
-        ===========================================
-        Presione Enter para volver al menu anterior
-        ===========================================
-    """.trimIndent())
-    readln()
-    menuPrincipalSistema(loggedUser)
 }
 
 fun comprarTickets(
@@ -291,7 +290,7 @@ fun comprarTickets(
             } else {
                 when (opcionSeleccionada.toInt()) {
                     1 -> {
-                        mostrarEventos(loggedUser, repoEventos)
+                        mostrarEventos(repoEventos)
                     }
 
                     2 -> {
@@ -411,52 +410,45 @@ fun comprarTickets(
     )
 }
 
-fun cargarSaldo(loggedUser: User, repoUsuarios: UserRepository) {
-    try {
-        println("""
+fun cargarSaldo(loggedUser: User) {
+    println("""
         .=== Carga de saldo de usuario ===.
          Saldo actual: $${loggedUser.money}
         ===================================
               Ingresar saldo a cargar:
         ===================================
     """.trimIndent())
-        val saldoACargar : Double = readln().toDouble()
-
-        if (saldoACargar.toString().any {it.isLetter()}){
-            throw Exception(".=== El campo de saldo no puede contener caracteres no numericos ")
-        }
-        if(loggedUser.cargarSaldo(saldoACargar)){
-            println("""
+    while (true){
+        try {
+            val saldoACargar : Double = readln().toDouble()
+            if(loggedUser.cargarSaldo(saldoACargar)){
+                println("""
                 .=== Saldo agregado en cuenta de manera exitosa ===.
                 - Valor de la operacion: $${saldoACargar}
                 - Saldo actualizado: $${loggedUser.money}
                 ====================================================
             """.trimIndent())
-        }else{
-            println("""
+                return
+            }else{
+                println("""
                 .=== El saldo minimo para realizar un ingreso es $1000 ===.
                 .=== El saldo maximo para realizar un ingreso es $1000000 ===.
                   ¿Desea reintentar la operacion? Ingresar S/N para continuar
                 ==============================================================
             """.trimIndent())
-            val reiniciarOperacion = solicitarConfirmacionDeUsuario()
-
-            if (reiniciarOperacion){
-                cargarSaldo(loggedUser, repoUsuarios)
-            }else{
-                menuPrincipalSistema(loggedUser)
+                val reiniciarOperacion = solicitarConfirmacionDeUsuario()
+                if (reiniciarOperacion){
+                    println(".=== Reingresar saldo a cargar ===.")
+                    continue
+                }else{
+                    return
+                }
             }
+        }catch (_ : Exception){
+            println(".=== Este campo solo acepta valores numericos. Intente nuevamente ===.")
+            continue
         }
-    }catch (e : Exception){
-        println(e.message)
     }
-    println("""
-        ===========================================
-        Presione Enter para volver al menu anterior
-        ===========================================
-    """.trimIndent())
-    readln()
-    menuPrincipalSistema(loggedUser)
 }
 
 fun mostrarHistorialDeComprasDeUsuario(
@@ -531,18 +523,11 @@ fun mostrarHistorialDeComprasDeUsuario(
     menuPrincipalSistema(loggedUser)
 }
 
-
-
-
 fun verSaldoActualUsuario(loggedUser: User) {
     println("""
         .=== Saldo actual de usuario: $${loggedUser.money}
         ===========================================
-        Presione Enter para volver al menu anterior
-        ===========================================
     """.trimIndent())
-    readln()
-    menuPrincipalSistema(loggedUser)
 }
 
 fun mostrarMetodosDePagoDisponibles(loggedUser: User, repoMediosPago: PaymentMethodRepository) {
@@ -559,19 +544,11 @@ fun mostrarMetodosDePagoDisponibles(loggedUser: User, repoMediosPago: PaymentMet
             ================================================
         """.trimIndent())
     }
-    println("""
-        ===========================================
-        Presione Enter para volver al menu anterior
-        ===========================================
-    """.trimIndent())
-    readln()
-    menuPrincipalSistema(loggedUser)
 }
 
 fun cerrarSesion(loggedUser: User) {
     loggedUser.estadoDeSesion = false
     println(".=== Sesion finalizada por el usuario ===.")
-    main()
 }
 
 fun seleccionarOpcionDelMenu(rangoInferior : Int, rangoSuperior: Int): Int {
@@ -598,7 +575,7 @@ fun solicitarConfirmacionDeUsuario(): Boolean {
     var opcionSeleccionada = ""
     do {
         try {
-            opcionSeleccionada = readln()
+            opcionSeleccionada = readln().uppercase(getDefault())
             if (opcionSeleccionada == "") {
                 throw BlankSelectionException()
             }else if(contieneNumerosOCaracteresEspeciales(opcionSeleccionada)){
