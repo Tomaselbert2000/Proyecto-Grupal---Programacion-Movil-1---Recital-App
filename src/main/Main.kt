@@ -10,6 +10,7 @@ import data.superclass.Ticket
 import data.superclass.User
 import repositories.*
 import java.time.LocalDate
+import kotlin.math.absoluteValue
 import kotlin.random.Random
 import kotlin.system.exitProcess
 
@@ -104,7 +105,7 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository) {
                     if (!passwordValida(password)) { // llamamos a la funcion y le pasamos la password como parametro, devolvera un boolean
                         println(".=== La contraseña ingresada no cumple los requisitos minimos de seguridad. Intente nuevamente ===.")
                     } else { // en caso de ser valida, inicializamos la instancia del nuevo usuario pero todavia no la registramos
-                        newUser = User(1L, nickname, password, nombre, apellido, 0.0, LocalDate.now().toString())
+                        newUser = User(generarNuevoId(repoUsuarios), nickname, password, nombre, apellido, 0.0, LocalDate.now().toString())
                     }
                 } while (!passwordValida(password))
 
@@ -343,6 +344,7 @@ fun comprarTickets(
                             break
                         } else {
                             println(".=== Ocurrio un error al procesar la compra. Intente nuevamente ===.")
+                            break
                         }
                     } else {
                         println(".=== Saldo insuficiente para completar la compra ===.")
@@ -417,14 +419,19 @@ fun mostrarErrorSoloSeAceptanValoresNumericos() {
 }
 
 fun generarNuevoId(repoTickets: TicketsRepository): Long {
-    var nuevoId: Long
+    var randomId : Long
     do {
-        nuevoId = Random.nextLong()
-        if (nuevoId !in repoTickets.obtenerListaDeIDsDeTickets() || nuevoId !in 31..7000) {
-            return nuevoId
-        }
-    } while (nuevoId in repoTickets.obtenerListaDeIDsDeTickets())
-    return nuevoId
+        randomId = Random.nextLong()
+    }while (randomId in repoTickets.obtenerListaDeIDsDeTickets())
+    return randomId
+}
+
+fun generarNuevoId(repoUsuarios: UserRepository): Long {
+    var randomId : Long
+    do {
+        randomId = Random.nextLong()
+    }while (randomId in repoUsuarios.obtenerListaDeIDsDeUsuarios())
+    return randomId
 }
 
 fun procesarCompra(
@@ -433,7 +440,7 @@ fun procesarCompra(
     repoTickets: TicketsRepository,
     repoEventos: EventRepository,
     repoTicketCollection: TicketCollectionRepository,
-    montoTotalAAbonar: Double,
+    montoTotalAAbonar: Double
 ): Boolean {
     if (repoTickets.registrarNuevoTicket(nuevoTicket, repoEventos.obtenerListaDeIDsEventos())) {
         repoTicketCollection.buscarComprasPorId(loggedUser.id).add(nuevoTicket.id)
