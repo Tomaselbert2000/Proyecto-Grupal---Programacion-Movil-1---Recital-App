@@ -136,7 +136,12 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository, repoTicketCollection: Ticket
         } while (newUser == null)
 
         if (!excepcionLanzada) { // si ninguna excepcion se lanzo, vamos al siguiente paso
-            if (repoUsuarios.registrarNuevoUsuario(newUser) && repoTicketCollection.crearNuevaColeccion(generarNuevoId(repoTicketCollection), newUser)) {
+            if (repoUsuarios.registrarNuevoUsuario(newUser) && repoTicketCollection.crearNuevaColeccion(
+                    generarNuevoId(
+                        repoTicketCollection
+                    ), newUser
+                )
+            ) {
                 println(
                     """
             .=== Usuario creado exitosamente ===.
@@ -231,12 +236,13 @@ fun menuPrincipalSistema(loggedUser: User) {
         5. Ver saldo actual de usuario.
         6. Ver metodos de pago disponibles
         7. Modificar datos de usuario.
-        8. Cerrar sesion.
-        9. Salir del programa.
+        8. Ver informacion de usuario.
+        9. Cerrar sesion.
+        10. Salir del programa.
         ==================================
     """.trimIndent()
         )
-        val opcionSeleccionada = seleccionarOpcionDelMenu(1, 9)
+        val opcionSeleccionada = seleccionarOpcionDelMenu(1, 10)
 
         when (opcionSeleccionada) {
             1 -> {
@@ -271,11 +277,15 @@ fun menuPrincipalSistema(loggedUser: User) {
             }
 
             8 -> {
+                verInformacionDeUsuario(loggedUser)
+            }
+
+            9 -> {
                 cerrarSesion(loggedUser)
                 break
             }
 
-            9 -> {
+            10 -> {
                 println(".=== Programa finalizado por el usuario ===.")
                 exitProcess(0)
             }
@@ -474,7 +484,7 @@ fun generarNuevoId(repoTicketCollection: TicketCollectionRepository): Long {
     var randomId: Long
     do {
         randomId = Random.nextLong().absoluteValue
-    }while (randomId in repoTicketCollection.obtenerListaDeIDsDeColecciones())
+    } while (randomId in repoTicketCollection.obtenerListaDeIDsDeColecciones())
     return randomId
 }
 
@@ -581,14 +591,17 @@ fun mostrarHistorialDeComprasDeUsuario(
         """.trimIndent()
         )
         if (ticketAsociado != null) {
-            acumuladorTotalPorCompras += ticketAsociado.calcularTotalPorTicket() + calcularTotalComisionesDeTicket(ticketAsociado, medioDePagoUsado)// acumulamos en cada pasada el total por ese ticket puntual
+            acumuladorTotalPorCompras += ticketAsociado.calcularTotalPorTicket() + calcularTotalComisionesDeTicket(
+                ticketAsociado,
+                medioDePagoUsado
+            )// acumulamos en cada pasada el total por ese ticket puntual
         }
     }
     println(".=== Monto total acumulado por todas las compras: $${acumuladorTotalPorCompras}\n")
 }
 
 fun calcularTotalComisionesDeTicket(ticketAsociado: Ticket?, medioDePagoUsado: PaymentMethod.MetodoDePago?): Double {
-    if(ticketAsociado !=null) {
+    if (ticketAsociado != null) {
         if (medioDePagoUsado != null) {
             return medioDePagoUsado.calcularMontoComision(ticketAsociado.calcularTotalPorTicket(), LocalDateTime.now())
         }
@@ -618,19 +631,21 @@ fun cerrarSesion(loggedUser: User) {
     println(".=== Sesion finalizada por el usuario ===.")
 }
 
-fun modificarDatosDeUsuario(loggedUser: User, repoUsuarios: UserRepository){
-    println("""
+fun modificarDatosDeUsuario(loggedUser: User, repoUsuarios: UserRepository) {
+    println(
+        """
         .=== Seleccionar apartado que desea modificar ===.
-        . Nickname
-        . Contraseña
+        1. Nickname
+        2. Contraseña
         ==================================================
-    """.trimIndent())
+    """.trimIndent()
+    )
 
     val opcionSeleccionada = seleccionarOpcionDelMenu(1, 2)
 
     if (opcionSeleccionada == 1) {
         modificarNickname(loggedUser, repoUsuarios)
-    }else{
+    } else {
         modificarPassword(loggedUser)
     }
 }
@@ -641,28 +656,45 @@ fun modificarNickname(loggedUser: User, repoUsuarios: UserRepository) {
     var nuevoNickname: String
     do {
         nuevoNickname = readln()
-        if(nuevoNickname in repoUsuarios.obtenerListaDeNicknames()){
+        if (nuevoNickname in repoUsuarios.obtenerListaDeNicknames()) {
             println(".=== El nombre de usuario elegido ya se encuentra ocupado. Intente nuevamente ===.")
         }
-    }while (nuevoNickname in repoUsuarios.obtenerListaDeNicknames())
+    } while (nuevoNickname in repoUsuarios.obtenerListaDeNicknames())
+    println(".=== Nickname actualizado exitosamente ===.")
     loggedUser.actualizarNickname(nuevoNickname)
 }
 
 fun modificarPassword(loggedUser: User) {
     println(".=== Para continuar con el proceso, ingrese su contraseña actual ===.")
     val currentPassword = readln()
-    if(currentPassword == loggedUser.password){
-        var newPassword : String
+    if (currentPassword == loggedUser.password) {
+        var newPassword: String
         do {
             newPassword = readln()
-            if(!passwordValida(newPassword)){
+            if (!passwordValida(newPassword)) {
                 println(".=== La contraseña ingresada no cumple los requisitos minimos de seguridad. Intente nuevamente ===.")
             }
-        }while(!passwordValida(newPassword))
+        } while (!passwordValida(newPassword))
         loggedUser.actualizarPassword(newPassword)
-    }else{
+        println(".=== Contraseña actualizada exitosamente ===.")
+    } else {
         println(".=== No fue posible actualizar la contraseña. Intente nuevamente ===.")
     }
+}
+
+fun verInformacionDeUsuario(loggedUser: User) {
+    println(
+        """
+        .=== Informacion de usuario ===.
+        . ID de usuario: ${loggedUser.id}
+        . Nombre/s: ${loggedUser.name}
+        . Apellido/s: ${loggedUser.surname}
+        . Nickname actual: ${loggedUser.nickname}
+        . Fecha de alta: ${loggedUser.createdDate}
+        ================================
+    """.trimIndent()
+    )
+    println("\n")
 }
 
 fun seleccionarOpcionDelMenu(
