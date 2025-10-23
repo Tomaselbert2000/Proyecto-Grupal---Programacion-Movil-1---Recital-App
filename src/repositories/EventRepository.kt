@@ -95,7 +95,7 @@ object EventRepository {
         )
     }
 
-    fun registrarNuevoEvento(evento: Event) : Boolean{
+    fun registrarNuevoEvento(evento: Event): Boolean {
         return !this.seSuperponeAOtro(evento)
                 && this.cantidadDeAsientosValida(evento)
                 && this.esFechaValida(evento)
@@ -126,22 +126,20 @@ object EventRepository {
     haciendo que el metodo principal de registro de eventos retorne tambien false.
      */
 
-    private fun esHoraValida(evento: Event) : Boolean{
+    private fun esHoraValida(evento: Event): Boolean {
         try {
             LocalTime.parse(evento.time)
             return true
-        }
-        catch (e: DateTimeParseException){
+        } catch (e: DateTimeParseException) {
             return false
         }
     }
 
-    private fun esFechaValida(evento: Event) : Boolean{
+    private fun esFechaValida(evento: Event): Boolean {
         try {
             LocalDate.parse(evento.date)
             return true
-        }
-        catch (e: DateTimeParseException){
+        } catch (e: DateTimeParseException) {
             return false
         }
     }
@@ -151,17 +149,17 @@ object EventRepository {
     }
 
     private fun seSuperponeAOtro(evento: Event): Boolean {
-        for (e in this.events){
-            if (e.date == evento.date && e.time == evento.time && e.location == evento.location){
+        for (e in this.events) {
+            if (e.date == evento.date && e.time == evento.time && e.location == evento.location) {
                 return true
             }
         }
         return false
     }
 
-    private fun esDuplicado(evento: Event) : Boolean{
-        for (e in this.events){
-            if (e == evento || e.id == evento.id){
+    private fun esDuplicado(evento: Event): Boolean {
+        for (e in this.events) {
+            if (e == evento || e.id == evento.id) {
                 return true
             }
         }
@@ -169,8 +167,8 @@ object EventRepository {
     }
 
     fun obtenerEventoPorId(eventIdParaBuscar: Long?): Event? {
-        for (e in this.events){
-            if (e.id == eventIdParaBuscar){
+        for (e in this.events) {
+            if (e.id == eventIdParaBuscar) {
                 return e
             }
         }
@@ -178,8 +176,8 @@ object EventRepository {
     }
 
     fun buscarEventoPorId(idBuscado: Long): Event? {
-        for (e in this.events){
-            if (e.id == idBuscado){
+        for (e in this.events) {
+            if (e.id == idBuscado) {
                 return e
             }
         }
@@ -188,7 +186,7 @@ object EventRepository {
 
     fun obtenerListaDeIDsEventos(): MutableList<Long> {
         val listadoDeIds = mutableListOf<Long>()
-        for (e in this.events){
+        for (e in this.events) {
             listadoDeIds.add(e.id)
         }
         return listadoDeIds
@@ -200,8 +198,8 @@ object EventRepository {
 
     fun obtenerListaDeEventosPorNombreDeArtista(artistaSeleccionado: String): MutableList<Event> {
         val listaDeEventosPorArtista = mutableListOf<Event>()
-        for(evento in this.events){
-            if(evento.artist == artistaSeleccionado){
+        for (evento in this.events) {
+            if (evento.artist == artistaSeleccionado) {
                 listaDeEventosPorArtista.add(evento)
             }
         }
@@ -209,8 +207,8 @@ object EventRepository {
     }
 
     fun obtenerAsientosDisponibles(id: Long): Int? {
-        for (e in this.events){
-            if (e.id == id){
+        for (e in this.events) {
+            if (e.id == id) {
                 return e.cantidadDeAsientosDisponibles
             }
         }

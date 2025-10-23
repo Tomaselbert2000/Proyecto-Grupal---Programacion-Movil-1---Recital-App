@@ -309,7 +309,7 @@ object TicketsRepository {
         )
     }
 
-    fun registrarNuevoTicket(nuevoTicket: Ticket, listaDeEventosRegistrados: MutableList<Long>) : Boolean{
+    fun registrarNuevoTicket(nuevoTicket: Ticket, listaDeEventosRegistrados: MutableList<Long>): Boolean {
         return this.validarIdTicket(nuevoTicket)
                 && this.validarEventoAsociado(nuevoTicket, listaDeEventosRegistrados)
                 && this.validarUbicacion(nuevoTicket)
@@ -320,15 +320,15 @@ object TicketsRepository {
 
     fun obtenerListaDeIDsDeTickets(): MutableList<Long> {
         val listaDeIDsDeTicketsRegistrados = mutableListOf<Long>()
-        for (ticket in this.tickets){
+        for (ticket in this.tickets) {
             listaDeIDsDeTicketsRegistrados.add(ticket.id)
         }
         return listaDeIDsDeTicketsRegistrados
     }
 
     private fun validarEventoAsociado(nuevoTicket: Ticket, listaDeIDsEventosRegistrados: MutableList<Long>): Boolean {
-        for (id in listaDeIDsEventosRegistrados){
-            if (nuevoTicket.eventId == id){
+        for (id in listaDeIDsEventosRegistrados) {
+            if (nuevoTicket.eventId == id) {
                 return true
             }
         }
@@ -344,15 +344,15 @@ object TicketsRepository {
     }
 
     private fun esDuplicado(nuevoTicket: Ticket): Boolean {
-        for (t in this.tickets){
-            if (t == nuevoTicket || t.id == nuevoTicket.id){
+        for (t in this.tickets) {
+            if (t == nuevoTicket || t.id == nuevoTicket.id) {
                 return true
             }
         }
         return false
     }
 
-    private fun validarIdTicket(nuevoTicket: Ticket) : Boolean{
+    private fun validarIdTicket(nuevoTicket: Ticket): Boolean {
         return nuevoTicket.id >= 1L
     }
 

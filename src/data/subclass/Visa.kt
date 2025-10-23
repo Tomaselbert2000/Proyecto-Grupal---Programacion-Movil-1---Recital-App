@@ -4,7 +4,8 @@ import data.superclass.PaymentMethod
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-class Visa(override val id: Long, override val name: String = "Visa", override var fee : Double = 0.01) : PaymentMethod.MetodoDePago(id, name) {
+class Visa(override val id: Long, override val name: String = "Visa", override var fee: Double = 0.01) :
+    PaymentMethod.MetodoDePago(id, name) {
     override fun calcularMontoComision(montoBase: Double, fechaHoraCompra: LocalDateTime): Double {
         val hora = fechaHoraCompra.toLocalTime()
         val inicio = LocalTime.of(15, 0)

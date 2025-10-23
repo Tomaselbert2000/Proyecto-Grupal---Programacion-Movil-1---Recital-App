@@ -13,15 +13,14 @@ object UserRepository {
     }
 
     fun login(nickname: String, password: String): User? {
-        val usuario = this.users.find { it.nickname == nickname}
+        val usuario = this.users.find { it.nickname == nickname }
         if (usuario != null) {
             if (usuario.password == password) {
                 usuario.estadoDeSesion = true
                 return usuario
-            }
-            else{
-                usuario.cantidadIniciosDeSesionFallidos ++
-                if(usuario.cantidadIniciosDeSesionFallidos >=3){
+            } else {
+                usuario.cantidadIniciosDeSesionFallidos++
+                if (usuario.cantidadIniciosDeSesionFallidos >= 3) {
                     usuario.usuarioBloqueado = true
                 }
             }
@@ -29,7 +28,7 @@ object UserRepository {
         return null
     }
 
-    fun registrarNuevoUsuario(usuarioNuevo: User): Boolean{
+    fun registrarNuevoUsuario(usuarioNuevo: User): Boolean {
         return this.validarId(usuarioNuevo) &&
                 !this.estaDuplicado(usuarioNuevo) &&
                 this.saldoValido(usuarioNuevo) &&
@@ -40,13 +39,13 @@ object UserRepository {
         return usuarioNuevo.id >= 1L
     }
 
-    private fun saldoValido(usuarioNuevo: User) : Boolean{
+    private fun saldoValido(usuarioNuevo: User): Boolean {
         return usuarioNuevo.money >= 0.0
     }
 
-    private fun estaDuplicado(usuario : User): Boolean{
-        for(u in users){
-            if(u == usuario || u.id == usuario.id || u.nickname == usuario.nickname){
+    private fun estaDuplicado(usuario: User): Boolean {
+        for (u in users) {
+            if (u == usuario || u.id == usuario.id || u.nickname == usuario.nickname) {
                 return true
             }
         }
@@ -55,17 +54,17 @@ object UserRepository {
 
     fun obtenerRegistrosPorFechaDeAlta(fechaDeAlta: String): MutableList<User> {
         val listaDeUsuarios = mutableListOf<User>()
-        for(user in users){
-            if(user.createdDate == fechaDeAlta){
+        for (user in users) {
+            if (user.createdDate == fechaDeAlta) {
                 listaDeUsuarios.add(user)
             }
         }
         return listaDeUsuarios
     }
 
-    fun buscarUsuarioPorID(idBuscado: Long) : User? {
-        for (u in users){
-            if (u.id == idBuscado){
+    fun buscarUsuarioPorID(idBuscado: Long): User? {
+        for (u in users) {
+            if (u.id == idBuscado) {
                 return u
             }
         }
@@ -73,8 +72,8 @@ object UserRepository {
     }
 
     fun buscarUsuarioPorNickname(nicknameParaBuscar: String): User? {
-        for(user in users){
-            if(user.nickname == nicknameParaBuscar){
+        for (user in users) {
+            if (user.nickname == nicknameParaBuscar) {
                 return user
             }
         }
@@ -83,8 +82,8 @@ object UserRepository {
 
     fun obtenerListaUsuariosFiltradosPorSaldo(saldoMinimo: Double, saldoMaximo: Double): MutableList<User> {
         val listaDeUsuariosFiltradosPorSaldo = mutableListOf<User>()
-        for(user in users){
-            if (user.money in saldoMinimo .. saldoMaximo){
+        for (user in users) {
+            if (user.money in saldoMinimo..saldoMaximo) {
                 listaDeUsuariosFiltradosPorSaldo.add(user)
             }
         }
@@ -93,7 +92,7 @@ object UserRepository {
 
     fun obtenerListaDeIDsDeUsuarios(): MutableList<Long> {
         val listaDeIDsRegistrados = mutableListOf<Long>()
-        for (user in this.users){
+        for (user in this.users) {
             listaDeIDsRegistrados.add(user.id)
         }
         return listaDeIDsRegistrados
@@ -111,8 +110,8 @@ object UserRepository {
     }
 
     fun obtenerSaldoDeUsuario(userIdQueBuscamos: Long): Double {
-        for (usuario in users){
-            if (usuario.id == userIdQueBuscamos){
+        for (usuario in users) {
+            if (usuario.id == userIdQueBuscamos) {
                 return usuario.obtenerSaldo()
             }
         }
@@ -127,7 +126,7 @@ object UserRepository {
 
     fun obtenerListaDeNicknames(): MutableList<String> {
         val listaNicknamesNoDisponibles = mutableListOf<String>()
-        for(usr in this.users){
+        for (usr in this.users) {
             listaNicknamesNoDisponibles.add(usr.nickname)
         }
         return listaNicknamesNoDisponibles

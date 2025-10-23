@@ -651,10 +651,9 @@ fun modificarDatosDeUsuario(loggedUser: User, repoUsuarios: UserRepository) {
 }
 
 fun modificarNickname(loggedUser: User, repoUsuarios: UserRepository) {
-    println(".=== Ingresar nuevo nickname de usuario ===.")
-
     var nuevoNickname: String
     do {
+        println(".=== Ingresar nuevo nickname de usuario ===.")
         nuevoNickname = readln()
         if (nuevoNickname in repoUsuarios.obtenerListaDeNicknames()) {
             println(".=== El nombre de usuario elegido ya se encuentra ocupado. Intente nuevamente ===.")
@@ -670,6 +669,7 @@ fun modificarPassword(loggedUser: User) {
     if (currentPassword == loggedUser.password) {
         var newPassword: String
         do {
+            println(".=== Ingresar nueva contraseña ===.")
             newPassword = readln()
             if (!passwordValida(newPassword)) {
                 println(".=== La contraseña ingresada no cumple los requisitos minimos de seguridad. Intente nuevamente ===.")

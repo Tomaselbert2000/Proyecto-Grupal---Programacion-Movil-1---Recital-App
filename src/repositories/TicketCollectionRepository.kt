@@ -32,21 +32,21 @@ object TicketCollectionRepository {
     }
 
     fun buscarComprasPorId(userId: Long): MutableList<Long> {
-        for(registro in ticketCollections){
-            if(registro.userId == userId) {
+        for (registro in ticketCollections) {
+            if (registro.userId == userId) {
                 return registro.ticketCollection
             }
         }
         return mutableListOf()
     }
 
-    fun crearNuevaColeccion(newCollectionID: Long, newUser: User) : Boolean{
+    fun crearNuevaColeccion(newCollectionID: Long, newUser: User): Boolean {
         return this.ticketCollections.add(TicketCollection(newCollectionID, newUser.id, mutableListOf()))
     }
 
     fun obtenerListaDeIDsDeColecciones(): MutableList<Long> {
         val listaDeIDsColecciones = mutableListOf<Long>()
-        for(coleccion in this.ticketCollections){
+        for (coleccion in this.ticketCollections) {
             listaDeIDsColecciones.add(coleccion.id)
         }
         return listaDeIDsColecciones

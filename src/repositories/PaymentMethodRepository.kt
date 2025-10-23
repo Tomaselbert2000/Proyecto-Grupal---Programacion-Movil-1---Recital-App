@@ -15,8 +15,8 @@ object PaymentMethodRepository {
         listaMetodosDePago.add(Mastercard(3L))
     }
 
-    fun buscarMetodoDePagoPorId(id : Long) : PaymentMethod.MetodoDePago? {
-        for(metodo in listaMetodosDePago) {
+    fun buscarMetodoDePagoPorId(id: Long): PaymentMethod.MetodoDePago? {
+        for (metodo in listaMetodosDePago) {
             if (metodo.id == id) {
                 return metodo
             }
@@ -27,8 +27,8 @@ object PaymentMethodRepository {
 }
 
 fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {
-    for(metodo in this.listaMetodosDePago){
-        if(metodo.name == nuevoMetodo.name){
+    for (metodo in this.listaMetodosDePago) {
+        if (metodo.name == nuevoMetodo.name) {
             return true
         }
     }
@@ -36,10 +36,10 @@ fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: PaymentMethod.MetodoDeP
 }
 
 fun PaymentMethodRepository.idDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {
-    for(metodo in this.listaMetodosDePago){
-        if(metodo.id == nuevoMetodo.id){
+    for (metodo in this.listaMetodosDePago) {
+        if (metodo.id == nuevoMetodo.id) {
             return true
         }
     }
-    return  false
+    return false
 }

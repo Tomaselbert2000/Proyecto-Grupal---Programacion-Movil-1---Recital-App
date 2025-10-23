@@ -8,8 +8,7 @@ data class Event(
     val location: String,
     val artist: String,
     val image: String
-)
-{
+) {
     override fun toString(): String {
         return "Event(id=$id, cantidadDeAsientosDisponibles=$cantidadDeAsientosDisponibles, date='$date', time='$time', location='$location', artist='$artist', image='$image')"
     }
