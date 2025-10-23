@@ -12,7 +12,8 @@ object TicketsRepository {
                 1L,
                 4L,
                 1,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -21,7 +22,8 @@ object TicketsRepository {
                 2L,
                 3L,
                 4,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -30,7 +32,8 @@ object TicketsRepository {
                 3L,
                 1L,
                 2,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -39,7 +42,9 @@ object TicketsRepository {
                 4L,
                 5L,
                 6,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 1L
+
             )
         )
 
@@ -48,7 +53,8 @@ object TicketsRepository {
                 5L,
                 2L,
                 3,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -57,7 +63,8 @@ object TicketsRepository {
                 6L,
                 1L,
                 7,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -66,7 +73,8 @@ object TicketsRepository {
                 7L,
                 3L,
                 4,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -75,7 +83,8 @@ object TicketsRepository {
                 8L,
                 1L,
                 1,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -84,7 +93,8 @@ object TicketsRepository {
                 9L,
                 7L,
                 2,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -93,7 +103,8 @@ object TicketsRepository {
                 10L,
                 7L,
                 4,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -102,7 +113,8 @@ object TicketsRepository {
                 11L,
                 5L,
                 7,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -111,7 +123,8 @@ object TicketsRepository {
                 12L,
                 2L,
                 2,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -120,7 +133,8 @@ object TicketsRepository {
                 13L,
                 4L,
                 4,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -129,7 +143,8 @@ object TicketsRepository {
                 14L,
                 6L,
                 2,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -138,7 +153,8 @@ object TicketsRepository {
                 15L,
                 2L,
                 7,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -147,7 +163,8 @@ object TicketsRepository {
                 16L,
                 5L,
                 4,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -156,7 +173,8 @@ object TicketsRepository {
                 17L,
                 3L,
                 1,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -165,7 +183,8 @@ object TicketsRepository {
                 18L,
                 1L,
                 3,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -174,7 +193,8 @@ object TicketsRepository {
                 19L,
                 3L,
                 4,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -183,7 +203,8 @@ object TicketsRepository {
                 20L,
                 1L,
                 5,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -192,7 +213,8 @@ object TicketsRepository {
                 21L,
                 5L,
                 6,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -201,7 +223,8 @@ object TicketsRepository {
                 22L,
                 4L,
                 2,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -210,7 +233,8 @@ object TicketsRepository {
                 23L,
                 6L,
                 1,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -219,7 +243,8 @@ object TicketsRepository {
                 24L,
                 3L,
                 4,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -228,7 +253,8 @@ object TicketsRepository {
                 25L,
                 2L,
                 3,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -237,7 +263,8 @@ object TicketsRepository {
                 26L,
                 7L,
                 8,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -246,7 +273,8 @@ object TicketsRepository {
                 27L,
                 7L,
                 1,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 3L
             )
         )
 
@@ -255,7 +283,8 @@ object TicketsRepository {
                 28L,
                 1L,
                 4,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 1L
             )
         )
 
@@ -264,7 +293,8 @@ object TicketsRepository {
                 29L,
                 2L,
                 2,
-                "Campo"
+                "Campo",
+                idMedioDePagoUsado = 2L
             )
         )
 
@@ -273,7 +303,8 @@ object TicketsRepository {
                 30L,
                 5L,
                 3,
-                "Platea"
+                "Platea",
+                idMedioDePagoUsado = 3L
             )
         )
     }

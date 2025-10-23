@@ -5,7 +5,8 @@ data class Ticket(
     val eventId: Long,
     val quantity: Int,
     val section: String,
-    val precio: Double = 10000.0
+    val precio: Double = 10000.0,
+    val idMedioDePagoUsado : Long
 ) {
     fun calcularTotalPorTicket(): Double {
         return quantity * precio

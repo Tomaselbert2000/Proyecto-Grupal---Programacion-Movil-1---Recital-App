@@ -16,16 +16,14 @@ object PaymentMethodRepository {
     }
 
     fun buscarMetodoDePagoPorId(id : Long) : PaymentMethod.MetodoDePago? {
-        return listaMetodosDePago.find { it.id == id }
+        for(metodo in listaMetodosDePago) {
+            if (metodo.id == id) {
+                return metodo
+            }
+        }
+        return null
     }
 
-    fun registrarMetodoDePago(metodo : PaymentMethod.MetodoDePago): Boolean {
-        return this.idDuplicado(metodo) && !this.nombreDuplicado(metodo) && this.idValido(metodo) && this.listaMetodosDePago.add(metodo)
-    }
-}
-
-fun PaymentMethodRepository.idValido(metodo: PaymentMethod.MetodoDePago): Boolean {
-    return metodo.id > 0
 }
 
 fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {

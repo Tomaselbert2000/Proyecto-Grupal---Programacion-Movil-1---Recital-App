@@ -10,6 +10,7 @@ import data.superclass.Ticket
 import data.superclass.User
 import repositories.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 import kotlin.system.exitProcess
@@ -36,7 +37,10 @@ fun main() {
         +==========================+
     """.trimIndent()
         )
-        val opcionMenuSeleccionada: Int = seleccionarOpcionDelMenu(1, 3) // llamamos a la funcion y especificamos como rango las opciones en este input
+        val opcionMenuSeleccionada: Int = seleccionarOpcionDelMenu(
+            1,
+            3
+        ) // llamamos a la funcion y especificamos como rango las opciones en este input
 
         when (opcionMenuSeleccionada) {
             1 -> {
@@ -105,7 +109,15 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository) {
                     if (!passwordValida(password)) { // llamamos a la funcion y le pasamos la password como parametro, devolvera un boolean
                         println(".=== La contraseña ingresada no cumple los requisitos minimos de seguridad. Intente nuevamente ===.")
                     } else { // en caso de ser valida, inicializamos la instancia del nuevo usuario pero todavia no la registramos
-                        newUser = User(generarNuevoId(repoUsuarios), nickname, password, nombre, apellido, 0.0, LocalDate.now().toString())
+                        newUser = User(
+                            generarNuevoId(repoUsuarios),
+                            nickname,
+                            password,
+                            nombre,
+                            apellido,
+                            0.0,
+                            LocalDate.now().toString()
+                        )
                     }
                 } while (!passwordValida(password))
 
@@ -123,30 +135,31 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository) {
         } while (newUser == null)
 
         if (!excepcionLanzada) { // si ninguna excepcion se lanzo, vamos al siguiente paso
-            repoUsuarios.registrarNuevoUsuario(newUser) // ya con la instancia creada, la guardamos en el registro de usuarios
-            println(
-                """
+            if (repoUsuarios.registrarNuevoUsuario(newUser)) {
+                println(
+                    """
             .=== Usuario creado exitosamente ===.
             =====================================
                 Volviendo al menu principal...
             =====================================
-        """.trimIndent()
-            )
-            return // y con este return salimos automaticamente de esta funcion
-        } else { // en caso de algun error, preguntamos al usuario si desea reintentar el proceso
-            println(
-                """
+            """.trimIndent()
+                )
+                return // y con este return salimos automaticamente de esta funcion
+            } else {
+                println(
+                    """
                         .=== Error al crear el usuario ===.
             ===========================================================
             ¿Desea reintentar la operacion? Ingresar S/N para continuar
             ===========================================================
         """.trimIndent()
-            )
-            val reiniciarOperacion = solicitarConfirmacionDeUsuario()
-            if (reiniciarOperacion) {
-                continue // si el usuario elige seguir, con esta linea pasamos a la siguiente iteracion del bucle y pedimos de nuevo los datos
-            } else {
-                return // y si no, este return nos saca al menu principal
+                )
+                val reiniciarOperacion = solicitarConfirmacionDeUsuario()
+                if (reiniciarOperacion) {
+                    continue // si el usuario elige seguir, con esta linea pasamos a la siguiente iteracion del bucle y pedimos de nuevo los datos
+                } else {
+                    return // y si no, este return nos saca al menu principal
+                }
             }
         }
     }
@@ -218,8 +231,6 @@ fun menuPrincipalSistema(loggedUser: User) {
         7. Cerrar sesion.
         8. Salir del programa.
         ==================================
-         Ingresar un valor para continuar
-        ==================================
     """.trimIndent()
         )
         val opcionSeleccionada = seleccionarOpcionDelMenu(1, 8)
@@ -239,7 +250,9 @@ fun menuPrincipalSistema(loggedUser: User) {
             }
 
             4 -> {
-                mostrarHistorialDeComprasDeUsuario(loggedUser, repoTicketCollection, repoTickets, repoEventos)
+                mostrarHistorialDeComprasDeUsuario(
+                    loggedUser, repoTicketCollection, repoTickets, repoEventos, repoMediosPago
+                )
             }
 
             5 -> {
@@ -317,11 +330,19 @@ fun comprarTickets(
                 val cantidadDeAsientos = ingresarCantidadAsientos(eventoSeleccionado)
                 val medioDePagoElegido = seleccionarMedioDePago(repoMediosPago)
                 val nuevoTicket =
-                    Ticket(generarNuevoId(repoTickets), eventoSeleccionado.id, cantidadDeAsientos, tipoSeccionElegida)
-                val comisionPorMedioDePago = medioDePagoElegido.calcularMontoComision(nuevoTicket.calcularTotalPorTicket())
+                    Ticket(
+                        generarNuevoId(repoTickets),
+                        eventoSeleccionado.id,
+                        cantidadDeAsientos,
+                        tipoSeccionElegida,
+                        idMedioDePagoUsado = medioDePagoElegido.id
+                    )
+                val comisionPorMedioDePago =
+                    medioDePagoElegido.calcularMontoComision(nuevoTicket.calcularTotalPorTicket())
                 val montoTotalAAbonar = nuevoTicket.calcularTotalPorTicket() + comisionPorMedioDePago
 
-                println("""
+                println(
+                    """
                     .=== Revise la informacion de compra antes de continuar ===.
                     . Evento seleccionado: ${eventoSeleccionado.artist}
                     . A realizarse el dia ${eventoSeleccionado.date} a las ${eventoSeleccionado.time} en ${eventoSeleccionado.location}
@@ -329,15 +350,23 @@ fun comprarTickets(
                     . Valor unitario por asiento: $${nuevoTicket.precio}
                     . Medio de pago elegido: ${medioDePagoElegido.name}, se aplica una comision de $$comisionPorMedioDePago
                     === Total a abonar por su compra: $${montoTotalAAbonar}
-                """.trimIndent())
-                println("\n.=== ¿Desea confirmar la compra? ===." +
-                        "\n.=== Ingresar S/N para continuar ===.\n")
+                """.trimIndent()
+                )
+                println(
+                    "\n.=== ¿Desea confirmar la compra? ===." +
+                            "\n.=== Ingresar S/N para continuar ===.\n"
+                )
                 val confirmarCompra = solicitarConfirmacionDeUsuario()
 
-                if(confirmarCompra){
+                if (confirmarCompra) {
                     if (loggedUser.money >= montoTotalAAbonar) {
                         if (procesarCompra(
-                                loggedUser, nuevoTicket, repoTickets, repoEventos, repoTicketCollection, montoTotalAAbonar
+                                loggedUser,
+                                nuevoTicket,
+                                repoTickets,
+                                repoEventos,
+                                repoTicketCollection,
+                                montoTotalAAbonar
                             )
                         ) {
                             println(".=== Compra realizada con exito. Muchas gracias :) ===.")
@@ -350,7 +379,7 @@ fun comprarTickets(
                         println(".=== Saldo insuficiente para completar la compra ===.")
                         break
                     }
-                }else{
+                } else {
                     println(".=== Operacion de compra cancelada por el usuario ===.")
                     break
                 }
@@ -404,13 +433,13 @@ fun seleccionarMedioDePago(repoMediosPago: PaymentMethodRepository): PaymentMeth
     do {
         try {
             indiceMedioDePago = readln().toInt()
-            if(indiceMedioDePago !in 0..<repoMediosPago.listaMetodosDePago.size){
+            if (indiceMedioDePago !in 0..<repoMediosPago.listaMetodosDePago.size) {
                 println(".=== El valor ingresado no corresponde a un metodo de pago disponible. Intente nuevamente ===.")
             }
-        }catch (_: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             mostrarErrorSoloSeAceptanValoresNumericos()
         }
-    }while (indiceMedioDePago !in 0..<repoMediosPago.listaMetodosDePago.size)
+    } while (indiceMedioDePago !in 0..<repoMediosPago.listaMetodosDePago.size)
     return repoMediosPago.listaMetodosDePago[indiceMedioDePago]
 }
 
@@ -418,19 +447,20 @@ fun mostrarErrorSoloSeAceptanValoresNumericos() {
     println(".=== Este campo solo acepta valores numericos. Intente nuevamente ===.")
 }
 
+// se aplica sobrecarga en este caso para elegir sobre cual objeto queremos trabajar
 fun generarNuevoId(repoTickets: TicketsRepository): Long {
-    var randomId : Long
+    var randomId: Long
     do {
-        randomId = Random.nextLong()
-    }while (randomId in repoTickets.obtenerListaDeIDsDeTickets())
+        randomId = Random.nextLong().absoluteValue
+    } while (randomId in repoTickets.obtenerListaDeIDsDeTickets())
     return randomId
 }
 
 fun generarNuevoId(repoUsuarios: UserRepository): Long {
-    var randomId : Long
+    var randomId: Long
     do {
-        randomId = Random.nextLong()
-    }while (randomId in repoUsuarios.obtenerListaDeIDsDeUsuarios())
+        randomId = Random.nextLong().absoluteValue
+    } while (randomId in repoUsuarios.obtenerListaDeIDsDeUsuarios())
     return randomId
 }
 
@@ -449,6 +479,7 @@ fun procesarCompra(
     } else {
         return false
     }
+    TODO()
 }
 
 fun cargarSaldo(loggedUser: User) {
@@ -503,6 +534,7 @@ fun mostrarHistorialDeComprasDeUsuario(
     repoTicketCollection: TicketCollectionRepository,
     repoTickets: TicketsRepository,
     repoEventos: EventRepository,
+    repoMediosPago: PaymentMethodRepository
 ) {
     // traemos del repositorio de colecciones, aquella asociada al usuario mediante su id
     val listaIDsTicketsCompradosPorElUsuario = repoTicketCollection.buscarComprasPorId(loggedUser.id)
@@ -516,7 +548,7 @@ fun mostrarHistorialDeComprasDeUsuario(
             repoTickets.obtenerTicketPorId(idTicket) // obtenemos del repositorio el ticket en esta linea
         val eventoAsociado =
             repoEventos.obtenerEventoPorId(ticketAsociado?.eventId) // mediante el ticket obtenemos el evento
-
+        val medioDePagoUsado = repoMediosPago.buscarMetodoDePagoPorId(ticketAsociado?.idMedioDePagoUsado ?: 0)
 
         // aca generamos la salida combinando toda la informacion relevante de ambos
         println(
@@ -528,16 +560,27 @@ fun mostrarHistorialDeComprasDeUsuario(
             Lugar: ${eventoAsociado?.location}
             ===============================
             . Asientos adquiridos: ${ticketAsociado?.quantity}
+            . Medio de pago utilizado: ${medioDePagoUsado?.name}
             . Precio unitario: $${ticketAsociado?.precio}
+            . Comisiones: $${calcularTotalComisionesDeTicket(ticketAsociado, medioDePagoUsado)}
             . Total abonado: $${ticketAsociado?.calcularTotalPorTicket()}
             ===============================
         """.trimIndent()
         )
         if (ticketAsociado != null) {
-            acumuladorTotalPorCompras += ticketAsociado.calcularTotalPorTicket() // acumulamos en cada pasada el total por ese ticket puntual
+            acumuladorTotalPorCompras += ticketAsociado.calcularTotalPorTicket() + calcularTotalComisionesDeTicket(ticketAsociado, medioDePagoUsado)// acumulamos en cada pasada el total por ese ticket puntual
         }
     }
     println(".=== Monto total acumulado por todas las compras: $${acumuladorTotalPorCompras}\n")
+}
+
+fun calcularTotalComisionesDeTicket(ticketAsociado: Ticket?, medioDePagoUsado: PaymentMethod.MetodoDePago?): Double {
+    if(ticketAsociado !=null) {
+        if (medioDePagoUsado != null) {
+            return medioDePagoUsado.calcularMontoComision(ticketAsociado.calcularTotalPorTicket(), LocalDateTime.now())
+        }
+    }
+    return 0.0
 }
 
 fun verSaldoActualUsuario(loggedUser: User) {
