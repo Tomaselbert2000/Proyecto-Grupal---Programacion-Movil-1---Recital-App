@@ -22,8 +22,9 @@ val contieneLetrasOCaracteresEspeciales =
 val estaEnBlanco = { input: String -> input.isBlank() || input == "" }
 
 fun main() {
-    val repoUsuarios =
-        UserRepository // tanto para iniciar sesion como crear nuevos usuarios en el sistema, la funcion main del programa accede al repositorio de usuarios
+    // tanto para iniciar sesion como crear nuevos usuarios en el sistema, la funcion main del programa accede al repositorio de usuarios como de colecciones
+    val repoUsuarios = UserRepository
+    val repoTicketCollection = TicketCollectionRepository
 
     while (true) {
         println("\n")
@@ -48,7 +49,7 @@ fun main() {
             }
 
             2 -> {
-                crearNuevoUsuario(repoUsuarios)
+                crearNuevoUsuario(repoUsuarios, repoTicketCollection)
             }
 
             3 -> {
@@ -59,7 +60,7 @@ fun main() {
     }
 }
 
-fun crearNuevoUsuario(repoUsuarios: UserRepository) {
+fun crearNuevoUsuario(repoUsuarios: UserRepository, repoTicketCollection: TicketCollectionRepository) {
     println(
         """
         .=== Alta de nuevo usuario en el sistema ===.
@@ -135,7 +136,7 @@ fun crearNuevoUsuario(repoUsuarios: UserRepository) {
         } while (newUser == null)
 
         if (!excepcionLanzada) { // si ninguna excepcion se lanzo, vamos al siguiente paso
-            if (repoUsuarios.registrarNuevoUsuario(newUser)) {
+            if (repoUsuarios.registrarNuevoUsuario(newUser) && repoTicketCollection.crearNuevaColeccion(generarNuevoId(repoTicketCollection), newUser)) {
                 println(
                     """
             .=== Usuario creado exitosamente ===.
@@ -211,6 +212,7 @@ fun iniciarSesion(repoUsuarios: UserRepository) {
 }
 
 fun menuPrincipalSistema(loggedUser: User) {
+    val repoUsuarios = UserRepository
     val repoEventos = EventRepository
     val repoTickets = TicketsRepository
     val repoTicketCollection = TicketCollectionRepository
@@ -220,7 +222,7 @@ fun menuPrincipalSistema(loggedUser: User) {
         println(
             """
             .=== Menu principal ===.
-        Bienvenido ${loggedUser.nickname}
+        * Bienvenido ${loggedUser.name} *
         ===================================
         1. Ver eventos disponibles.
         2. Comprar tickets.
@@ -228,12 +230,13 @@ fun menuPrincipalSistema(loggedUser: User) {
         4. Ver historial de compras.
         5. Ver saldo actual de usuario.
         6. Ver metodos de pago disponibles
-        7. Cerrar sesion.
-        8. Salir del programa.
+        7. Modificar datos de usuario.
+        8. Cerrar sesion.
+        9. Salir del programa.
         ==================================
     """.trimIndent()
         )
-        val opcionSeleccionada = seleccionarOpcionDelMenu(1, 8)
+        val opcionSeleccionada = seleccionarOpcionDelMenu(1, 9)
 
         when (opcionSeleccionada) {
             1 -> {
@@ -264,18 +267,21 @@ fun menuPrincipalSistema(loggedUser: User) {
             }
 
             7 -> {
+                modificarDatosDeUsuario(loggedUser, repoUsuarios)
+            }
+
+            8 -> {
                 cerrarSesion(loggedUser)
                 break
             }
 
-            8 -> {
+            9 -> {
                 println(".=== Programa finalizado por el usuario ===.")
                 exitProcess(0)
             }
         }
     }
 }
-
 
 fun mostrarEventos(repoEventos: EventRepository) {
     val listaDeEventos: MutableList<Event> = repoEventos.obtenerListaDeEventos()
@@ -402,7 +408,7 @@ fun seleccionarEvento(repoEventos: EventRepository): Event {
                 println(".=== El valor seleccionado no corresponde a un evento programado ===.")
             }
         } catch (_: NumberFormatException) {
-            println(".=== Este campo solo acepta valores numericos. Intente nuevamente ===.")
+            mostrarErrorSoloSeAceptanValoresNumericos()
         }
     } while (indiceEventoSeleccionado !in 0..<repoEventos.obtenerListaDeEventos().size)
     return repoEventos.obtenerListaDeEventos()[indiceEventoSeleccionado]
@@ -420,7 +426,7 @@ fun ingresarCantidadAsientos(eventoSeleccionado: Event): Int {
                 println(".=== La cantidad de asientos ingresada no es valida. Intente nuevamente ===.")
             }
         } catch (_: NumberFormatException) {
-            println(".=== Este campo solo acepta valores numericos. Intente nuevamente ===.")
+            mostrarErrorSoloSeAceptanValoresNumericos()
         }
     } while (cantidadAsientosElegida <= 0 || cantidadAsientosElegida > eventoSeleccionado.cantidadDeAsientosDisponibles)
     return cantidadAsientosElegida
@@ -464,6 +470,14 @@ fun generarNuevoId(repoUsuarios: UserRepository): Long {
     return randomId
 }
 
+fun generarNuevoId(repoTicketCollection: TicketCollectionRepository): Long {
+    var randomId: Long
+    do {
+        randomId = Random.nextLong().absoluteValue
+    }while (randomId in repoTicketCollection.obtenerListaDeIDsDeColecciones())
+    return randomId
+}
+
 fun procesarCompra(
     loggedUser: User,
     nuevoTicket: Ticket,
@@ -479,7 +493,6 @@ fun procesarCompra(
     } else {
         return false
     }
-    TODO()
 }
 
 fun cargarSaldo(loggedUser: User) {
@@ -523,7 +536,7 @@ fun cargarSaldo(loggedUser: User) {
                 }
             }
         } catch (_: Exception) {
-            println(".=== Este campo solo acepta valores numericos. Intente nuevamente ===.")
+            mostrarErrorSoloSeAceptanValoresNumericos()
             continue
         }
     }
@@ -605,6 +618,53 @@ fun cerrarSesion(loggedUser: User) {
     println(".=== Sesion finalizada por el usuario ===.")
 }
 
+fun modificarDatosDeUsuario(loggedUser: User, repoUsuarios: UserRepository){
+    println("""
+        .=== Seleccionar apartado que desea modificar ===.
+        . Nickname
+        . Contraseña
+        ==================================================
+    """.trimIndent())
+
+    val opcionSeleccionada = seleccionarOpcionDelMenu(1, 2)
+
+    if (opcionSeleccionada == 1) {
+        modificarNickname(loggedUser, repoUsuarios)
+    }else{
+        modificarPassword(loggedUser)
+    }
+}
+
+fun modificarNickname(loggedUser: User, repoUsuarios: UserRepository) {
+    println(".=== Ingresar nuevo nickname de usuario ===.")
+
+    var nuevoNickname: String
+    do {
+        nuevoNickname = readln()
+        if(nuevoNickname in repoUsuarios.obtenerListaDeNicknames()){
+            println(".=== El nombre de usuario elegido ya se encuentra ocupado. Intente nuevamente ===.")
+        }
+    }while (nuevoNickname in repoUsuarios.obtenerListaDeNicknames())
+    loggedUser.actualizarNickname(nuevoNickname)
+}
+
+fun modificarPassword(loggedUser: User) {
+    println(".=== Para continuar con el proceso, ingrese su contraseña actual ===.")
+    val currentPassword = readln()
+    if(currentPassword == loggedUser.password){
+        var newPassword : String
+        do {
+            newPassword = readln()
+            if(!passwordValida(newPassword)){
+                println(".=== La contraseña ingresada no cumple los requisitos minimos de seguridad. Intente nuevamente ===.")
+            }
+        }while(!passwordValida(newPassword))
+        loggedUser.actualizarPassword(newPassword)
+    }else{
+        println(".=== No fue posible actualizar la contraseña. Intente nuevamente ===.")
+    }
+}
+
 fun seleccionarOpcionDelMenu(
     rangoInferior: Int,
     rangoSuperior: Int
@@ -620,7 +680,7 @@ fun seleccionarOpcionDelMenu(
                 println(".=== El valor ingresado no corresponde a una opcion del menu, intente nuevamente ===.")
             }
         } catch (_: NumberFormatException) { // en caso que se ingrese cualquier otra cosa que no sea un numero, directamente capturamos la excepcion lanzada y mostramos un mensaje
-            println(".=== Solo se aceptan valores numericos, intente nuevamente ===.")
+            mostrarErrorSoloSeAceptanValoresNumericos()
         }
     } while (opcionMenuSeleccionada !in rangoInferior..rangoSuperior)
     return opcionMenuSeleccionada // una vez validado el numero de la opcion lo retornamos al metodo que lo haya requerido

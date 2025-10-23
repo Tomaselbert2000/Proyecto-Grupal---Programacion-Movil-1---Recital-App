@@ -125,4 +125,12 @@ object UserRepository {
         users.add(User(1510L, "jonaURAN", "@12345", "Jonatan", "Uran", 125000.0, "2018-04-15"))
     }
 
+    fun obtenerListaDeNicknames(): MutableList<String> {
+        val listaNicknamesNoDisponibles = mutableListOf<String>()
+        for(usr in this.users){
+            listaNicknamesNoDisponibles.add(usr.nickname)
+        }
+        return listaNicknamesNoDisponibles
+    }
+
 }

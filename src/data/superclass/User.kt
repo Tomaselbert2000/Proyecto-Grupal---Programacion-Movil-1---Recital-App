@@ -2,8 +2,8 @@ package data.superclass
 
 data class User(
     val id: Long,
-    val nickname: String,
-    val password: String,
+    var nickname: String,
+    var password: String,
     val name: String,
     val surname: String,
     var money: Double, // dado que el usuario puede comprar y cargar saldo, este valor debe tener la posibilidad de modificarse
@@ -42,5 +42,13 @@ data class User(
 
     fun descontarSaldo(calcularTotalPorTicket: Double) {
         this.money -= calcularTotalPorTicket
+    }
+
+    fun actualizarNickname(nuevoNickname: String) {
+        this.nickname = nuevoNickname
+    }
+
+    fun actualizarPassword(newPassword: String) {
+        this.password = newPassword
     }
 }

@@ -1,6 +1,7 @@
 package repositories
 
 import data.superclass.TicketCollection
+import data.superclass.User
 
 object TicketCollectionRepository {
 
@@ -37,5 +38,17 @@ object TicketCollectionRepository {
             }
         }
         return mutableListOf()
+    }
+
+    fun crearNuevaColeccion(newCollectionID: Long, newUser: User) : Boolean{
+        return this.ticketCollections.add(TicketCollection(newCollectionID, newUser.id, mutableListOf()))
+    }
+
+    fun obtenerListaDeIDsDeColecciones(): MutableList<Long> {
+        val listaDeIDsColecciones = mutableListOf<Long>()
+        for(coleccion in this.ticketCollections){
+            listaDeIDsColecciones.add(coleccion.id)
+        }
+        return listaDeIDsColecciones
     }
 }
