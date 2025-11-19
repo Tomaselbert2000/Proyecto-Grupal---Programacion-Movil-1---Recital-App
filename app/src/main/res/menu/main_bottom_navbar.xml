@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/Main_home_icon"
+        android:icon="@drawable/home_24dp"
+        android:title="@string/home_icon_button" />
+    <item
+        android:id="@+id/Main_money_icon"
+        android:icon="@drawable/attach_money_24dp"
+        android:title="@string/money_icon_button" />
+    <item
+        android:id="@+id/Main_history_icon"
+        android:icon="@drawable/history_24dp"
+        android:title="@string/history_icon_button" />
+    <item
+        android:id="@+id/Main_settings_icon"
+        android:icon="@drawable/settings_24dp"
+        android:title="@string/settings_icon_button" />
+</menu>
