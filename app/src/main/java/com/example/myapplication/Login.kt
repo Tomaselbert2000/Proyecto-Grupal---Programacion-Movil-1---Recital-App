@@ -61,8 +61,7 @@ class Login : AppCompatActivity() {
                 this,
                 destinationActivity
             ) // aca se crea el intent, llamando desde esta clase (this), hacia la actividad de destino
-            intent.putExtra("USER_NICKNAME", nicknameAsText)
-            intent.putExtra("USER_PASSWORD", passwordAsText)
+            intent.putExtra("USER_ID", UserRepository.login(nicknameAsText, passwordAsText)?.id ?: 0)
             startActivity(intent) // se inicia la actividad de destino en esta linea
             finish() // y se finaliza esta actividad
         } else if (nicknameAsText.isEmpty() || passwordAsText.isEmpty()) { // si el usuario pulsa iniciar sesión con los campos vacios se dispara este snackbar

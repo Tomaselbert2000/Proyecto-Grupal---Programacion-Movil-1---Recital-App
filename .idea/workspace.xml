@@ -45,6 +45,26 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_settings.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_tickets_history.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_user_money.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/ticket_list_recycler_view_item_layout.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/menu/main_bottom_navbar.xml">
         <config>
           <theme>@style/AppTheme</theme>
@@ -131,57 +151,60 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.CrearUsuarioDatosContacto.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.CrearUsuarioPantalla1.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.CrearUsuarioPantalla2.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.CrearUsuarioUserPassword.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.CreateUserActivity.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.DatosContacto.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.DebuggingConfig.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.InfoUsuario.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.InformacionUsuario.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.Login.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.LoginActivity.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.MainActivity.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.MainMenuActivity.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.UserPassword.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;LAYOUT&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Archivos/Tomas/Facultad/Programacion Movil 1/Practicas Android Studio/app/src/main/res/values-night&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Variables&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;recommended.upgrade.do.not.ask.for.project&quot;: &quot;true&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;build.tools&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.CrearUsuarioDatosContacto.executor": "Run",
+    "Android App.CrearUsuarioPantalla1.executor": "Run",
+    "Android App.CrearUsuarioPantalla2.executor": "Run",
+    "Android App.CrearUsuarioUserPassword.executor": "Run",
+    "Android App.CreateUserActivity.executor": "Run",
+    "Android App.DatosContacto.executor": "Run",
+    "Android App.DebuggingConfig.executor": "Run",
+    "Android App.InfoUsuario.executor": "Run",
+    "Android App.InformacionUsuario.executor": "Run",
+    "Android App.Login.executor": "Run",
+    "Android App.LoginActivity.executor": "Run",
+    "Android App.MainActivity.executor": "Run",
+    "Android App.MainMenuActivity.executor": "Run",
+    "Android App.UserPassword.executor": "Run",
+    "Android App.app.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "ResourceManagerPrefKey.ResourceType": "DRAWABLE",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/Archivos/Tomas/Facultad/Programacion Movil 1/Practicas Android Studio/app/src/main/res/values-night",
+    "project.structure.last.edited": "Variables",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.0",
+    "recommended.upgrade.do.not.ask.for.project": "true",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;android.recentlyUsedThemes&quot;: [
-      &quot;AppTheme&quot;,
-      &quot;light_mode_personalizado&quot;,
-      &quot;TemaPersonalizado&quot;,
-      &quot;Theme.Material3.DayNight.NoActionBar&quot;,
-      &quot;Theme.Design&quot;
+  "keyToStringList": {
+    "android.recentlyUsedThemes": [
+      "AppTheme",
+      "Theme.Material3.DayNight.NoActionBar",
+      "Theme.Design",
+      "light_mode_personalizado",
+      "TemaPersonalizado"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Archivos\Tomas\Facultad\Programacion Movil 1\Practicas Android Studio\app\src\main\res\values-night" />
       <recent name="E:\Archivos\Tomas\Facultad\Programacion Movil 1\Practicas Android Studio\app\src\main\res\values" />
+    </key>
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="com.example.myapplication" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
       <recent name="com.example.myapplication" />

@@ -1,56 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/MainActivityEventFragment_ConstraintLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/TicketFragment_FrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusable="true"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".TicketsHistoryFragment">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/EventFragment_MaterialCardView"
+        android:id="@+id/TicketHistory_MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="?attr/colorSurface"
-        android:elevation="4dp"
-        android:paddingBottom="16dp">
+        android:backgroundTint="?attr/colorPrimaryContainer"
+        android:elevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/EventFragment_InnerConstraintLayout"
+            android:id="@+id/TicketHistory_InnerConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/EventFragment_Banner"
+                android:id="@+id/TicketHistory_Banner"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/event_stock_background"
+                android:src="@drawable/tickethistoryfragmentebackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/EventFragment_TitleTextview"
+                android:id="@+id/TicketHistory_TitleTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_medium"
-                android:text="@string/eventlist_title"
+                android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="28sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/EventFragment_Banner" />
+                app:layout_constraintTop_toBottomOf="@+id/TicketHistory_Banner"
+                tools:text="Historial de tickets" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fragments_events_recyclerView"
+                android:id="@+id/fragment_ticket_history_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/EventFragment_TitleTextview" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketHistory_TitleTextview" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

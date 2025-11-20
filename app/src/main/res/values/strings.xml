@@ -22,7 +22,7 @@
     <string name="new_user_address_input_textfield">Dirección</string>
     <string name="new_user_phone_number_input_textfield">Teléfono</string>
     <string name="new_user_nickname_input_textfield">Nickname</string>
-    <string name="password_requirements">Requisitos de contraseña\n- 8 caracteres\n- una letra mayúscula\n- Un caracter especial\n- Un número</string>
+    <string name="password_requirements">Requisitos de contraseña\n- 8 caracteres\n- Una letra mayúscula\n- Un caracter especial\n- Un número</string>
     <string name="new_user_password_input_textfield">Contraseña</string>
     <string name="new_user_confirm_password_input_textfield">Confirmar contraseña</string>
     <string name="continue_button">Continuar</string>
@@ -57,4 +57,23 @@
     <string name="event_item_layout_time_textview">Hora:</string>
     <string name="event_item_layout_location_textview">Ubicación:</string>
     <string name="event_item_layout_ticket_quantity">Cantidad de tickets:</string>
+
+    <!-- SettingsList Fragment -->
+    <string name="settings_list_themes">Temas</string>
+    <string name="settings_list_user_settings">Ajustes de cuenta</string>
+    <string name="settings_list_about">Acerca de la aplicación</string>
+
+    <!-- UserMoney Fragment -->
+    <string name="current_money">Saldo actual</string>
+    <string name="payment_methods_available">Ver métodos de pago disponibles</string>
+    <string name="add_funds">Cargar saldo</string>
+    <string name="funds_history">Historial de recargas</string>
+
+    <string name="ticket_number">Número de ticket</string>
+    <string name="event_artist_name">Artista</string>
+    <string name="ticket_event_date">Fecha</string>
+    <string name="ticket_event_time">Hora</string>
+    <string name="ticket_event_seat_quantity">Asientos</string>
+    <string name="ticket_price_per_seat">Valor asiento</string>
+    <string name="ticket_total">Monto total</string>
 </resources>

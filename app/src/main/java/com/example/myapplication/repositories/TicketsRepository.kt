@@ -364,4 +364,8 @@ object TicketsRepository {
         }
         return null
     }
+
+    fun obtenerListaDeTickets(): MutableList<Ticket> {
+        return this.tickets
+    }
 }

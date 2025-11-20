@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/SettingsList_OuterConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="16dp"
+    tools:context=".SettingsFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/SettingsList_MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimaryContainer"
+        android:elevation="4dp"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/SettingsList_InnerConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/SettingsList_ThemeIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/colors_24dp"
+                android:tint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/SettingsList_ThemeTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/settings_list_themes"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/SettingsList_ThemeIcon"
+                app:layout_constraintStart_toEndOf="@+id/SettingsList_ThemeIcon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/SettingsList_goToThemesActivity"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/chevron_right_24dp"
+                app:iconTint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/SettingsList_EditUserIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/person_edit_24dp"
+                android:tint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/SettingsList_ThemeIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/SettingsList_EditUserTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/settings_list_user_settings"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/SettingsList_EditUserIcon"
+                app:layout_constraintStart_toEndOf="@id/SettingsList_EditUserIcon"
+                app:layout_constraintTop_toTopOf="@+id/SettingsList_EditUserIcon" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/SettingsList_goToEditUserActivity"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:icon="@drawable/chevron_right_24dp"
+                app:iconTint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintBottom_toTopOf="@+id/SettingsList_goToInfoActivity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/SettingsList_goToThemesActivity" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/SettingsList_InfoIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/info_24dp"
+                android:tint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/SettingsList_EditUserIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/SettingsList_InfoTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/settings_list_about"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/SettingsList_InfoIcon"
+                app:layout_constraintStart_toEndOf="@+id/SettingsList_InfoIcon"
+                app:layout_constraintTop_toTopOf="@+id/SettingsList_InfoIcon" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/SettingsList_goToInfoActivity"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/chevron_right_24dp"
+                app:iconTint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

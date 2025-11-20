@@ -31,7 +31,7 @@ object TicketCollectionRepository {
         )
     }
 
-    fun buscarComprasPorId(userId: Long): MutableList<Long> {
+    fun buscarComprasPorId(userId: Long?): MutableList<Long> {
         for (registro in ticketCollections) {
             if (registro.userId == userId) {
                 return registro.ticketCollection

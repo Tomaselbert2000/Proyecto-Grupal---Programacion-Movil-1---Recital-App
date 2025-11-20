@@ -6,7 +6,7 @@
         android:title="@string/home_icon_button" />
     <item
         android:id="@+id/Main_money_icon"
-        android:icon="@drawable/attach_money_24dp"
+        android:icon="@drawable/wallet_24dp"
         android:title="@string/money_icon_button" />
     <item
         android:id="@+id/Main_history_icon"

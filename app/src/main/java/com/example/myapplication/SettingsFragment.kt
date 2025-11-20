@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import repositories.EventRepository
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,10 +13,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [EventsFragment.newInstance] factory method to
+ * Use the [SettingsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class EventsFragment : Fragment() {
+class SettingsFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -30,7 +27,6 @@ class EventsFragment : Fragment() {
             param1 = it.getString(USER_ID)
             param2 = it.getString(ARG_PARAM2)
         }
-
     }
 
     override fun onCreateView(
@@ -38,14 +34,11 @@ class EventsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_events, container, false)
+        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val eventListRecyvlerView = view.findViewById<RecyclerView>(R.id.fragments_events_recyclerView)
-        eventListRecyvlerView.layoutManager = LinearLayoutManager(requireContext())
-        eventListRecyvlerView.adapter = EventsAdapter(EventRepository.obtenerListaDeEventos())
     }
 
     companion object {
@@ -55,12 +48,12 @@ class EventsFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment EventsFragment.
+         * @return A new instance of fragment SettingsFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            EventsFragment().apply {
+            SettingsFragment().apply {
                 arguments = Bundle().apply {
                     putString(USER_ID, param1)
                     putString(ARG_PARAM2, param2)

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="16dp"
+    tools:context=".UserMoneyFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/UserMoney_MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimaryContainer"
+        android:elevation="4dp">
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/UserMoney_InnerConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/shapeableImageView"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/usermoneyfragmentbanner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserMoney_TitleTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/current_money"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/VisibilityToggle"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserMoney_CurrentMoneyTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="28sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserMoney_MoneyIcon"
+                app:layout_constraintStart_toEndOf="@+id/UserMoney_MoneyIcon"
+                app:layout_constraintTop_toTopOf="@+id/UserMoney_MoneyIcon"
+                tools:text="$ 10000.0" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/UserMoney_MoneyIcon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/account_balance_wallet_24dp"
+                android:tint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserMoney_TitleTextview" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/VisibilityToggle"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/visibility_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/UserMoney_MaterialDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/UserMoney_MoneyIcon" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/UserMoney_PaymentMethodsIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/payments_24dp"
+                android:tint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/UserMoney_MaterialDivider" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserMoney_PaymentMethodsTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16sp"
+                android:text="@string/payment_methods_available"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserMoney_PaymentMethodsIcon"
+                app:layout_constraintStart_toEndOf="@+id/UserMoney_PaymentMethodsIcon"
+                app:layout_constraintTop_toTopOf="@+id/UserMoney_PaymentMethodsIcon" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/UserMoney_goToPaymentMethodsButton"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/chevron_right_24dp"
+                app:iconTint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintBottom_toBottomOf="@id/UserMoney_PaymentMethodsTextview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/UserMoney_PaymentMethodsTextview"
+                tools:layout_editor_absoluteY="111dp" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/UserMoney_AddFundsIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/attach_money_24dp"
+                android:tint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/UserMoney_PaymentMethodsIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserMoney_AddFundsTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16sp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/add_funds"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserMoney_AddFundsIcon"
+                app:layout_constraintStart_toEndOf="@+id/UserMoney_AddFundsIcon"
+                app:layout_constraintTop_toTopOf="@+id/UserMoney_AddFundsIcon" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/UserMoney_AddFundsIconButton"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/chevron_right_24dp"
+                app:iconTint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintBottom_toBottomOf="@+id/UserMoney_AddFundsTextview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/UserMoney_AddFundsTextview" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/UserMoney_FundsHistoryIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/history_24dp"
+                android:tint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/UserMoney_AddFundsIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserMoney_FundsHistoryTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/funds_history"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserMoney_FundsHistoryIcon"
+                app:layout_constraintStart_toEndOf="@id/UserMoney_FundsHistoryIcon"
+                app:layout_constraintTop_toTopOf="@+id/UserMoney_FundsHistoryIcon" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/UserMoney_FundsHistoryIconButton"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/chevron_right_24dp"
+                app:iconTint="?attr/colorOnPrimaryContainer"
+                app:layout_constraintBottom_toBottomOf="@+id/UserMoney_FundsHistoryTextview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/UserMoney_FundsHistoryTextview" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</FrameLayout>
