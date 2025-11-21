@@ -11,15 +11,13 @@ import data.superclass.Ticket
 import repositories.TicketCollectionRepository
 import repositories.TicketsRepository
 
-const val USER_ID = "param1"
-
 class TicketsHistoryFragment : Fragment() {
-    private var param1: Long? = null
+    private var userId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getLong(USER_ID)
+            userId = it.getLong(USER_ID, 0L)
         }
     }
 
@@ -37,17 +35,29 @@ class TicketsHistoryFragment : Fragment() {
             view.findViewById<RecyclerView>(R.id.fragment_ticket_history_recycler_view)
         ticketListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val ticketsIdList = TicketCollectionRepository.buscarComprasPorId(param1)
+        val thisListContaintsTheIDsOfTicketsAsLongValues =
+            TicketCollectionRepository.getIDsOfTicketsBoughtByTheUser(userId)
+        val listOfTicketWithTheUserId = mutableListOf<Ticket>()
+        for (ticketId in thisListContaintsTheIDsOfTicketsAsLongValues) {
+            val ticketToAdd = TicketsRepository.obtenerTicketPorId(ticketId)
+            if (ticketToAdd != null) {
+                listOfTicketWithTheUserId.add(ticketToAdd)
+            }
+        }
+
         ticketListRecyclerView.adapter =
-            TicketAdapter(TicketsRepository.obtenerListaDeTickets())
+            TicketAdapter(listOfTicketWithTheUserId)
     }
 
     companion object {
+
+        const val USER_ID = "userId"
+
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(id: Long?) =
             TicketsHistoryFragment().apply {
                 arguments = Bundle().apply {
-                    putString(USER_ID, param1)
+                    putLong(USER_ID, id ?: 0L)
                 }
             }
     }

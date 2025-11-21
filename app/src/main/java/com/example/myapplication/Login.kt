@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import repositories.UserRepository
+import com.example.myapplication.repositories.UserRepository
 
 class Login : AppCompatActivity() {
     // se declaran las variables que se usarán en el login

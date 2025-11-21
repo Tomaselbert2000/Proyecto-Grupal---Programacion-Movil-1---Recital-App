@@ -1,7 +1,7 @@
 package repositories
 
 import data.superclass.TicketCollection
-import data.superclass.User
+import com.example.myapplication.data.superclass.User
 
 object TicketCollectionRepository {
 
@@ -31,10 +31,10 @@ object TicketCollectionRepository {
         )
     }
 
-    fun buscarComprasPorId(userId: Long?): MutableList<Long> {
-        for (registro in ticketCollections) {
-            if (registro.userId == userId) {
-                return registro.ticketCollection
+    fun getIDsOfTicketsBoughtByTheUser(userId: Long?): MutableList<Long> {
+        for (ticketCollectionRegister in ticketCollections) {
+            if (ticketCollectionRegister.userId == userId) {
+                return ticketCollectionRegister.ticketCollection
             }
         }
         return mutableListOf()

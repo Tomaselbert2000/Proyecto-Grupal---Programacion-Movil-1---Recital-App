@@ -6,7 +6,8 @@
 
     <!-- Activity de main_menu.xml -->
     <string name="login_title">Recital App</string>
-    <string name="email_or_nickname_input_textfield">Email o nombre de usuario</string>
+    <string name="email_or_nickname">Email o nickname</string>
+
     <string name="password_input_textfield">Contraseña</string>
     <string name="sign_in_button">Iniciar sesión</string>
     <string name="remember_credentials_checkbox">Recordar credenciales</string>
@@ -21,6 +22,7 @@
     <string name="new_user_id_input_textfield">DNI</string>
     <string name="new_user_address_input_textfield">Dirección</string>
     <string name="new_user_phone_number_input_textfield">Teléfono</string>
+    <string name="new_user_email_address_input_textfield">Email</string>
     <string name="new_user_nickname_input_textfield">Nickname</string>
     <string name="password_requirements">Requisitos de contraseña\n- 8 caracteres\n- Una letra mayúscula\n- Un caracter especial\n- Un número</string>
     <string name="new_user_password_input_textfield">Contraseña</string>
@@ -34,9 +36,9 @@
     <string name="account_info_title">Información de cuenta</string>
     <string name="logged_user_name">Nombre/s:</string>
     <string name="logged_user_surname">Apellido/s:</string>
-    <string name="logged_user_id">Número de DNI:</string>
-    <string name="logged_user_phone_number">Teléfono de contacto:</string>
-    <string name="logged_user_address">Dirección actual:</string>
+    <string name="logged_user_id">DNI:</string>
+    <string name="logged_user_phone_number">Teléfono:</string>
+    <string name="logged_user_address">Dirección:</string>
     <string name="logged_user_creation_date">Fecha de alta en el sistema:</string>
     <string name="logged_user_client_number">Número de cliente:</string>
     <string name="logged_user_email">Email registrado:</string>
@@ -76,4 +78,6 @@
     <string name="ticket_event_seat_quantity">Asientos</string>
     <string name="ticket_price_per_seat">Valor asiento</string>
     <string name="ticket_total">Monto total</string>
+    <string name="ticket_history_title">Historial de tickets</string>
+
 </resources>

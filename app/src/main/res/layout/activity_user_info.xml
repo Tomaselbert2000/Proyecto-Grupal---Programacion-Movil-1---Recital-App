@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/UserInfo_ConstraintLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/UserInfo_BackwardsButton"
@@ -11,30 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="?attr/colorPrimary"
-        app:icon="@drawable/arrow_back_24dp"
-        app:iconTint="?attr/colorOnPrimary"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="?attr/colorSurfaceVariant"
+        app:icon="@drawable/chevron_backward_24dp"
+        app:iconTint="?attr/colorOnSurface"
+        app:layout_constraintBottom_toTopOf="@+id/UserInfo_MaterialCardView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/UserInfo_EditAttributes_Button"
-        style="@style/Widget.Material3.Button.IconButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="?attr/colorSecondary"
-        android:text="@string/edit_user_attributes"
-        android:textColor="?attr/colorOnSecondary"
-        app:icon="@drawable/person_edit_24dp"
-        app:iconPadding="8dp"
-        app:iconTint="?attr/colorOnSecondary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.google.android.material.button.MaterialButton>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/UserInfo_MaterialCardView"
@@ -43,16 +29,17 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="?attr/colorSurface"
+        android:backgroundTint="?attr/colorSurfaceVariant"
         android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserInfo_BackwardsButton">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/UserInfo_LinearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -61,20 +48,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/user_info_title"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_Name_Textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/logged_user_name"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_Title_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserInfo_NamePlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_Name_Textview"
+                app:layout_constraintStart_toEndOf="@+id/UserInfo_Name_Textview"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_Name_Textview"
+                tools:text="Tomas Gabriel" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_Surname_Textview"
@@ -84,7 +88,23 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/logged_user_surname"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/UserInfo_Name_Textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_Name_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserInfo_SurnamePlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_Surname_Textview"
+                app:layout_constraintStart_toEndOf="@+id/UserInfo_Surname_Textview"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_Surname_Textview"
+                tools:text="Elbert" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_UserID_Textview"
@@ -94,7 +114,21 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/logged_user_id"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_Surname_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserInfo_UserIDPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_UserID_Textview"
+                app:layout_constraintStart_toStartOf="@+id/UserInfo_SurnamePlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_UserID_Textview"
+                tools:text="12345678" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_PhoneNumber_Textview"
@@ -104,7 +138,21 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/logged_user_phone_number"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_UserID_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserInfo_PhoneNumberPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_PhoneNumber_Textview"
+                app:layout_constraintStart_toStartOf="@+id/UserInfo_UserIDPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_PhoneNumber_Textview"
+                tools:text="1122334455" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_Address_Textview"
@@ -114,7 +162,21 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/logged_user_address"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_PhoneNumber_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserInfo_AddressPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_Address_Textview"
+                app:layout_constraintStart_toStartOf="@+id/UserInfo_PhoneNumberPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_Address_Textview"
+                tools:text="Calle Falsa 123" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_AccountInfo_Title_Textview"
@@ -125,7 +187,9 @@
                 android:fontFamily="@font/roboto_medium"
                 android:text="@string/account_info_title"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_Address_Textview" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_Email_Textview"
@@ -135,17 +199,46 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/logged_user_email"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_ClientNumber_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserInfo_EmailPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_Email_Textview"
+                app:layout_constraintStart_toStartOf="@+id/UserInfo_ClientNumberPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_Email_Textview"
+                tools:text="fakeEmail@gmail.com" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_ClientNumber_Textview"
-                android:text="@string/logged_user_client_number"
-                android:layout_marginTop="16dp"
-                android:textColor="?attr/colorOnSurface"
-                android:fontFamily="@font/roboto"
-                android:textSize="16sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/logged_user_client_number"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_AccountInfo_Title_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserInfo_ClientNumberPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_ClientNumber_Textview"
+                app:layout_constraintStart_toEndOf="@+id/UserInfo_ClientNumber_Textview"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_ClientNumber_Textview"
+                tools:text="0000001" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_CurrentNickname_Textview"
@@ -155,7 +248,21 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/logged_user_nickname"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_Email_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/UserInfo_CurrentNicknamePlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_CurrentNickname_Textview"
+                app:layout_constraintStart_toStartOf="@+id/UserInfo_EmailPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_CurrentNickname_Textview"
+                tools:text="fakeUsername" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/UserInfo_CreationDate_Textview"
@@ -165,7 +272,22 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/logged_user_creation_date"
                 android:textColor="?attr/colorOnSurface"
-                android:textSize="16sp" />
-        </LinearLayout>
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/UserInfo_CurrentNickname_Textview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/UserInfo_CreationDate_Textview"
+                app:layout_constraintStart_toEndOf="@+id/UserInfo_CreationDate_Textview"
+                app:layout_constraintTop_toTopOf="@+id/UserInfo_CreationDate_Textview"
+                tools:text="31-02-3000" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

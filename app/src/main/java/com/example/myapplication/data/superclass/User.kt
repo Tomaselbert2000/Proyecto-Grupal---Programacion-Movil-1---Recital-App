@@ -1,14 +1,17 @@
-package data.superclass
+package com.example.myapplication.data.superclass
 
 data class User(
-    val id: Long,
-    var nickname: String,
-    var password: String,
     val name: String,
     val surname: String,
-    var money: Double, // dado que el usuario puede comprar y cargar saldo, este valor debe tener la posibilidad de modificarse
+    val id: Long,
+    var address: String,
+    var phoneNumber : String,
+    var nickname: String,
+    var password: String,
+    var email : String,
     val createdDate: String
 ) {
+    var money: Double = 0.0 // dado que el usuario puede comprar y cargar saldo, este valor debe tener la posibilidad de modificarse
     var usuarioBloqueado: Boolean =
         false // este valor por defecto es false, si el usuario acumula 3 intentos fallidos de sesion se bloquea
     var estadoDeSesion: Boolean =
@@ -32,9 +35,9 @@ data class User(
         return this.money
     }
 
-    fun cargarSaldo(saldoACargar: Double): Boolean {
-        if (saldoACargar in 1000.0..1000000.0) {
-            this.money += saldoACargar
+    fun addFunds(amount: Double): Boolean {
+        if (amount in 1000.0..1000000.0) {
+            this.money += amount
             return true
         }
         return false

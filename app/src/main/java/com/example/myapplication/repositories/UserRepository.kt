@@ -1,101 +1,172 @@
-package repositories
+package com.example.myapplication.repositories
 
-import data.superclass.User
+import com.example.myapplication.data.superclass.User
 
 object UserRepository {
 
     private val users = mutableListOf<User>()
 
     init {
-        users.add(User(1504L, "MARTIN_ALBANESI", "abc4321", "Martin", "Albanesi", 350000.0, "2024-05-13"))
-        users.add(User(2802L, "Fran25", "contraseña123", "Franco German", "Mazafra", 200000.0, "2021-01-20"))
-        users.add(User(1510L, "jonaURAN", "@12345", "Jonatan", "Uran", 125000.0, "2018-04-15"))
+        users.add(
+            User(
+                "Martin",
+                "Albanesi",
+                1504L,
+                "San Justo 123",
+                "11223344",
+                "MARTIN_ALBANESI",
+                "abc4321",
+                "martin@gmail",
+                "2024-06-12"
+            )
+        )
+        users.add(
+            User(
+                "Franco German",
+                "Mazafra",
+                2802L,
+                "Varela 456",
+                "99887766",
+                "Fran25",
+                "contraseña123",
+                "fran@gmail.com",
+                "2021-01-20"
+            )
+        )
+        users.add(
+            User(
+                "Jonatan",
+                "Uran",
+                1510L,
+                "Otero 999",
+                "1234567",
+                "jonaURAN",
+                "@12345",
+                "jona@gmail.com",
+                "2018-04-15)",
+            )
+        )
+        this.searchUserByIdAndAddFunds(1504L, 350000.0)
+        this.searchUserByIdAndAddFunds(2802L, 234500.0)
+        this.searchUserByIdAndAddFunds(1510L, 57800.0)
     }
 
-    fun login(nickname: String?, password: String?): User? {
-        val usuario = this.users.find { it.nickname == nickname }
-        if (usuario != null) {
-            if (usuario.password == password) {
-                usuario.estadoDeSesion = true
-                return usuario
-            } else {
-                usuario.cantidadIniciosDeSesionFallidos++
-                if (usuario.cantidadIniciosDeSesionFallidos >= 3) {
-                    usuario.usuarioBloqueado = true
+    fun login(emailOrNicknameInputString: String?, password: String?): User? {
+        for (usr in users) {
+            if (usr.email == emailOrNicknameInputString || usr.nickname == emailOrNicknameInputString) {
+                if (usr.password == password) {
+                    usr.estadoDeSesion = true
+                    return usr
+                } else {
+                    usr.cantidadIniciosDeSesionFallidos++
+                    if (usr.cantidadIniciosDeSesionFallidos >= 3) {
+                        usr.usuarioBloqueado = true
+                    }
                 }
             }
         }
         return null
     }
 
-    fun registrarNuevoUsuario(usuarioNuevo: User): Boolean {
-        return this.validarId(usuarioNuevo) &&
-                !this.estaDuplicado(usuarioNuevo) &&
-                this.saldoValido(usuarioNuevo) &&
-                users.add(usuarioNuevo)
+    fun registerNewUser(newUser: User): Boolean {
+        return users.add(newUser)
     }
 
-    private fun validarId(usuarioNuevo: User): Boolean {
-        return usuarioNuevo.id >= 1L
+    fun userEmailAddressIsNotTaken(email: String): Boolean {
+        for (usr in users) {
+            if (usr.email == email) {
+                return false
+            }
+        }
+        return true
     }
 
-    private fun saldoValido(usuarioNuevo: User): Boolean {
-        return usuarioNuevo.money >= 0.0
+    fun userNicknameIsNotTaken(nicknameToValidate: String): Boolean {
+        for (usr in users) {
+            if (usr.nickname == nicknameToValidate) {
+                return false
+            }
+        }
+        return true
     }
 
-    private fun estaDuplicado(usuario: User): Boolean {
+    fun phoneNumberIsNotTaken(phoneNumberToValidate: String): Boolean {
+        for(usr in users){
+            if(usr.phoneNumber == phoneNumberToValidate){
+                return false
+            }
+        }
+        return true
+    }
+
+    fun userIdGreaterThanZero(newUserId: Long): Boolean {
+        return newUserId >= 1L
+    }
+
+    fun userIdIsDuplicated(newUserId: Long): Boolean {
         for (u in users) {
-            if (u == usuario || u.id == usuario.id || u.nickname == usuario.nickname) {
+            if (u.id == newUserId) {
                 return true
             }
         }
         return false
     }
 
-    fun obtenerRegistrosPorFechaDeAlta(fechaDeAlta: String): MutableList<User> {
-        val listaDeUsuarios = mutableListOf<User>()
-        for (user in users) {
-            if (user.createdDate == fechaDeAlta) {
-                listaDeUsuarios.add(user)
+    fun searchUserByIdAndAddFunds(userIdToSearch:Long, amountToAdd : Double){
+        for(usr in users){
+            if(usr.id == userIdToSearch){
+                usr.addFunds(amountToAdd)
             }
         }
-        return listaDeUsuarios
     }
 
-    fun buscarUsuarioPorID(idBuscado: Long): User? {
+    fun filterUsersByCreationDate(creationDate: String): MutableList<User> {
+        val usersList = mutableListOf<User>()
+        for (user in users) {
+            if (user.createdDate == creationDate) {
+                usersList.add(user)
+            }
+        }
+        return usersList
+    }
+
+    fun getUserById(userIdToSearch: Long?): User? {
         for (u in users) {
-            if (u.id == idBuscado) {
+            if (u.id == userIdToSearch) {
                 return u
             }
         }
         return null
     }
 
-    fun buscarUsuarioPorNickname(nicknameParaBuscar: String): User? {
+    fun getUserByNickname(nicknameToSearch: String): User? {
         for (user in users) {
-            if (user.nickname == nicknameParaBuscar) {
+            if (user.nickname == nicknameToSearch) {
                 return user
             }
         }
         return null
     }
 
-    fun obtenerListaUsuariosFiltradosPorSaldo(saldoMinimo: Double, saldoMaximo: Double): MutableList<User> {
-        val listaDeUsuariosFiltradosPorSaldo = mutableListOf<User>()
+    fun filterUsersByCurrentFundsRange(
+        minimumFundsLimit: Double,
+        maxFundsLimit: Double
+    ): MutableList<User> {
+        val usersFilteredByFunds = mutableListOf<User>()
         for (user in users) {
-            if (user.money in saldoMinimo..saldoMaximo) {
-                listaDeUsuariosFiltradosPorSaldo.add(user)
+            if (user.money in minimumFundsLimit..maxFundsLimit) {
+                usersFilteredByFunds.add(user)
             }
         }
-        return listaDeUsuariosFiltradosPorSaldo
+        return usersFilteredByFunds
     }
 
-    fun obtenerListaDeIDsDeUsuarios(): MutableList<Long> {
-        val listaDeIDsRegistrados = mutableListOf<Long>()
+    fun getListOfAllRegisteredUserIDs(): MutableList<Long> {
+        val listOfIdsAsLong = mutableListOf<Long>()
         for (user in this.users) {
-            listaDeIDsRegistrados.add(user.id)
+            listOfIdsAsLong.add(user.id)
         }
-        return listaDeIDsRegistrados
+        return listOfIdsAsLong
     }
 
     // dado que el repositorio de usuarios es de tipo Object, no podemos tener mas que una sola instancia
@@ -109,20 +180,40 @@ object UserRepository {
         users.add(User(1510L, "jonaURAN", "@12345", "Jonatan", "Uran", 125000.0, "2018-04-15"))*/
     }
 
-    fun obtenerSaldoDeUsuario(userIdQueBuscamos: Long): Double {
-        for (usuario in users) {
-            if (usuario.id == userIdQueBuscamos) {
-                return usuario.obtenerSaldo()
+    fun getCurrentFundsOfUserById(userIdToSearch: Long): Double {
+        for (user in users) {
+            if (user.id == userIdToSearch) {
+                return user.obtenerSaldo()
             }
         }
         return 0.0
     }
 
-    fun reiniciarInstancia() {
-        users.add(User(1504L, "MARTIN_ALBANESI", "abc4321", "Martin", "Albanesi", 350000.0, "2024-05-13"))
-        users.add(User(2802L, "Fran25", "contraseña123", "Franco German", "Mazafra", 200000.0, "2021-01-20"))
+    /*fun reiniciarInstancia() {
+        users.add(
+            User(
+                1504L,
+                "MARTIN_ALBANESI",
+                "abc4321",
+                "Martin",
+                "Albanesi",
+                350000.0,
+                "2024-05-13"
+            )
+        )
+        users.add(
+            User(
+                2802L,
+                "Fran25",
+                "contraseña123",
+                "Franco German",
+                "Mazafra",
+                200000.0,
+                "2021-01-20"
+            )
+        )
         users.add(User(1510L, "jonaURAN", "@12345", "Jonatan", "Uran", 125000.0, "2018-04-15"))
-    }
+    }*/
 
     fun obtenerListaDeNicknames(): MutableList<String> {
         val listaNicknamesNoDisponibles = mutableListOf<String>()

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.myapplication.R.layout
+import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -44,19 +45,30 @@ class SignUpUserContactData : AppCompatActivity() {
                     id,
                     address,
                     phoneNumber
-                ) && this.containsOnlyLetters(name) && this.containsOnlyLetters(surname) && this.phoneNumberIsValid(
+                ) && this.containsOnlyLetters(name) && this.containsOnlyLetters(surname) && this.phoneNumberContainsOnlyDigits(
+                    phoneNumber
+                ) && this.phoneNumberIsValid(phoneNumber)
+            ) {
+                this.continueToSignUpNicknamePasswordActivity(
+                    name,
+                    surname,
+                    id,
+                    address,
                     phoneNumber
                 )
-            ) {
-                this.continueToSignUpNicknamePasswordActivity()
-            } else if(!this.nothingIsBlank(name, surname, id, address, phoneNumber)){
-                this.showBlankInputFieldsSnackBar()
-            }else if(!this.containsOnlyLetters(name) || !this.containsOnlyLetters(surname)){
-                this.showBlankInputFieldsSnackBar()
+            } else if (!this.nothingIsBlank(name, surname, id, address, phoneNumber)) {
+                this.showErrorMessageSnackBar("No se admiten campos en blanco")
+            } else if (!this.containsOnlyLetters(name) || !this.containsOnlyLetters(surname)) {
+                this.showErrorMessageSnackBar("Nombre o apellido inválidos")
+            } else if (!this.phoneNumberIsValid(phoneNumber)) {
+                this.showErrorMessageSnackBar("Número de teléfono ya registrado")
+            }else if(!this.phoneNumberContainsOnlyDigits(phoneNumber)){
+                this.showErrorMessageSnackBar("Número de teléfono inválido")
             }
         }
 
     }
+
 
     private fun nothingIsBlank(
         name: TextInputEditText,
@@ -71,15 +83,30 @@ class SignUpUserContactData : AppCompatActivity() {
     }
 
     private fun containsOnlyLetters(inputString: TextInputEditText): Boolean {
-        return inputString.text?.all { it.isLetter() } ?: false
+        return inputString.text?.all { it.isLetter() || it == ' '} ?: false
     }
 
-    private fun phoneNumberIsValid(phoneNumber: TextInputEditText): Boolean {
+    private fun phoneNumberContainsOnlyDigits(phoneNumber: TextInputEditText): Boolean {
         return phoneNumber.text?.all { it.isDigit() } ?: false
     }
 
-    private fun continueToSignUpNicknamePasswordActivity() {
+    fun phoneNumberIsValid(phoneNumberToValidate: TextInputEditText): Boolean {
+        return UserRepository.phoneNumberIsNotTaken(phoneNumberToValidate.text.toString())
+    }
+
+    private fun continueToSignUpNicknamePasswordActivity(
+        name: TextInputEditText,
+        surname: TextInputEditText,
+        id: TextInputEditText,
+        address: TextInputEditText,
+        phoneNumber: TextInputEditText
+    ) {
         val intent = Intent(this, SignUpNicknamePassword::class.java)
+        intent.putExtra("NAME", name.text.toString())
+        intent.putExtra("SURNAME", surname.text.toString())
+        intent.putExtra("ID", id.text.toString())
+        intent.putExtra("ADDRESS", address.text.toString())
+        intent.putExtra("PHONE_NUMBER", phoneNumber.text.toString())
         startActivity(intent)
         finish()
     }
@@ -90,8 +117,8 @@ class SignUpUserContactData : AppCompatActivity() {
         finish()
     }
 
-    private fun showBlankInputFieldsSnackBar() {
-        Snackbar.make(mainConstraintLayout, "No se admiten campos en blanco", Snackbar.LENGTH_SHORT)
+    private fun showErrorMessageSnackBar(message: String) {
+        Snackbar.make(mainConstraintLayout, message, Snackbar.LENGTH_SHORT)
             .show()
     }
 }

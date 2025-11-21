@@ -2,10 +2,8 @@ package com.example.myapplication
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import repositories.UserRepository
 
 class Main : AppCompatActivity() {
 
@@ -15,37 +13,39 @@ class Main : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         bottomNavigationView = findViewById(R.id.BottomNavigationView)
 
-        val userLogged = UserRepository.buscarUsuarioPorNickname(
-            (intent.extras?.get("USER_NICKNAME")
-                ?: "") as String
-        )
+        val userId = intent.getLongExtra(
+            "USER_ID",
+            0
+        ) // el intent contiene el userID del usuario logueado en la aplicacion
 
-        if (savedInstanceState == null) {
-            this.loadFragment(EventsFragment.newInstance("1", "2"))
+        if (savedInstanceState == null) { // en caso de no haber ninguna instancia anterior, la pantalla por default es la de eventos
+            this.loadFragment(EventsFragment.newInstance(userId))
         }
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             bottomNavigationView.clearFocus()
             when (item.itemId) {
+                // aquellos fragmentos que gestionen datos de usuario como por ejemplo settings o el saldo, reciben el userID para consultar en el repositorio
                 R.id.Main_home_icon -> {
-                    loadFragment(EventsFragment.newInstance("1", "2"))
+                    loadFragment(EventsFragment.newInstance(userId))
                     true
                 }
 
                 R.id.Main_settings_icon -> {
-                    loadFragment(SettingsFragment.newInstance("1", "2"))
+                    loadFragment(SettingsFragment.newInstance(userId))
                     true
                 }
 
                 R.id.Main_money_icon -> {
-                    loadFragment(UserMoneyFragment.newInstance(userLogged?.id ?: 0))
+                    loadFragment(UserFundsFragment.newInstance(userId))
                     true
                 }
 
                 R.id.Main_history_icon -> {
-                    loadFragment(TicketsHistoryFragment.newInstance("1", "2"))
+                    loadFragment(TicketsHistoryFragment.newInstance(userId))
                     true
                 }
+
 
                 else -> false
             }
@@ -53,7 +53,6 @@ class Main : AppCompatActivity() {
     }
 
     fun loadFragment(fragmentToLoadOnMainActivity: Fragment) {
-        val bundleToSend = bundleOf(USER_ID to "user_id")
         supportFragmentManager.beginTransaction()
             .replace(R.id.Main_FragmentContainerView, fragmentToLoadOnMainActivity).commit()
     }
