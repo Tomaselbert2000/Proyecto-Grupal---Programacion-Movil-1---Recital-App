@@ -6,14 +6,19 @@ import com.google.android.material.textview.MaterialTextView
 
 class TicketViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val ticketNumberPlaceHolder: MaterialTextView =
-        view.findViewById(R.id.TicketHistory_NumberPlaceHolder)
+        view.findViewById(R.id.TicketListItem_NumberPlaceHolder)
     val artistPlaceHolder: MaterialTextView =
-        view.findViewById(R.id.TicketHistory_ArtistNamePlaceHolder)
-    val datePlaceHolder: MaterialTextView = view.findViewById(R.id.TicketHistory_DatePlaceHolder)
-    val timePlaceHolder: MaterialTextView = view.findViewById(R.id.TicketHistory_TimePlaceHolder)
+        view.findViewById(R.id.TicketListItem_ArtistNamePlaceHolder)
+    val datePlaceHolder: MaterialTextView = view.findViewById(R.id.TicketListItem_DatePlaceHolder)
+    val timePlaceHolder: MaterialTextView = view.findViewById(R.id.TicketListItem_TimePlaceHolder)
     val seatQuantityPlaceHolder: MaterialTextView =
-        view.findViewById(R.id.TicketHistory_SeatsPlaceHolder)
+        view.findViewById(R.id.TicketListItem_SeatsPlaceHolder)
     val pricePerSeatPlaceHolder: MaterialTextView =
-        view.findViewById(R.id.TicketHistory_PricePerSeatPlaceHolder)
-    val ticketTotal: MaterialTextView = view.findViewById(R.id.TicketHistory_TicketTotalPlaceHolder)
+        view.findViewById(R.id.TicketListItem_PricePerSeatPlaceHolder)
+    val paymentMethodPlaceHolder: MaterialTextView =
+        view.findViewById(R.id.TicketListItem_PaymentMethodPlaceHolder)
+    val feePlaceHolder: MaterialTextView = view.findViewById(R.id.TicketListItem_FeePlaceHolder)
+    val subTotalPlaceHolder : MaterialTextView = view.findViewById(R.id.TicketListItem_SubtotalPlaceHolder)
+    val ticketTotalPlaceHolder: MaterialTextView =
+        view.findViewById(R.id.TicketListItem_TicketTotalPlaceHolder)
 }

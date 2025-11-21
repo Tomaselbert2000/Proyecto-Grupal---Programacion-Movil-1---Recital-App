@@ -1,7 +1,11 @@
-package repositories
+package com.example.myapplication.repositories
 
-import data.superclass.Ticket
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.example.myapplication.data.superclass.Ticket
+import java.time.LocalDateTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 object TicketsRepository {
 
     private val tickets = mutableListOf<Ticket>()
@@ -13,7 +17,8 @@ object TicketsRepository {
                 4L,
                 1,
                 "Platea",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 6, 12, 8, 30)
             )
         )
 
@@ -23,7 +28,8 @@ object TicketsRepository {
                 3L,
                 4,
                 "Campo",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 18, 12,30)
             )
         )
 
@@ -33,7 +39,8 @@ object TicketsRepository {
                 1L,
                 2,
                 "Campo",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025,11,19,8,30)
             )
         )
 
@@ -43,7 +50,8 @@ object TicketsRepository {
                 5L,
                 6,
                 "Platea",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 12, 24, 19, 30)
 
             )
         )
@@ -54,7 +62,8 @@ object TicketsRepository {
                 2L,
                 3,
                 "Platea",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025,11,19,8,30)
             )
         )
 
@@ -64,7 +73,8 @@ object TicketsRepository {
                 1L,
                 7,
                 "Campo",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 12, 12,50)
             )
         )
 
@@ -74,7 +84,8 @@ object TicketsRepository {
                 3L,
                 4,
                 "Platea",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 2, 25, 12,0)
             )
         )
 
@@ -84,7 +95,8 @@ object TicketsRepository {
                 1L,
                 1,
                 "Campo",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 12, 24, 19, 30)
             )
         )
 
@@ -94,7 +106,8 @@ object TicketsRepository {
                 7L,
                 2,
                 "Campo",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 6, 12, 15,50)
             )
         )
 
@@ -104,7 +117,8 @@ object TicketsRepository {
                 7L,
                 4,
                 "Platea",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 12, 12,50)
             )
         )
 
@@ -114,7 +128,8 @@ object TicketsRepository {
                 5L,
                 7,
                 "Campo",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 11, 4, 10,30)
             )
         )
 
@@ -124,7 +139,8 @@ object TicketsRepository {
                 2L,
                 2,
                 "Platea",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 17, 17,0)
             )
         )
 
@@ -134,7 +150,8 @@ object TicketsRepository {
                 4L,
                 4,
                 "Platea",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 4, 12, 12,30)
             )
         )
 
@@ -144,7 +161,8 @@ object TicketsRepository {
                 6L,
                 2,
                 "Platea",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 12, 24, 19, 30)
             )
         )
 
@@ -154,7 +172,8 @@ object TicketsRepository {
                 2L,
                 7,
                 "Campo",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 12, 10, 12,50)
             )
         )
 
@@ -164,7 +183,8 @@ object TicketsRepository {
                 5L,
                 4,
                 "Campo",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 8, 27, 14,20)
             )
         )
 
@@ -174,7 +194,8 @@ object TicketsRepository {
                 3L,
                 1,
                 "Platea",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 11, 9, 16,30)
             )
         )
 
@@ -184,7 +205,8 @@ object TicketsRepository {
                 1L,
                 3,
                 "Platea",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 18, 12,30)
             )
         )
 
@@ -194,7 +216,8 @@ object TicketsRepository {
                 3L,
                 4,
                 "Platea",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 5, 22, 18, 30)
             )
         )
 
@@ -204,7 +227,8 @@ object TicketsRepository {
                 1L,
                 5,
                 "Campo",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 12, 24, 19, 30)
             )
         )
 
@@ -214,7 +238,8 @@ object TicketsRepository {
                 5L,
                 6,
                 "Platea",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 3, 28, 12,50)
             )
         )
 
@@ -224,7 +249,8 @@ object TicketsRepository {
                 4L,
                 2,
                 "Platea",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 12, 12,50)
             )
         )
 
@@ -234,7 +260,8 @@ object TicketsRepository {
                 6L,
                 1,
                 "Campo",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 6, 5, 12,30)
             )
         )
 
@@ -244,7 +271,8 @@ object TicketsRepository {
                 3L,
                 4,
                 "Platea",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 18, 12,30)
             )
         )
 
@@ -254,7 +282,8 @@ object TicketsRepository {
                 2L,
                 3,
                 "Platea",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 12, 12,50)
             )
         )
 
@@ -264,7 +293,8 @@ object TicketsRepository {
                 7L,
                 8,
                 "Platea",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 12, 24, 19, 30)
             )
         )
 
@@ -274,7 +304,8 @@ object TicketsRepository {
                 7L,
                 1,
                 "Campo",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 7, 22, 9,45)
             )
         )
 
@@ -284,7 +315,8 @@ object TicketsRepository {
                 1L,
                 4,
                 "Campo",
-                idMedioDePagoUsado = 1L
+                idMedioDePagoUsado = 1L,
+                ticketDateTime = LocalDateTime.of(2025, 8, 12, 12,50)
             )
         )
 
@@ -294,7 +326,8 @@ object TicketsRepository {
                 2L,
                 2,
                 "Campo",
-                idMedioDePagoUsado = 2L
+                idMedioDePagoUsado = 2L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 18, 12,30)
             )
         )
 
@@ -304,7 +337,8 @@ object TicketsRepository {
                 5L,
                 3,
                 "Platea",
-                idMedioDePagoUsado = 3L
+                idMedioDePagoUsado = 3L,
+                ticketDateTime = LocalDateTime.of(2025, 9, 12, 12,50)
             )
         )
     }
@@ -356,7 +390,7 @@ object TicketsRepository {
         return nuevoTicket.id >= 1L
     }
 
-    fun obtenerTicketPorId(ticketId: Long): Ticket? {
+    fun getTicketById(ticketId: Long): Ticket? {
         for (ticket in tickets) {
             if (ticket.id == ticketId) {
                 return ticket
@@ -367,5 +401,18 @@ object TicketsRepository {
 
     fun obtenerListaDeTickets(): MutableList<Ticket> {
         return this.tickets
+    }
+
+    fun calculateTotalByList(listOfTicketWithTheUserId: MutableList<Ticket>): Double {
+        var result = 0.0
+        for(ticket in listOfTicketWithTheUserId){
+            val subTotalPerTicket = ticket.calculateTicketSubtotal()
+            val paymentMethodUsed = PaymentMethodRepository.searchPaymentMethodById(ticket.idMedioDePagoUsado)
+            val feeApplied = paymentMethodUsed?.calculateFee(subTotalPerTicket, LocalDateTime.now())
+            if(paymentMethodUsed != null){
+                result += (subTotalPerTicket + feeApplied!!)
+            }
+        }
+        return result
     }
 }

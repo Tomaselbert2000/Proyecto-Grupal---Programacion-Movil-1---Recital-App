@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import data.superclass.Event
+import com.example.myapplication.data.superclass.Event
 
 class EventsAdapter(val eventList: MutableList<Event>) : RecyclerView.Adapter<EventViewHolder>() {
     override fun onCreateViewHolder(

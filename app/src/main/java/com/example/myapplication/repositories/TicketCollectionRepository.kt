@@ -1,6 +1,6 @@
 package repositories
 
-import data.superclass.TicketCollection
+import com.example.myapplication.data.superclass.TicketCollection
 import com.example.myapplication.data.superclass.User
 
 object TicketCollectionRepository {

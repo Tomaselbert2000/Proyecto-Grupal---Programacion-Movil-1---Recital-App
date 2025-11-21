@@ -71,13 +71,19 @@
     <string name="add_funds">Cargar saldo</string>
     <string name="funds_history">Historial de recargas</string>
 
+    <!-- TicketHistory RecyclerView Item -->
     <string name="ticket_number">Número de ticket</string>
     <string name="event_artist_name">Artista</string>
     <string name="ticket_event_date">Fecha</string>
     <string name="ticket_event_time">Hora</string>
     <string name="ticket_event_seat_quantity">Asientos</string>
     <string name="ticket_price_per_seat">Valor asiento</string>
+    <string name="ticket_subtotal_without_fees">Subtotal</string>
+    <string name="ticket_fee">Comisión</string>
     <string name="ticket_total">Monto total</string>
-    <string name="ticket_history_title">Historial de tickets</string>
 
+    <!-- TicketHistory Fragment -->
+    <string name="ticket_history_title">Historial de tickets</string>
+    <string name="total_acumulated_tickets">Total acumulado</string>
+    <string name="ticket_payment_method_textview">Medio de pago</string>
 </resources>

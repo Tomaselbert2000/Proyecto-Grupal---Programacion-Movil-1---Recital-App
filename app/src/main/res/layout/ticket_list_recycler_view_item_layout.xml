@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/TicketListItem_ConstraintLayout"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/TicketListItem_MaterialCardView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/colorSurfaceDim"
         android:elevation="4dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/TicketHistory_InnerConstraintLayout"
+            android:id="@+id/TicketListItem_InnerConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp">
@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_NumberPlaceHolder"
+                android:id="@+id/TicketListItem_NumberPlaceHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -48,7 +48,7 @@
                 tools:text="12345678" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_ArtistTextview"
+                android:id="@+id/TicketListItem_ArtistTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -56,153 +56,199 @@
                 android:text="@string/event_artist_name"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/TicketListItem_NumberTextview"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TicketListItem_NumberTextview" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_ArtistNamePlaceHolder"
+                android:id="@+id/TicketListItem_ArtistNamePlaceHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/TicketHistory_ArtistTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_NumberPlaceHolder"
-                app:layout_constraintTop_toTopOf="@+id/TicketHistory_ArtistTextview"
+                app:layout_constraintBottom_toBottomOf="@+id/TicketListItem_ArtistTextview"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_NumberPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TicketListItem_ArtistTextview"
                 tools:text="Artista invitado al evento" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_DateTextview"
+                android:id="@+id/TicketListItem_DateTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/ticket_event_date"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/TicketHistory_ArtistTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_ArtistTextview"
-                app:layout_constraintTop_toBottomOf="@+id/TicketHistory_ArtistTextview" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_ArtistTextview" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_DatePlaceHolder"
+                android:id="@+id/TicketListItem_DatePlaceHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textColor="?attr/colorOnPrimaryContainer"
-                app:layout_constraintBottom_toBottomOf="@+id/TicketHistory_DateTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_ArtistNamePlaceHolder"
-                app:layout_constraintTop_toTopOf="@+id/TicketHistory_DateTextview"
+                app:layout_constraintBottom_toBottomOf="@+id/TicketListItem_DateTextview"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_ArtistNamePlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TicketListItem_DateTextview"
                 tools:text="31-02-3000" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_TimeTextview"
+                android:id="@+id/TicketListItem_TimeTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/ticket_event_time"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/TicketHistory_DateTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_DateTextview"
-                app:layout_constraintTop_toBottomOf="@+id/TicketHistory_DateTextview" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_DateTextview" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_TimePlaceHolder"
+                android:id="@+id/TicketListItem_TimePlaceHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/TicketHistory_TimeTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_DatePlaceHolder"
-                app:layout_constraintTop_toTopOf="@+id/TicketHistory_TimeTextview"
+                app:layout_constraintBottom_toBottomOf="@+id/TicketListItem_TimeTextview"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_DatePlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TicketListItem_TimeTextview"
                 tools:text="00:00" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_SeatsTextview"
+                android:id="@+id/TicketListItem_SeatsTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/ticket_event_seat_quantity"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/TicketHistory_TimeTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_TimeTextview"
-                app:layout_constraintTop_toBottomOf="@+id/TicketHistory_TimeTextview" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_TimeTextview" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_SeatsPlaceHolder"
+                android:id="@+id/TicketListItem_SeatsPlaceHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/TicketHistory_SeatsTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_TimePlaceHolder"
-                app:layout_constraintTop_toTopOf="@+id/TicketHistory_SeatsTextview"
+                app:layout_constraintBottom_toBottomOf="@+id/TicketListItem_SeatsTextview"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_TimePlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TicketListItem_SeatsTextview"
                 tools:text="10" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_PricePerSeatTextview"
+                android:id="@+id/TicketListItem_PricePerSeatTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
                 android:text="@string/ticket_price_per_seat"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/TicketHistory_SeatsTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_SeatsTextview"
-                app:layout_constraintTop_toBottomOf="@+id/TicketHistory_SeatsTextview" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_SeatsTextview" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_PricePerSeatPlaceHolder"
+                android:id="@+id/TicketListItem_PricePerSeatPlaceHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/TicketHistory_PricePerSeatTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_SeatsPlaceHolder"
-                app:layout_constraintTop_toTopOf="@+id/TicketHistory_PricePerSeatTextview"
+                app:layout_constraintBottom_toBottomOf="@+id/TicketListItem_PricePerSeatTextview"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_SeatsPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TicketListItem_PricePerSeatTextview"
                 tools:text="$10000.0" />
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/materialDivider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TicketHistory_PricePerSeatPlaceHolder" />
-
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_TicketTotalTextview"
+                android:id="@+id/TicketListItem_SubtotalTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/ticket_subtotal_without_fees"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_PricePerSeatTextview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TicketListItem_SubtotalPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/TicketListItem_SubtotalTextview"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_PricePerSeatPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TicketListItem_SubtotalTextview"
+                tools:text="$10250" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TicketListItem_FeeTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ticket_fee"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_SubtotalTextview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TicketListItem_PaymentMethodTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="@string/ticket_payment_method_textview"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_FeeTextview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TicketListItem_PaymentMethodPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/TicketListItem_PaymentMethodTextview"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_FeePlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TicketListItem_PaymentMethodTextview"
+                tools:text="Mercado Pago" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TicketListItem_FeePlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_SubtotalPlaceHolder"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_SubtotalPlaceHolder"
+                tools:text="$450.50" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TicketListItem_TicketTotalTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:text="@string/ticket_total"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/TicketHistory_PricePerSeatTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_PricePerSeatTextview"
-                app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_PaymentMethodTextview" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/TicketHistory_TicketTotalPlaceHolder"
+                android:id="@+id/TicketListItem_TicketTotalPlaceHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/TicketHistory_TicketTotalTextview"
-                app:layout_constraintStart_toStartOf="@+id/TicketHistory_PricePerSeatPlaceHolder"
-                app:layout_constraintTop_toTopOf="@+id/TicketHistory_TicketTotalTextview"
+                app:layout_constraintBottom_toBottomOf="@+id/TicketListItem_TicketTotalTextview"
+                app:layout_constraintStart_toStartOf="@+id/TicketListItem_PaymentMethodPlaceHolder"
+                app:layout_constraintTop_toBottomOf="@+id/TicketListItem_PaymentMethodTextview"
                 tools:text="$200000.0" />
 
 

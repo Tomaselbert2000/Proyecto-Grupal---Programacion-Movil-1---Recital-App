@@ -1,4 +1,4 @@
-package data.superclass
+package com.example.myapplication.data.superclass
 
 data class TicketCollection(
     val id: Long,

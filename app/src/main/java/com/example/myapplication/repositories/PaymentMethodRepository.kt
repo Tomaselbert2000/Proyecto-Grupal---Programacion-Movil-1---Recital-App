@@ -1,24 +1,24 @@
-package repositories
+package com.example.myapplication.repositories
 
-import data.subclass.Mastercard
-import data.subclass.MercadoPago
-import data.superclass.PaymentMethod
-import data.subclass.Visa
+import com.example.myapplication.data.subclass.Mastercard
+import com.example.myapplication.data.subclass.MercadoPago
+import com.example.myapplication.data.superclass.PaymentMethod
+import com.example.myapplication.data.subclass.Visa
 
 object PaymentMethodRepository {
 
-    val listaMetodosDePago = mutableListOf<PaymentMethod.MetodoDePago>()
+    val registeredPaymentMethods = mutableListOf<PaymentMethod.MetodoDePago>()
 
     init {
-        listaMetodosDePago.add(MercadoPago(1L))
-        listaMetodosDePago.add(Visa(2L))
-        listaMetodosDePago.add(Mastercard(3L))
+        registeredPaymentMethods.add(MercadoPago(1L))
+        registeredPaymentMethods.add(Visa(2L))
+        registeredPaymentMethods.add(Mastercard(3L))
     }
 
-    fun buscarMetodoDePagoPorId(id: Long): PaymentMethod.MetodoDePago? {
-        for (metodo in listaMetodosDePago) {
-            if (metodo.id == id) {
-                return metodo
+    fun searchPaymentMethodById(id: Long): PaymentMethod.MetodoDePago? {
+        for (paymentMethod in registeredPaymentMethods) {
+            if (paymentMethod.id == id) {
+                return paymentMethod
             }
         }
         return null
@@ -27,7 +27,7 @@ object PaymentMethodRepository {
 }
 
 fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {
-    for (metodo in this.listaMetodosDePago) {
+    for (metodo in this.registeredPaymentMethods) {
         if (metodo.name == nuevoMetodo.name) {
             return true
         }
@@ -36,7 +36,7 @@ fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: PaymentMethod.MetodoDeP
 }
 
 fun PaymentMethodRepository.idDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {
-    for (metodo in this.listaMetodosDePago) {
+    for (metodo in this.registeredPaymentMethods) {
         if (metodo.id == nuevoMetodo.id) {
             return true
         }

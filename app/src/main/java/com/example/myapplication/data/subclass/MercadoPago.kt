@@ -1,6 +1,6 @@
-package data.subclass
+package com.example.myapplication.data.subclass
 
-import data.superclass.PaymentMethod
+import com.example.myapplication.data.superclass.PaymentMethod
 import java.time.LocalDateTime
 
 class MercadoPago(override val id: Long, override val name: String = "Mercado Pago", override var fee: Double = 0.02) :
@@ -8,7 +8,7 @@ class MercadoPago(override val id: Long, override val name: String = "Mercado Pa
         id, name,
         fee
     ) {
-    override fun calcularMontoComision(montoBase: Double, fechaHoraCompra: LocalDateTime): Double {
+    override fun calculateFee(montoBase: Double, fechaHoraCompra: LocalDateTime): Double {
         return montoBase * fee
     }
 }
