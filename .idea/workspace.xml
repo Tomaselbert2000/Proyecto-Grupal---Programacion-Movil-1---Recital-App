@@ -15,6 +15,11 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_payment_method_info.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
         <config>
           <theme>@style/AppTheme</theme>
@@ -26,6 +31,11 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_signup_user_contact_data.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_transaction_history.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
@@ -45,6 +55,11 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_no_transactions.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_settings.xml">
         <config>
           <theme>@style/AppTheme</theme>
@@ -60,7 +75,17 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_user_transactions_list.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/ticket_list_recycler_view_item_layout.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/transaction_list_recycler_view_item_layout.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
@@ -134,8 +159,8 @@
       <list>
         <option value="Class" />
         <option value="resourceFile" />
-        <option value="Kotlin Class" />
         <option value="layoutResourceFile" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -207,9 +232,11 @@
       <recent name="com.example.myapplication" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="com.example.myapplication.viewHolders" />
       <recent name="com.example.myapplication" />
+      <recent name="com.example.myapplication.adapters" />
+      <recent name="com.example.myapplication.fragments" />
       <recent name="com.example.myapplication.repositories" />
-      <recent name="com.example.myapplication.crearUsuario" />
     </key>
     <key name="android.template.-1247984043">
       <recent name="com.example.myapplication" />

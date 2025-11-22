@@ -1,4 +1,4 @@
-package customExceptions
+package com.example.myapplication.customExceptions
 
 class InvalidInputDataException : Exception(){
 

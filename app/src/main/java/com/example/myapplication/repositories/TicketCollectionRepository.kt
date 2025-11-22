@@ -1,4 +1,4 @@
-package repositories
+package com.example.myapplication.repositories
 
 import com.example.myapplication.data.superclass.TicketCollection
 import com.example.myapplication.data.superclass.User

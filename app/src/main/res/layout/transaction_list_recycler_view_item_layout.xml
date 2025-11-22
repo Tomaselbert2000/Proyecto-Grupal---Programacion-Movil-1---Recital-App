@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/TransactionListItem_MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorSurface"
+        android:elevation="4dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/TransactionListItem_InnerConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="16dp"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TransactionListItem_TransactionIdTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto"
+                android:text="@string/transaction_id"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TransactionListItem_TransactionUserIdTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="@string/transaction_amount"
+                android:layout_marginTop="16dp"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/TransactionListItem_TransactionIdTextview"
+                app:layout_constraintStart_toStartOf="@+id/TransactionListItem_TransactionIdTextview"
+                app:layout_constraintTop_toBottomOf="@+id/TransactionListItem_TransactionIdTextview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TransactionListItem_DateTimeTextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="@string/transaction_datetime"
+                android:layout_marginTop="16dp"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/TransactionListItem_TransactionUserIdTextview"
+                app:layout_constraintStart_toStartOf="@+id/TransactionListItem_TransactionUserIdTextview"
+                app:layout_constraintTop_toBottomOf="@+id/TransactionListItem_TransactionUserIdTextview" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TransactionListItem_TransactionIdPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/TransactionListItem_TransactionIdTextview"
+                app:layout_constraintStart_toEndOf="@+id/TransactionListItem_TransactionIdTextview"
+                app:layout_constraintTop_toTopOf="@+id/TransactionListItem_TransactionIdTextview"
+                tools:text="1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TransactionListItem_AmountPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/TransactionListItem_TransactionUserIdTextview"
+                app:layout_constraintStart_toStartOf="@+id/TransactionListItem_TransactionIdPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TransactionListItem_TransactionUserIdTextview"
+                tools:text="$ 25500.0" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/TransactionListItem_DateTimePlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/TransactionListItem_DateTimeTextview"
+                app:layout_constraintStart_toStartOf="@+id/TransactionListItem_AmountPlaceHolder"
+                app:layout_constraintTop_toTopOf="@+id/TransactionListItem_DateTimeTextview"
+                tools:text="31-12-2025" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

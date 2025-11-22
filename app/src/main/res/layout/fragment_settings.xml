@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:padding="16dp"
-    tools:context=".SettingsFragment">
+    tools:context=".fragments.SettingsFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/SettingsList_MaterialCardView"

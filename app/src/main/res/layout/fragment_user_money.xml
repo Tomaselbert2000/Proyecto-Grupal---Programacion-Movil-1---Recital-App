@@ -7,7 +7,7 @@
     android:clickable="true"
     android:focusable="true"
     android:padding="16dp"
-    tools:context=".UserFundsFragment">
+    tools:context=".fragments.UserFundsFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/UserMoney_MaterialCardView"
@@ -15,8 +15,6 @@
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/colorPrimaryContainer"
         android:elevation="4dp">
-
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/UserMoney_InnerConstraintLayout"
@@ -41,7 +39,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="@string/current_money"
+                android:text="@string/current_funds"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toStartOf="@+id/VisibilityToggle"
@@ -76,8 +74,8 @@
                 android:id="@+id/VisibilityToggle"
                 style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="16dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:icon="@drawable/visibility_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/shapeableImageView" />
@@ -178,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/roboto"
-                android:text="@string/funds_history"
+                android:text="@string/transaction_history"
                 android:textColor="?attr/colorOnPrimaryContainer"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/UserMoney_FundsHistoryIcon"

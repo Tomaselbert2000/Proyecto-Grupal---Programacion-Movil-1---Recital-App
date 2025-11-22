@@ -1,11 +1,14 @@
 package com.example.myapplication.data.subclass
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.myapplication.data.superclass.PaymentMethod
 import java.time.LocalDateTime
 import java.time.LocalTime
 
 class Visa(override val id: Long, override val name: String = "Visa", override var fee: Double = 0.01) :
     PaymentMethod.MetodoDePago(id, name) {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun calculateFee(montoBase: Double, fechaHoraCompra: LocalDateTime): Double {
         val hora = fechaHoraCompra.toLocalTime()
         val inicio = LocalTime.of(15, 0)
