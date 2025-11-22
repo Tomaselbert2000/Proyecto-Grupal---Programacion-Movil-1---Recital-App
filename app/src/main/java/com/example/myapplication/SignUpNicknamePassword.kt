@@ -1,16 +1,19 @@
 package com.example.myapplication
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.data.superclass.User
+import com.example.myapplication.interfaces.SharedFunctions
 import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import java.time.LocalDate.now
 
 
-class SignUpNicknamePassword : AppCompatActivity() {
+class SignUpNicknamePassword : AppCompatActivity(), SharedFunctions{
 
     lateinit var newEmailAddress: TextInputEditText
     lateinit var newNickname: TextInputEditText
@@ -20,6 +23,7 @@ class SignUpNicknamePassword : AppCompatActivity() {
     lateinit var createNewUserButton: MaterialButton
     lateinit var backwardArrowButton: MaterialButton
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup_nickname_password)
@@ -67,21 +71,11 @@ class SignUpNicknamePassword : AppCompatActivity() {
                         creationDate
                     )
                     UserRepository.registerNewUser(newUser)
+
                     val intentSentToActivityMain = Intent(this, Main::class.java)
                     intentSentToActivityMain.putExtra("USER_ID", newUser.id)
                     startActivity(intentSentToActivityMain)
                     finish()
-                    /*
-                    Log.i("name", newUser.name)
-                    Log.i("surname", newUser.surname)
-                    Log.i("user_id", newUser.id.toString())
-                    Log.i("address", newUser.address)
-                    Log.i("phone_number", newUser.phoneNumber)
-                    Log.i("nickname_registered", newUser.nickname)
-                    Log.i("email_registered", newUser.email)
-                    Log.i("new_password", newUser.password)
-                    Log.i("creation_date", newUser.createdDate)
-                     */
                 }
             }
         }

@@ -7,16 +7,17 @@ import com.example.myapplication.fragments.EventsFragment
 import com.example.myapplication.fragments.SettingsFragment
 import com.example.myapplication.fragments.TicketsHistoryFragment
 import com.example.myapplication.fragments.UserFundsFragment
+import com.example.myapplication.interfaces.SharedFunctions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class Main : AppCompatActivity() {
+class Main : AppCompatActivity(), SharedFunctions {
 
     lateinit var bottomNavigationView: BottomNavigationView
     lateinit var eventFragment: EventsFragment
     lateinit var userFundsFragment: UserFundsFragment
     lateinit var ticketHistoryFragment: TicketsHistoryFragment
     lateinit var settingsFragment: SettingsFragment
-    lateinit var displayedFragment: Fragment
+    lateinit var fragmentToShowAsDefault: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +27,6 @@ class Main : AppCompatActivity() {
 
         val userId = intent.getLongExtra("USER_ID", 0) // el intent contiene el userID del usuario logueado en la aplicacion
 
-        if (savedInstanceState == null) { // en caso de no haber ninguna instancia anterior, la pantalla por default es la de eventos
-            this.hideFragment(EventsFragment.newInstance(userId))
-        }
-
         eventFragment = EventsFragment.newInstance(userId)
 
         userFundsFragment = UserFundsFragment.newInstance(userId)
@@ -38,13 +35,19 @@ class Main : AppCompatActivity() {
 
         settingsFragment = SettingsFragment.newInstance(userId)
 
-        displayedFragment = eventFragment
+        fragmentToShowAsDefault = eventFragment
 
-        val listOfFragmentsToLoad = mutableListOf(eventFragment, userFundsFragment, ticketHistoryFragment, settingsFragment)
+        val listOfFragmentsOfMainActivity = mutableListOf(eventFragment, userFundsFragment, ticketHistoryFragment, settingsFragment)
 
-        this.loadHiddenFragmentsOnMemory(listOfFragmentsToLoad)
+        addFragmentsFromList(listOfFragmentsOfMainActivity, R.id.Main_FragmentContainerView, this.supportFragmentManager)
 
-        this.showDefaultFragment()
+        if(savedInstanceState == null){
+            this.switchFragment(
+                eventFragment,
+                listOfFragmentsOfMainActivity,
+                this.supportFragmentManager
+            )
+        }
 
         bottomNavigationView.setOnItemSelectedListener { item ->
 
@@ -53,61 +56,39 @@ class Main : AppCompatActivity() {
             when (item.itemId) {
                 // aquellos fragmentos que gestionen datos de usuario como por ejemplo settings o el saldo, reciben el userID para consultar en el repositorio
                 R.id.Main_home_icon -> {
-                    this.goToThisFragmentAndHideTheOthers(eventFragment, listOfFragmentsToLoad)
+                    this.switchFragment(
+                        eventFragment,
+                        listOfFragmentsOfMainActivity,
+                        this.supportFragmentManager
+                    )
                     true
                 }
 
                 R.id.Main_settings_icon -> {
-                    this.goToThisFragmentAndHideTheOthers(settingsFragment, listOfFragmentsToLoad)
+                    this.switchFragment(
+                        settingsFragment,
+                        listOfFragmentsOfMainActivity,
+                        this.supportFragmentManager
+                    )
                     true
                 }
 
                 R.id.Main_money_icon -> {
-                    this.goToThisFragmentAndHideTheOthers(userFundsFragment, listOfFragmentsToLoad)
+                    this.switchFragment(
+                        userFundsFragment,
+                        listOfFragmentsOfMainActivity,
+                        this.supportFragmentManager
+                    )
                     true
                 }
 
                 R.id.Main_history_icon -> {
-                    this.goToThisFragmentAndHideTheOthers(
-                        ticketHistoryFragment,
-                        listOfFragmentsToLoad
-                    )
+                    this.switchFragment(ticketHistoryFragment, listOfFragmentsOfMainActivity, this.supportFragmentManager)
                     true
                 }
 
                 else -> false
             }
         }
-    }
-
-    private fun goToThisFragmentAndHideTheOthers(
-        fragmentToGo: Fragment,
-        listOfFragmentsToLoad: MutableList<Fragment>
-    ) {
-        for (fragment in listOfFragmentsToLoad) {
-            if (fragment == fragmentToGo) {
-                supportFragmentManager.beginTransaction().show(fragment).commit()
-            } else {
-                supportFragmentManager.beginTransaction().hide(fragment).commit()
-            }
-        }
-    }
-
-    private fun showDefaultFragment() {
-        supportFragmentManager.beginTransaction().show(eventFragment).commit()
-    }
-
-    private fun loadHiddenFragmentsOnMemory(listOfFragmentsToLoad: MutableList<Fragment>) {
-
-        for (fragment in listOfFragmentsToLoad) {
-            this.hideFragment(fragment)
-        }
-    }
-
-    fun hideFragment(fragmentToLoadOnMainActivity: Fragment) {
-
-        supportFragmentManager.beginTransaction()
-            .add(R.id.Main_FragmentContainerView, fragmentToLoadOnMainActivity)
-            .hide(fragmentToLoadOnMainActivity).commit()
     }
 }

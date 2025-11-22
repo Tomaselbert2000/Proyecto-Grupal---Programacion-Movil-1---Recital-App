@@ -142,4 +142,12 @@ object UserRepository {
         }
         return null
     }
+
+    fun addFundsToUser(userId: Long, amountToAddAsDouble: Double) {
+        for(usr in users){
+            if(usr.id == userId){
+                usr.addFunds(amountToAddAsDouble)
+            }
+        }
+    }
 }

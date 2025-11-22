@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.myapplication.fragments.NoMovementsFragment
 import com.example.myapplication.fragments.UserTransactionsList
+import com.example.myapplication.interfaces.SharedFunctions
 import com.example.myapplication.repositories.TransactionRepository
 import com.google.android.material.button.MaterialButton
 
-class TransactionHistory : AppCompatActivity() {
+class TransactionHistory : AppCompatActivity(), SharedFunctions {
 
     lateinit var goBackToUserFundsFragmentButton: MaterialButton
     lateinit var noTransactionsFoundFragment: Fragment
@@ -25,12 +26,25 @@ class TransactionHistory : AppCompatActivity() {
         transactionListFragment = UserTransactionsList.newInstance(userID)
         noTransactionsFoundFragment = NoMovementsFragment.newInstance("1", "2")
 
+        val listOfFragments =
+            mutableListOf(transactionListFragment, noTransactionsFoundFragment)
+
         goBackToUserFundsFragmentButton = findViewById(R.id.TransactionHistory_BackwardsIconButton)
 
+        addFragmentsFromList(
+            listOfFragments,
+            R.id.TransactionHistory_FragmentContainerView,
+            this.supportFragmentManager
+        )
+
         if (transactionsForThisUserId.isEmpty()) {
-            this.loadFragmentOnContainer(noTransactionsFoundFragment)
+            switchFragment(
+                noTransactionsFoundFragment,
+                listOfFragments,
+                this.supportFragmentManager
+            )
         } else {
-            this.loadFragmentOnContainer(transactionListFragment)
+            switchFragment(transactionListFragment, listOfFragments, this.supportFragmentManager)
         }
 
         goBackToUserFundsFragmentButton.setOnClickListener {
@@ -38,9 +52,4 @@ class TransactionHistory : AppCompatActivity() {
         }
     }
 
-    private fun loadFragmentOnContainer(fragmentToLoad: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .add(R.id.TransactionHistory_FragmentContainerView, fragmentToLoad).show(fragmentToLoad)
-            .commit()
-    }
 }

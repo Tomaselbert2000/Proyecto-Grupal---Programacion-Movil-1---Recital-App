@@ -36,14 +36,17 @@ class TicketsHistoryFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
-        val ticketListRecyclerView =
-            view.findViewById<RecyclerView>(R.id.fragment_ticket_history_recycler_view)
+
+        val ticketListRecyclerView = view.findViewById<RecyclerView>(R.id.fragment_ticket_history_recycler_view)
+
         ticketListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val thisListContaintsTheIDsOfTicketsAsLongValues =
-            TicketCollectionRepository.getIDsOfTicketsBoughtByTheUser(userId)
+        val thisListContaintsTheIDsOfTicketsAsLongValues = TicketCollectionRepository.getIDsOfTicketsBoughtByTheUser(userId)
+
         val listOfTicketWithTheUserId = mutableListOf<Ticket>()
+
         for (ticketId in thisListContaintsTheIDsOfTicketsAsLongValues) {
             val ticketToAdd = TicketsRepository.getTicketById(ticketId)
             if (ticketToAdd != null) {
@@ -51,8 +54,11 @@ class TicketsHistoryFragment : Fragment() {
             }
         }
         ticketListRecyclerView.adapter = TicketAdapter(listOfTicketWithTheUserId)
+
         val totalAcumulatedByAllTheTicketsPlaceHolder : MaterialTextView = view.findViewById(R.id.TicketHistory_TotalAcumulatedPlaceHolder)
+
         val total = TicketsRepository.calculateTotalByList(listOfTicketWithTheUserId)
+
         totalAcumulatedByAllTheTicketsPlaceHolder.text = total.toString()
     }
 

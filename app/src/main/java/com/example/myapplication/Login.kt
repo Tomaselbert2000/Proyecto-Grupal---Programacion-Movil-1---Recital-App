@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.myapplication.interfaces.SharedFunctions
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.example.myapplication.repositories.UserRepository
 
-class Login : AppCompatActivity() {
+class Login : AppCompatActivity(), SharedFunctions {
     // se declaran las variables que se usarán en el login
     lateinit var nickname: TextInputEditText
     lateinit var password: TextInputEditText
@@ -65,9 +65,9 @@ class Login : AppCompatActivity() {
             startActivity(intent) // se inicia la actividad de destino en esta linea
             finish() // y se finaliza esta actividad
         } else if (nicknameAsText.isEmpty() || passwordAsText.isEmpty()) { // si el usuario pulsa iniciar sesión con los campos vacios se dispara este snackbar
-            this.showSnackBarAndResetFields("Campos de ingreso vacíos")
+            makeAndShowShortLengthSnackBar("Campos de ingreso vacíos", loginConstraintLayout)
         } else { // y en caso que las credenciales no sean correctas, se dispara este 2do snackbar
-            this.showSnackBarAndResetFields("Usuario o contraseña incorrectos")
+            makeAndShowShortLengthSnackBar("Usuario o contraseña incorrectos", loginConstraintLayout)
         }
     }
 
@@ -75,15 +75,5 @@ class Login : AppCompatActivity() {
         val intent = Intent(this, destinationActivity)
         startActivity(intent)
         finish()
-    }
-
-    private fun showSnackBarAndResetFields(message: String) {
-        Snackbar.make(
-            loginConstraintLayout,
-            message,
-            Snackbar.LENGTH_SHORT
-        ).show()
-        nickname.setText("")
-        password.setText("")
     }
 }
