@@ -102,5 +102,10 @@
     <string name="transaction_amount">Monto</string>
     <string name="transaction_datetime">Fecha y hora</string>
 
+    <!-- Add Funds Activity -->
+    <string name="add_funds_title">Añadir fondos</string>
+    <string name="add_funds_restrictions">Mínimo: $1000\nMáximo: $1.000.000</string>
+    <string name="add_funds_hint">Monto</string>
+    <string name="add_funds_confirm">Confirmar</string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.myapplication.AddFunds
 import com.example.myapplication.PaymentMethodInfo
 import com.example.myapplication.R
 import com.example.myapplication.TransactionHistory
@@ -21,7 +22,8 @@ class UserFundsFragment : Fragment() {
     lateinit var goToAvailablePaymentMethodsButton: MaterialButton
     lateinit var currentFundsPlaceHolder: MaterialTextView
     lateinit var toggleVisibilityIcon: MaterialButton
-    lateinit var goToTransactionHistoryHistoryButton : MaterialButton
+    lateinit var goToTransactionHistoryHistoryButton: MaterialButton
+    lateinit var goToAddFundsButton: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +48,22 @@ class UserFundsFragment : Fragment() {
         }
 
         loggedUser = UserRepository.getUserById(userId)!!
-        goToAvailablePaymentMethodsButton =
-            view.findViewById(R.id.UserMoney_goToPaymentMethodsButton)
+
+        goToAvailablePaymentMethodsButton = view.findViewById(R.id.UserMoney_goToPaymentMethodsButton)
+
         currentFundsPlaceHolder = view.findViewById(R.id.UserMoney_CurrentMoneyTextview)
+
         toggleVisibilityIcon = view.findViewById(R.id.VisibilityToggle)
+
         goToTransactionHistoryHistoryButton = view.findViewById(R.id.UserMoney_FundsHistoryIconButton)
+
+        goToAddFundsButton = view.findViewById(R.id.UserMoney_AddFundsIconButton)
 
         toggleVisibilityIcon.setOnClickListener {
             fundsVisibilityToggleStatusIsTrue = !fundsVisibilityToggleStatusIsTrue
             this.updateUserFundsAndUI()
         }
+
         goToAvailablePaymentMethodsButton.setOnClickListener {
             val intentSentToPaymentMethodInfo = Intent(context, PaymentMethodInfo::class.java)
             startActivity(intentSentToPaymentMethodInfo)
@@ -65,6 +73,12 @@ class UserFundsFragment : Fragment() {
             val intentSentToFundsMovementHistory = Intent(context, TransactionHistory::class.java)
             intentSentToFundsMovementHistory.putExtra("USER_ID", loggedUser.id)
             startActivity(intentSentToFundsMovementHistory)
+        }
+
+        goToAddFundsButton.setOnClickListener {
+            val intentSentToAddFunds = Intent(context, AddFunds::class.java)
+            intentSentToAddFunds.putExtra("USER_ID", loggedUser.id)
+            startActivity(intentSentToAddFunds)
         }
 
         this.updateUserFundsAndUI()
@@ -77,13 +91,17 @@ class UserFundsFragment : Fragment() {
 
     fun updateUserFundsAndUI() {
         if (fundsVisibilityToggleStatusIsTrue) {
+
             toggleVisibilityIcon.setIconResource(R.drawable.visibility_24dp)
             val userFundsAsString = "$" + loggedUser.money.toString()
             currentFundsPlaceHolder.text = userFundsAsString
+
         } else {
+
             toggleVisibilityIcon.setIconResource(R.drawable.visibility_off_24dp)
             val userFundsAsString = "$ *******"
             currentFundsPlaceHolder.text = userFundsAsString
+
         }
     }
 

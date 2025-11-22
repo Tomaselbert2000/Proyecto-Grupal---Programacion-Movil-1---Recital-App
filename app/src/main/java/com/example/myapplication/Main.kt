@@ -21,35 +21,35 @@ class Main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         bottomNavigationView = findViewById(R.id.BottomNavigationView)
 
-        val userId = intent.getLongExtra(
-            "USER_ID",
-            0
-        ) // el intent contiene el userID del usuario logueado en la aplicacion
+        val userId = intent.getLongExtra("USER_ID", 0) // el intent contiene el userID del usuario logueado en la aplicacion
 
         if (savedInstanceState == null) { // en caso de no haber ninguna instancia anterior, la pantalla por default es la de eventos
             this.hideFragment(EventsFragment.newInstance(userId))
         }
 
         eventFragment = EventsFragment.newInstance(userId)
+
         userFundsFragment = UserFundsFragment.newInstance(userId)
+
         ticketHistoryFragment = TicketsHistoryFragment.newInstance(userId)
+
         settingsFragment = SettingsFragment.newInstance(userId)
+
         displayedFragment = eventFragment
 
-        val listOfFragmentsToLoad = mutableListOf(
-            eventFragment,
-            userFundsFragment,
-            ticketHistoryFragment,
-            settingsFragment
-        )
+        val listOfFragmentsToLoad = mutableListOf(eventFragment, userFundsFragment, ticketHistoryFragment, settingsFragment)
 
         this.loadHiddenFragmentsOnMemory(listOfFragmentsToLoad)
+
         this.showDefaultFragment()
 
         bottomNavigationView.setOnItemSelectedListener { item ->
+
             bottomNavigationView.clearFocus()
+
             when (item.itemId) {
                 // aquellos fragmentos que gestionen datos de usuario como por ejemplo settings o el saldo, reciben el userID para consultar en el repositorio
                 R.id.Main_home_icon -> {
@@ -98,12 +98,14 @@ class Main : AppCompatActivity() {
     }
 
     private fun loadHiddenFragmentsOnMemory(listOfFragmentsToLoad: MutableList<Fragment>) {
+
         for (fragment in listOfFragmentsToLoad) {
             this.hideFragment(fragment)
         }
     }
 
     fun hideFragment(fragmentToLoadOnMainActivity: Fragment) {
+
         supportFragmentManager.beginTransaction()
             .add(R.id.Main_FragmentContainerView, fragmentToLoadOnMainActivity)
             .hide(fragmentToLoadOnMainActivity).commit()

@@ -10,7 +10,7 @@ import com.google.android.material.button.MaterialButton
 
 class TransactionHistory : AppCompatActivity() {
 
-    lateinit var goBackToUserFundsFragment: MaterialButton
+    lateinit var goBackToUserFundsFragmentButton: MaterialButton
     lateinit var noTransactionsFoundFragment: Fragment
     lateinit var transactionListFragment: UserTransactionsList
 
@@ -25,7 +25,7 @@ class TransactionHistory : AppCompatActivity() {
         transactionListFragment = UserTransactionsList.newInstance(userID)
         noTransactionsFoundFragment = NoMovementsFragment.newInstance("1", "2")
 
-        goBackToUserFundsFragment = findViewById(R.id.TransactionHistory_BackwardsIconButton)
+        goBackToUserFundsFragmentButton = findViewById(R.id.TransactionHistory_BackwardsIconButton)
 
         if (transactionsForThisUserId.isEmpty()) {
             this.loadFragmentOnContainer(noTransactionsFoundFragment)
@@ -33,7 +33,7 @@ class TransactionHistory : AppCompatActivity() {
             this.loadFragmentOnContainer(transactionListFragment)
         }
 
-        goBackToUserFundsFragment.setOnClickListener {
+        goBackToUserFundsFragmentButton.setOnClickListener {
             finish()
         }
     }

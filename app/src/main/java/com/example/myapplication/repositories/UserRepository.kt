@@ -46,6 +46,20 @@ object UserRepository {
                 "2018-04-15)",
             )
         )
+
+        users.add(
+            User(
+                "Tomas",
+                "Elbert",
+                1000L,
+                "Calle falsa 123",
+                "11335577",
+                "tomas",
+                "abc1234",
+                "tomas@gmail",
+                "2025-11-19"
+            )
+        )
         this.searchUserByIdAndAddFunds(1504L, 350000.0)
         this.searchUserByIdAndAddFunds(2802L, 234500.0)
         this.searchUserByIdAndAddFunds(1510L, 57800.0)
@@ -91,8 +105,8 @@ object UserRepository {
     }
 
     fun phoneNumberIsNotTaken(phoneNumberToValidate: String): Boolean {
-        for(usr in users){
-            if(usr.phoneNumber == phoneNumberToValidate){
+        for (usr in users) {
+            if (usr.phoneNumber == phoneNumberToValidate) {
                 return false
             }
         }
@@ -112,22 +126,12 @@ object UserRepository {
         return false
     }
 
-    fun searchUserByIdAndAddFunds(userIdToSearch:Long, amountToAdd : Double){
-        for(usr in users){
-            if(usr.id == userIdToSearch){
+    fun searchUserByIdAndAddFunds(userIdToSearch: Long, amountToAdd: Double) {
+        for (usr in users) {
+            if (usr.id == userIdToSearch) {
                 usr.addFunds(amountToAdd)
             }
         }
-    }
-
-    fun filterUsersByCreationDate(creationDate: String): MutableList<User> {
-        val usersList = mutableListOf<User>()
-        for (user in users) {
-            if (user.createdDate == creationDate) {
-                usersList.add(user)
-            }
-        }
-        return usersList
     }
 
     fun getUserById(userIdToSearch: Long?): User? {
@@ -138,89 +142,4 @@ object UserRepository {
         }
         return null
     }
-
-    fun getUserByNickname(nicknameToSearch: String): User? {
-        for (user in users) {
-            if (user.nickname == nicknameToSearch) {
-                return user
-            }
-        }
-        return null
-    }
-
-    fun filterUsersByCurrentFundsRange(
-        minimumFundsLimit: Double,
-        maxFundsLimit: Double
-    ): MutableList<User> {
-        val usersFilteredByFunds = mutableListOf<User>()
-        for (user in users) {
-            if (user.money in minimumFundsLimit..maxFundsLimit) {
-                usersFilteredByFunds.add(user)
-            }
-        }
-        return usersFilteredByFunds
-    }
-
-    fun getListOfAllRegisteredUserIDs(): MutableList<Long> {
-        val listOfIdsAsLong = mutableListOf<Long>()
-        for (user in this.users) {
-            listOfIdsAsLong.add(user.id)
-        }
-        return listOfIdsAsLong
-    }
-
-    // dado que el repositorio de usuarios es de tipo Object, no podemos tener mas que una sola instancia
-    // lo cual lleva a posibles errores o inconsistencias al momento de correr sus respectivos tests
-    // con este metodo reiniciamos la instancia desde dentro para poder testear correctamente
-
-    fun limpiarInstancia() {
-        users.clear()
-        /*users.add(User(1504L, "MARTIN_ALBANESI", "abc4321", "Martin", "Albanesi", 350000.0, "2024-05-13"))
-        users.add(User(2802L, "Fran25", "contraseña123", "Franco German", "Mazafra", 200000.0, "2021-01-20"))
-        users.add(User(1510L, "jonaURAN", "@12345", "Jonatan", "Uran", 125000.0, "2018-04-15"))*/
-    }
-
-    fun getCurrentFundsOfUserById(userIdToSearch: Long): Double {
-        for (user in users) {
-            if (user.id == userIdToSearch) {
-                return user.obtenerSaldo()
-            }
-        }
-        return 0.0
-    }
-
-    /*fun reiniciarInstancia() {
-        users.add(
-            User(
-                1504L,
-                "MARTIN_ALBANESI",
-                "abc4321",
-                "Martin",
-                "Albanesi",
-                350000.0,
-                "2024-05-13"
-            )
-        )
-        users.add(
-            User(
-                2802L,
-                "Fran25",
-                "contraseña123",
-                "Franco German",
-                "Mazafra",
-                200000.0,
-                "2021-01-20"
-            )
-        )
-        users.add(User(1510L, "jonaURAN", "@12345", "Jonatan", "Uran", 125000.0, "2018-04-15"))
-    }*/
-
-    fun obtenerListaDeNicknames(): MutableList<String> {
-        val listaNicknamesNoDisponibles = mutableListOf<String>()
-        for (usr in this.users) {
-            listaNicknamesNoDisponibles.add(usr.nickname)
-        }
-        return listaNicknamesNoDisponibles
-    }
-
 }
