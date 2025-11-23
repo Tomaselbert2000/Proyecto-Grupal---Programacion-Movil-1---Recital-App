@@ -41,7 +41,7 @@ object TicketCollectionRepository {
     }
 
     fun crearNuevaColeccion(newCollectionID: Long, newUser: User): Boolean {
-        return this.ticketCollections.add(TicketCollection(newCollectionID, newUser.id, mutableListOf()))
+        return this.ticketCollections.add(TicketCollection(newCollectionID, newUser.personalID, mutableListOf()))
     }
 
     fun obtenerListaDeIDsDeColecciones(): MutableList<Long> {

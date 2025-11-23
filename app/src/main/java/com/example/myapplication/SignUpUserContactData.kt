@@ -5,12 +5,12 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.myapplication.R.layout
-import com.example.myapplication.interfaces.SharedFunctions
+import com.example.myapplication.interfaces.IntSharedFunctions
 import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 
-class SignUpUserContactData : AppCompatActivity(), SharedFunctions {
+class SignUpUserContactData : AppCompatActivity(), IntSharedFunctions {
 
     lateinit var name: TextInputEditText
     lateinit var surname: TextInputEditText

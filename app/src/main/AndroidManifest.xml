@@ -20,8 +20,8 @@
             android:name=".Login"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -34,7 +34,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".UserInfo"
+            android:name=".Account"
             android:exported="true" />
 
         <activity
@@ -45,6 +45,10 @@
             android:exported="true" />
         <activity
             android:name=".TransactionHistory"
+            android:exported="true" />
+
+        <activity
+            android:name=".EditUserAtributes"
             android:exported="true" />
 
         <meta-data

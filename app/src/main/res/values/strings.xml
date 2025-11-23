@@ -4,7 +4,7 @@
     <string name="app_name">Recital App</string>
     <string name="theme">Tema</string>
 
-    <!-- Activity de main_menu.xml -->
+    <!-- Login -->
     <string name="login_title">Recital App</string>
     <string name="email_or_nickname">Email o nickname</string>
     <string name="password_input_textfield">Contraseña</string>
@@ -13,7 +13,7 @@
     <string name="create_user_textview">¿Aún no tienes cuenta?</string>
     <string name="sign_up_button">Crear cuenta</string>
 
-    <!-- Activity de creacion de nuevo usuario -->
+    <!-- SignUp Activities -->
     <string name="create_user_title">Crear usuario</string>
     <string name="contact_data_title">Datos de contacto</string>
     <string name="new_user_name_input_textfield">Nombre/s</string>
@@ -30,7 +30,7 @@
     <string name="backward_button">Volver</string>
     <string name="confirm_button">Confirmar datos</string>
 
-    <!-- Activity de información de usuario logueado -->
+    <!-- Account -->
     <string name="user_info_title">Datos de usuario</string>
     <string name="account_info_title">Información de cuenta</string>
     <string name="logged_user_name">Nombre/s:</string>
@@ -61,7 +61,7 @@
 
     <!-- SettingsList Fragment -->
     <string name="settings_list_themes">Temas</string>
-    <string name="settings_list_user_settings">Ajustes de cuenta</string>
+    <string name="settings_list_user_settings">Cuenta</string>
     <string name="settings_list_about">Acerca de la aplicación</string>
 
     <!-- UserFunds Fragment -->
@@ -94,8 +94,7 @@
 
     <!-- User Transactions History Fragment -->
     <string name="transaction_history_title">Movimientos registrados a la fecha</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="no_movements_registered">No se registran movimientos a la fecha</string>
+    <string name="no_transactions_registered">No se registran movimientos a la fecha</string>
 
     <!-- User Transactions List Recycler View Item Layout -->
     <string name="transaction_id">ID de transacción</string>
@@ -108,4 +107,9 @@
     <string name="add_funds_hint">Monto</string>
     <string name="add_funds_confirm">Confirmar</string>
 
+    <!-- EditUser Activity -->
+    <string name="edit_user_current_email_hint">Ingresar nuevo email</string>
+    <string name="edit_user_current_nickname_hint">Ingresar nuevo nickname</string>
+    <string name="edit_user_phone_number_hint">Ingresar nuevo teléfono</string>
+    <string name="edit_user_password_settings">Ajustes de contraseña</string>
 </resources>

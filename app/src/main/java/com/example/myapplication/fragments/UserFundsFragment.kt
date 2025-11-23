@@ -71,13 +71,13 @@ class UserFundsFragment : Fragment() {
 
         goToTransactionHistoryHistoryButton.setOnClickListener {
             val intentSentToFundsMovementHistory = Intent(context, TransactionHistory::class.java)
-            intentSentToFundsMovementHistory.putExtra("USER_ID", loggedUser.id)
+            intentSentToFundsMovementHistory.putExtra("USER_ID", loggedUser.personalID)
             startActivity(intentSentToFundsMovementHistory)
         }
 
         goToAddFundsButton.setOnClickListener {
             val intentSentToAddFunds = Intent(context, AddFunds::class.java)
-            intentSentToAddFunds.putExtra("USER_ID", loggedUser.id)
+            intentSentToAddFunds.putExtra("USER_ID", loggedUser.personalID)
             startActivity(intentSentToAddFunds)
         }
 

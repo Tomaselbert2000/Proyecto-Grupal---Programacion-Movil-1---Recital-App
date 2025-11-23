@@ -3,12 +3,12 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.myapplication.interfaces.SharedFunctions
+import com.example.myapplication.interfaces.IntSharedFunctions
 import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 
-class AddFunds : AppCompatActivity(), SharedFunctions {
+class AddFunds : AppCompatActivity(), IntSharedFunctions {
 
     lateinit var goBackToUserFundsFragment: MaterialButton
     lateinit var confirmOperationButton: MaterialButton

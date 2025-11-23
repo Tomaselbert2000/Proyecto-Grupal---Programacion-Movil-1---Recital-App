@@ -17,7 +17,8 @@ object UserRepository {
                 "MARTIN_ALBANESI",
                 "abc4321",
                 "martin@gmail",
-                "2024-06-12"
+                "2024-06-12",
+                19258L
             )
         )
         users.add(
@@ -30,7 +31,8 @@ object UserRepository {
                 "Fran25",
                 "contraseña123",
                 "fran@gmail.com",
-                "2021-01-20"
+                "2021-01-20",
+                87256L
             )
         )
         users.add(
@@ -44,6 +46,7 @@ object UserRepository {
                 "@12345",
                 "jona@gmail.com",
                 "2018-04-15)",
+                9999L
             )
         )
 
@@ -57,7 +60,8 @@ object UserRepository {
                 "tomas",
                 "abc1234",
                 "tomas@gmail",
-                "2025-11-19"
+                "2025-11-19",
+                14380L
             )
         )
         this.searchUserByIdAndAddFunds(1504L, 350000.0)
@@ -119,7 +123,7 @@ object UserRepository {
 
     fun userIdIsDuplicated(newUserId: Long): Boolean {
         for (u in users) {
-            if (u.id == newUserId) {
+            if (u.personalID == newUserId) {
                 return true
             }
         }
@@ -128,7 +132,7 @@ object UserRepository {
 
     fun searchUserByIdAndAddFunds(userIdToSearch: Long, amountToAdd: Double) {
         for (usr in users) {
-            if (usr.id == userIdToSearch) {
+            if (usr.personalID == userIdToSearch) {
                 usr.addFunds(amountToAdd)
             }
         }
@@ -136,7 +140,7 @@ object UserRepository {
 
     fun getUserById(userIdToSearch: Long?): User? {
         for (u in users) {
-            if (u.id == userIdToSearch) {
+            if (u.personalID == userIdToSearch) {
                 return u
             }
         }
@@ -144,10 +148,18 @@ object UserRepository {
     }
 
     fun addFundsToUser(userId: Long, amountToAddAsDouble: Double) {
-        for(usr in users){
-            if(usr.id == userId){
+        for (usr in users) {
+            if (usr.personalID == userId) {
                 usr.addFunds(amountToAddAsDouble)
             }
         }
+    }
+
+    fun getListOfTakenClientNumbers(): MutableList<Long> {
+        val takenClientNumbers = mutableListOf<Long>()
+        for (user in users) {
+            takenClientNumbers.add(user.clientNumberAssigned)
+        }
+        return takenClientNumbers
     }
 }

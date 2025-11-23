@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/EditUser_OuterConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/EditUser_BackwardsButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="?attr/colorSurfaceVariant"
+        app:icon="@drawable/chevron_backward_24dp"
+        app:iconTint="?attr/colorOnSurface"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/EditUser_InnerConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditUser_BackwardsButton"
+        app:layout_constraintVertical_bias="0.0">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/EditUser_UpdateAttributesTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/edit_user_attributes"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditUser_Email_InputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="?attr/colorPrimaryContainer"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/EditUser_UpdateEmailButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EditUser_UpdateAttributesTextview">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUser_EmailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:hint="@string/edit_user_current_email_hint"
+                android:inputType="textEmailAddress"
+                android:textColorHint="?attr/colorOnPrimaryContainer" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/EditUser_UpdateEmailButton"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimaryContainer"
+            app:icon="@drawable/check_circle_24dp"
+            app:iconTint="?attr/colorOnPrimaryContainer"
+            app:layout_constraintBottom_toBottomOf="@+id/EditUser_Email_InputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/EditUser_Email_InputLayout" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/EditUser_MaterialDivider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@+id/EditUser_Email_InputLayout"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditUser_Nickname_InputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="?attr/colorPrimaryContainer"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/EditUser_UpdateNicknameButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EditUser_MaterialDivider1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUser_Nickname_EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:hint="@string/edit_user_current_nickname_hint"
+                android:inputType="text"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textColorHint="?attr/colorOnPrimaryContainer" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/EditUser_UpdateNicknameButton"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimaryContainer"
+            app:icon="@drawable/check_circle_24dp"
+            app:iconTint="?attr/colorOnPrimaryContainer"
+            app:layout_constraintBottom_toBottomOf="@+id/EditUser_Nickname_InputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/EditUser_Nickname_InputLayout" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/EditUser_MaterialDivider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EditUser_Nickname_InputLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/EditUser_PhoneNumber_InputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="?attr/colorPrimaryContainer"
+            app:boxCornerRadiusBottomEnd="16dp"
+            app:boxCornerRadiusBottomStart="16dp"
+            app:boxCornerRadiusTopEnd="16dp"
+            app:boxCornerRadiusTopStart="16dp"
+            app:hintTextColor="?attr/colorOnPrimaryContainer"
+            app:layout_constraintEnd_toStartOf="@+id/EditUser_UpdatePhoneNumberButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EditUser_MaterialDivider2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/EditUser_PhoneNumber_EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/roboto"
+                android:hint="@string/edit_user_phone_number_hint"
+                android:inputType="number"
+                android:textColor="?attr/colorOnPrimaryContainer" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/EditUser_UpdatePhoneNumberButton"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?colorPrimaryContainer"
+            app:icon="@drawable/check_circle_24dp"
+            app:iconTint="?colorOnPrimaryContainer"
+            app:layout_constraintBottom_toBottomOf="@+id/EditUser_PhoneNumber_InputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/EditUser_PhoneNumber_InputLayout" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/EditUser_MaterialDivider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EditUser_PhoneNumber_InputLayout" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/EditUser_PasswordIcon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/password_24dp"
+            android:tint="?colorOnPrimaryContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/EditUser_MaterialDivider3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/EditUser_PasswordSettingsTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/edit_user_password_settings"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/EditUser_PasswordIcon"
+            app:layout_constraintStart_toEndOf="@+id/EditUser_PasswordIcon"
+            app:layout_constraintTop_toTopOf="@+id/EditUser_PasswordIcon" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/EditUser_goToPasswordSettingsButton"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimaryContainer"
+            app:icon="@drawable/chevron_right_24dp"
+            app:iconTint="?attr/colorOnPrimaryContainer"
+            app:layout_constraintBottom_toBottomOf="@+id/EditUser_PasswordSettingsTextview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/EditUser_PasswordSettingsTextview" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

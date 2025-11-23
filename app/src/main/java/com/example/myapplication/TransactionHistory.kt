@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.myapplication.fragments.NoMovementsFragment
 import com.example.myapplication.fragments.UserTransactionsList
-import com.example.myapplication.interfaces.SharedFunctions
+import com.example.myapplication.interfaces.IntSharedFunctions
 import com.example.myapplication.repositories.TransactionRepository
 import com.google.android.material.button.MaterialButton
 
-class TransactionHistory : AppCompatActivity(), SharedFunctions {
+class TransactionHistory : AppCompatActivity(), IntSharedFunctions {
 
     lateinit var goBackToUserFundsFragmentButton: MaterialButton
     lateinit var noTransactionsFoundFragment: Fragment

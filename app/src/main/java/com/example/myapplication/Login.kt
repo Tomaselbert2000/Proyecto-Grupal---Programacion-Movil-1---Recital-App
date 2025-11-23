@@ -4,13 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.myapplication.interfaces.SharedFunctions
+import com.example.myapplication.interfaces.IntSharedFunctions
+import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import com.example.myapplication.repositories.UserRepository
 
-class Login : AppCompatActivity(), SharedFunctions {
-    // se declaran las variables que se usarán en el login
+class Login : AppCompatActivity(), IntSharedFunctions {
     lateinit var nickname: TextInputEditText
     lateinit var password: TextInputEditText
     lateinit var signInButton: MaterialButton
@@ -23,8 +22,7 @@ class Login : AppCompatActivity(), SharedFunctions {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login) // al llamar al onCreate se infla la actividad de login
-        // se busca cada componente por su id para inicializar las variables
+        setContentView(R.layout.activity_login)
         signInButton = findViewById(R.id.Login_SignIn_Button)
         signUpButton = findViewById(R.id.Login_SignUp_Button)
         nickname = findViewById(R.id.Login_EmailNickname_EditText)
@@ -32,46 +30,47 @@ class Login : AppCompatActivity(), SharedFunctions {
         destinationActivityMain = Main::class.java
         destinationActivitySignUp = SignUpUserContactData::class.java
 
-        // en esta variable se guarda la vista compuesta por el constraint layout de la actividad de login
-        // a fin de poder llamarlo para crear notificaciones con snackbar
         loginConstraintLayout =
             findViewById(R.id.Login_ConstraintLayout)
 
-        // se llama al metodo onClickListener para el boton de inicio de sesion
         signInButton.setOnClickListener {
             this.processLogin(destinationActivityMain)
         }
 
-        // y de igual manera con el botón de creación de usuario
         signUpButton.setOnClickListener {
             this.createUser(destinationActivitySignUp)
         }
     }
 
-    fun processLogin(destinationActivity: Class<Main>) { // aca recibimos como parámetro el objeto de la clase ya inicializado
-        // se obtiene el texto en limpio de los dos campos de texto de la pantalla
+    fun processLogin(destinationActivity: Class<Main>) {
         val nicknameAsText = nickname.text.toString()
         val passwordAsText = password.text.toString()
         if (UserRepository.login(
                 nicknameAsText,
                 passwordAsText
             ) != null
-        ) { // en caso de coincidir las credenciales se crea el intent
+        ) {
             val intent = Intent(
                 this,
                 destinationActivity
-            ) // aca se crea el intent, llamando desde esta clase (this), hacia la actividad de destino
-            intent.putExtra("USER_ID", UserRepository.login(nicknameAsText, passwordAsText)?.id ?: 0)
-            startActivity(intent) // se inicia la actividad de destino en esta linea
-            finish() // y se finaliza esta actividad
-        } else if (nicknameAsText.isEmpty() || passwordAsText.isEmpty()) { // si el usuario pulsa iniciar sesión con los campos vacios se dispara este snackbar
+            )
+            intent.putExtra(
+                "USER_ID",
+                UserRepository.login(nicknameAsText, passwordAsText)?.personalID ?: 0
+            )
+            startActivity(intent)
+            finish()
+        } else if (nicknameAsText.isEmpty() || passwordAsText.isEmpty()) {
             makeAndShowShortLengthSnackBar("Campos de ingreso vacíos", loginConstraintLayout)
-        } else { // y en caso que las credenciales no sean correctas, se dispara este 2do snackbar
-            makeAndShowShortLengthSnackBar("Usuario o contraseña incorrectos", loginConstraintLayout)
+        } else {
+            makeAndShowShortLengthSnackBar(
+                "Usuario o contraseña incorrectos",
+                loginConstraintLayout
+            )
         }
     }
 
-    private fun createUser(destinationActivity: Class<SignUpUserContactData>) { // el argumento acá llama a la 1era pantalla de creación de usuario
+    private fun createUser(destinationActivity: Class<SignUpUserContactData>) {
         val intent = Intent(this, destinationActivity)
         startActivity(intent)
         finish()

@@ -7,10 +7,10 @@ import com.example.myapplication.fragments.EventsFragment
 import com.example.myapplication.fragments.SettingsFragment
 import com.example.myapplication.fragments.TicketsHistoryFragment
 import com.example.myapplication.fragments.UserFundsFragment
-import com.example.myapplication.interfaces.SharedFunctions
+import com.example.myapplication.interfaces.IntSharedFunctions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class Main : AppCompatActivity(), SharedFunctions {
+class Main : AppCompatActivity(), IntSharedFunctions {
 
     lateinit var bottomNavigationView: BottomNavigationView
     lateinit var eventFragment: EventsFragment
@@ -25,7 +25,10 @@ class Main : AppCompatActivity(), SharedFunctions {
 
         bottomNavigationView = findViewById(R.id.BottomNavigationView)
 
-        val userId = intent.getLongExtra("USER_ID", 0) // el intent contiene el userID del usuario logueado en la aplicacion
+        val userId = intent.getLongExtra(
+            "USER_ID",
+            0
+        )
 
         eventFragment = EventsFragment.newInstance(userId)
 
@@ -37,11 +40,16 @@ class Main : AppCompatActivity(), SharedFunctions {
 
         fragmentToShowAsDefault = eventFragment
 
-        val listOfFragmentsOfMainActivity = mutableListOf(eventFragment, userFundsFragment, ticketHistoryFragment, settingsFragment)
+        val listOfFragmentsOfMainActivity =
+            mutableListOf(eventFragment, userFundsFragment, ticketHistoryFragment, settingsFragment)
 
-        addFragmentsFromList(listOfFragmentsOfMainActivity, R.id.Main_FragmentContainerView, this.supportFragmentManager)
+        addFragmentsFromList(
+            listOfFragmentsOfMainActivity,
+            R.id.Main_FragmentContainerView,
+            this.supportFragmentManager
+        )
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             this.switchFragment(
                 eventFragment,
                 listOfFragmentsOfMainActivity,
@@ -54,7 +62,6 @@ class Main : AppCompatActivity(), SharedFunctions {
             bottomNavigationView.clearFocus()
 
             when (item.itemId) {
-                // aquellos fragmentos que gestionen datos de usuario como por ejemplo settings o el saldo, reciben el userID para consultar en el repositorio
                 R.id.Main_home_icon -> {
                     this.switchFragment(
                         eventFragment,
@@ -83,7 +90,11 @@ class Main : AppCompatActivity(), SharedFunctions {
                 }
 
                 R.id.Main_history_icon -> {
-                    this.switchFragment(ticketHistoryFragment, listOfFragmentsOfMainActivity, this.supportFragmentManager)
+                    this.switchFragment(
+                        ticketHistoryFragment,
+                        listOfFragmentsOfMainActivity,
+                        this.supportFragmentManager
+                    )
                     true
                 }
 

@@ -5,15 +5,17 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.myapplication.data.superclass.User
-import com.example.myapplication.interfaces.SharedFunctions
+import com.example.myapplication.interfaces.IntSharedFunctions
 import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import java.time.LocalDate.now
+import java.time.LocalDateTime
+import kotlin.random.Random
 
 
-class SignUpNicknamePassword : AppCompatActivity(), SharedFunctions{
+class SignUpNicknamePassword : AppCompatActivity(), IntSharedFunctions {
 
     lateinit var newEmailAddress: TextInputEditText
     lateinit var newNickname: TextInputEditText
@@ -22,6 +24,7 @@ class SignUpNicknamePassword : AppCompatActivity(), SharedFunctions{
 
     lateinit var createNewUserButton: MaterialButton
     lateinit var backwardArrowButton: MaterialButton
+    lateinit var signUpNicknamePasswordConstraintLayout: ConstraintLayout
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +42,8 @@ class SignUpNicknamePassword : AppCompatActivity(), SharedFunctions{
         confirmPassword = findViewById(R.id.SignUp_NicknamePassword_ConfirmPassword_EditText)
         createNewUserButton = findViewById(R.id.SignUp_NicknamePassword_CreateAccount_Button)
         backwardArrowButton = findViewById(R.id.SignUp_NicknamePassword_BackwardsButton)
+        signUpNicknamePasswordConstraintLayout =
+            findViewById(R.id.SignUp_NicknamePassword_ConstraintLayout)
 
         createNewUserButton.setOnClickListener {
             val emailAddressText = newEmailAddress.text.toString()
@@ -46,36 +51,63 @@ class SignUpNicknamePassword : AppCompatActivity(), SharedFunctions{
             val newPasswordText = newPassword.text.toString()
             val confirmPasswordText = confirmPassword.text.toString()
 
-            if (this.theUserIdReceivedIsNotNull(
-                    userId
-                )
+            if (this.theUserIdReceivedIsNotNull(userId)
             ) {
                 if (this.allOfTheseAttributesAreValid(
                         userId ?: -1L,
                         emailAddressText,
-                        nicknameText,
-                        newPasswordText,
-                        confirmPasswordText
+                        nicknameText
                     )
                 ) {
-                    val creationDate = now().toString()
-                    val newUser = User(
-                        name.toString(),
-                        surname.toString(),
-                        userId!!,
-                        address.toString(),
-                        phoneNumber.toString(),
-                        nicknameText,
-                        newPasswordText,
-                        emailAddressText,
-                        creationDate
+                    if (passwordsMatch(newPasswordText, confirmPasswordText) && !passwordIsStrong(
+                            newPasswordText
+                        )
+                    ) {
+                        makeAndShowShortLengthSnackBar(
+                            "Contraseña débil. Reintentar",
+                            signUpNicknamePasswordConstraintLayout
+                        )
+                        newPassword.setText("")
+                        confirmPassword.setText("")
+                    } else if (!passwordsMatch(newPasswordText, confirmPasswordText)) {
+                        makeAndShowShortLengthSnackBar(
+                            "Las contraseñas no coinciden",
+                            signUpNicknamePasswordConstraintLayout
+                        )
+                        newPassword.setText("")
+                        confirmPassword.setText("")
+                    } else {
+                        val creationDate = LocalDateTime.now().toString()
+                        val newUser = User(
+                            name.toString(),
+                            surname.toString(),
+                            userId!!,
+                            address.toString(),
+                            phoneNumber.toString(),
+                            nicknameText,
+                            newPasswordText,
+                            emailAddressText,
+                            creationDate,
+                            generateRandomClientNumber()
+                        )
+                        UserRepository.registerNewUser(newUser)
+                        val intentSentToActivityMain = Intent(this, Main::class.java)
+                        intentSentToActivityMain.putExtra("USER_ID", newUser.personalID)
+                        startActivity(intentSentToActivityMain)
+                        finish()
+                    }
+                } else if (!emailIsNotTaken(emailAddressText)) {
+                    makeAndShowShortLengthSnackBar(
+                        "El email ingresado ya ha sido registrado.",
+                        signUpNicknamePasswordConstraintLayout
                     )
-                    UserRepository.registerNewUser(newUser)
-
-                    val intentSentToActivityMain = Intent(this, Main::class.java)
-                    intentSentToActivityMain.putExtra("USER_ID", newUser.id)
-                    startActivity(intentSentToActivityMain)
-                    finish()
+                    newEmailAddress.setText("")
+                } else if (!emailIsValid(emailAddressText)) {
+                    makeAndShowShortLengthSnackBar(
+                        "Email inválido. Reintentar.",
+                        signUpNicknamePasswordConstraintLayout
+                    )
+                    newEmailAddress.setText("")
                 }
             }
         }
@@ -83,6 +115,18 @@ class SignUpNicknamePassword : AppCompatActivity(), SharedFunctions{
         backwardArrowButton.setOnClickListener {
             this.returnToSignUpUserContactDataActivity()
         }
+    }
+
+    private fun generateRandomClientNumber(): Long {
+
+        var clientNumber: Long
+        do {
+            clientNumber = Random.nextLong(1, 100000)
+            if (clientNumber !in UserRepository.getListOfTakenClientNumbers()) {
+                return clientNumber
+            }
+        } while (clientNumber in UserRepository.getListOfTakenClientNumbers())
+        return 0L
     }
 
     private fun returnToSignUpUserContactDataActivity() {
@@ -100,39 +144,16 @@ class SignUpNicknamePassword : AppCompatActivity(), SharedFunctions{
     private fun allOfTheseAttributesAreValid(
         userIdAsLong: Long,
         emailAddressAsText: String,
-        nicknameAsText: String,
-        newPasswordAsText: String,
-        confirmPasswordAsText: String
+        nicknameAsText: String
     ): Boolean {
-        return this.userIdIsValid(userIdAsLong) && this.emailIsValid(emailAddressAsText) && this.emailIsNotTaken(
+        return this.userIdIsValid(userIdAsLong) && emailIsValid(emailAddressAsText) && emailIsNotTaken(
             emailAddressAsText
-        ) && this.nicknameIsValid(nicknameAsText) && this.passwordsMatch(
-            newPasswordAsText,
-            confirmPasswordAsText
-        )
+        ) && nicknameIsValid(nicknameAsText)
     }
-
 
     fun userIdIsValid(userIdToValidate: Long): Boolean {
         return !UserRepository.userIdIsDuplicated(userIdToValidate) && UserRepository.userIdGreaterThanZero(
             userIdToValidate
         )
     }
-
-    fun nicknameIsValid(nicknameToValidate: String): Boolean {
-        return UserRepository.userNicknameIsNotTaken(nicknameToValidate)
-    }
-
-    fun emailIsNotTaken(emailToValidate: String): Boolean {
-        return UserRepository.userEmailAddressIsNotTaken(emailToValidate)
-    }
-
-    fun emailIsValid(emailToValidate: String): Boolean {
-        return emailToValidate.any { it == '@' }
-    }
-
-    fun passwordsMatch(passwordInputField: String, passwordConfirmationField: String): Boolean {
-        return passwordInputField == passwordConfirmationField
-    }
-
 }
