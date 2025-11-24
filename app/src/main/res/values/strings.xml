@@ -112,4 +112,13 @@
     <string name="edit_user_current_nickname_hint">Ingresar nuevo nickname</string>
     <string name="edit_user_phone_number_hint">Ingresar nuevo teléfono</string>
     <string name="edit_user_password_settings">Ajustes de contraseña</string>
+
+    <!-- EnterPassword Fragment -->
+    <string name="enter_password_fragment_title">Autenticación necesaria para continuar</string>
+    <string name="enter_password_fragment_hint">Ingresar contraseña</string>
+
+    <!-- ConfirmPassword Fragment -->
+    <string name="confirm_password_fragment_title">Ingresar nueva contraseña</string>
+    <string name="confirm_password_fragment_repeate_password">Repetir nueva contraseña</string>
+
 </resources>

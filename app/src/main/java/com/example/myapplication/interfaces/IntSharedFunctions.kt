@@ -36,6 +36,15 @@ interface IntSharedFunctions {
         }
     }
 
+    fun hideAllFragmentsFromList(
+        listOfFragmentsToHide: MutableList<Fragment>,
+        containerId: Int, manager: FragmentManager
+    ) {
+        for(fragment in listOfFragmentsToHide){
+            this.hideFragment(fragment, manager)
+        }
+    }
+
     fun switchFragment(
         fragmentToSwitch: Fragment,
         listOfFragments: MutableList<Fragment>,
@@ -54,14 +63,16 @@ interface IntSharedFunctions {
         var uppercase = 0
         var specialCharacter = 0
         var numbers = 0
-        for(letter in newPassword){
+        for (letter in newPassword) {
             when (letter.code) {
                 in 33..38 -> {
                     specialCharacter++
                 }
+
                 in 48..57 -> {
                     numbers++
                 }
+
                 in 65..90 -> {
                     uppercase++
                 }

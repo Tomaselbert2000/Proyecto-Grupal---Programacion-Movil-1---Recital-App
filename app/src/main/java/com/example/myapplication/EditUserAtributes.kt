@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -80,16 +81,29 @@ class EditUserAtributes : AppCompatActivity(), IntSharedFunctions {
 
         updatePhoneNumberButton.setOnClickListener {
             val phoneNumberAsText = phoneNumberEditText.text.toString()
-            if(UserRepository.phoneNumberIsNotTaken(phoneNumberAsText)){
+            if (UserRepository.phoneNumberIsNotTaken(phoneNumberAsText)) {
                 loggedUser.updatePhoneNumber(phoneNumberAsText)
                 this.showSavedChangesSnackBar()
-            }else{
-                makeAndShowShortLengthSnackBar("El teléfono ingresado ya está registrado", editUserAttributesConstraintLayout)
+            } else {
+                makeAndShowShortLengthSnackBar(
+                    "El teléfono ingresado ya está registrado",
+                    editUserAttributesConstraintLayout
+                )
                 phoneNumberEditText.setText("")
             }
         }
 
         goBackToAccountButton.setOnClickListener {
+            val intentSentBackToAccount = Intent(this, Account::class.java)
+            intentSentBackToAccount.putExtra("USER_ID", userId)
+            startActivity(intentSentBackToAccount)
+            finish()
+        }
+
+        goToPasswordSettingsButton.setOnClickListener {
+            val intentSentToPasswordSettings = Intent(this, EditPassword::class.java)
+            intentSentToPasswordSettings.putExtra("USER_ID", userId)
+            startActivity(intentSentToPasswordSettings)
             finish()
         }
     }

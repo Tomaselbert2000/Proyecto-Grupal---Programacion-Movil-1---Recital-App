@@ -12,9 +12,9 @@
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="?attr/colorSurfaceVariant"
+        android:backgroundTint="?attr/colorSecondary"
         app:icon="@drawable/chevron_backward_24dp"
-        app:iconTint="?attr/colorOnSurface"
+        app:iconTint="?attr/colorOnSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

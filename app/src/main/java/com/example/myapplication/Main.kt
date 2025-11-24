@@ -23,12 +23,9 @@ class Main : AppCompatActivity(), IntSharedFunctions {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        bottomNavigationView = findViewById(R.id.BottomNavigationView)
+        val userId = intent.getLongExtra("USER_ID", 0)
 
-        val userId = intent.getLongExtra(
-            "USER_ID",
-            0
-        )
+        bottomNavigationView = findViewById(R.id.BottomNavigationView)
 
         eventFragment = EventsFragment.newInstance(userId)
 
@@ -43,19 +40,22 @@ class Main : AppCompatActivity(), IntSharedFunctions {
         val listOfFragmentsOfMainActivity =
             mutableListOf(eventFragment, userFundsFragment, ticketHistoryFragment, settingsFragment)
 
-        addFragmentsFromList(
-            listOfFragmentsOfMainActivity,
-            R.id.Main_FragmentContainerView,
-            this.supportFragmentManager
-        )
+        val existingFragment =
+            supportFragmentManager.findFragmentById(R.id.Main_FragmentContainerView)
 
-        if (savedInstanceState == null) {
-            this.switchFragment(
-                eventFragment,
+        if (existingFragment == null) {
+            addFragmentsFromList(
                 listOfFragmentsOfMainActivity,
+                R.id.Main_FragmentContainerView,
                 this.supportFragmentManager
             )
         }
+
+        switchFragment(
+            eventFragment,
+            listOfFragmentsOfMainActivity,
+            this.supportFragmentManager
+        )
 
         bottomNavigationView.setOnItemSelectedListener { item ->
 
@@ -63,7 +63,7 @@ class Main : AppCompatActivity(), IntSharedFunctions {
 
             when (item.itemId) {
                 R.id.Main_home_icon -> {
-                    this.switchFragment(
+                    switchFragment(
                         eventFragment,
                         listOfFragmentsOfMainActivity,
                         this.supportFragmentManager
@@ -72,7 +72,7 @@ class Main : AppCompatActivity(), IntSharedFunctions {
                 }
 
                 R.id.Main_settings_icon -> {
-                    this.switchFragment(
+                    switchFragment(
                         settingsFragment,
                         listOfFragmentsOfMainActivity,
                         this.supportFragmentManager
@@ -81,7 +81,7 @@ class Main : AppCompatActivity(), IntSharedFunctions {
                 }
 
                 R.id.Main_money_icon -> {
-                    this.switchFragment(
+                    switchFragment(
                         userFundsFragment,
                         listOfFragmentsOfMainActivity,
                         this.supportFragmentManager
@@ -90,7 +90,7 @@ class Main : AppCompatActivity(), IntSharedFunctions {
                 }
 
                 R.id.Main_history_icon -> {
-                    this.switchFragment(
+                    switchFragment(
                         ticketHistoryFragment,
                         listOfFragmentsOfMainActivity,
                         this.supportFragmentManager
