@@ -121,4 +121,13 @@
     <string name="confirm_password_fragment_title">Ingresar nueva contraseña</string>
     <string name="confirm_password_fragment_repeate_password">Repetir nueva contraseña</string>
 
+    <!-- BuyTickets Activity -->
+    <string name="buy_tickets_title">Comprar tickets</string>
+    <string name="buy_tickets_artist_place_holder">Artista de prueba</string>
+    <string name="buy_tickets_date_place_holder">31–12–2025</string>
+    <string name="buy_tickets_time_place_holder">20:30</string>
+    <string name="buy_tickets_location_place_holder">Ubicación de prueba</string>
+    <string name="buy_tickets_amount_textview">Cantidad</string>
+    <string name="buy_tickets_continue_to_select_payment">Continuar</string>
+
 </resources>

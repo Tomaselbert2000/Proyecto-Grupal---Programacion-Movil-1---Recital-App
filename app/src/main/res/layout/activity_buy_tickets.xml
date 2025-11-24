@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/BuyTickets_ConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BuyTickets_BackwardsButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="?attr/colorSecondary"
+        app:icon="@drawable/chevron_backward_24dp"
+        app:iconTint="?attr/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/BuyTickets_TitleTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/buy_tickets_title"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="32sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_BackwardsButton" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/BuyTickets_MaterialDivider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_TitleTextview" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/BuyTickets_ImagePlaceHolder"
+        android:layout_width="144dp"
+        android:layout_height="144dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_MaterialDivider1"
+        app:strokeColor="?attr/colorOnSurface"
+        app:strokeWidth="12dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/BuyTickets_ArtistNamePlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/buy_tickets_artist_place_holder"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_ImagePlaceHolder" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/BuyTickets_DatePlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/buy_tickets_date_place_holder"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_ArtistNamePlaceHolder" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/BuyTickets_TimePlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/buy_tickets_time_place_holder"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_DatePlaceHolder" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/BuyTickets_LocationPlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/buy_tickets_location_place_holder"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_TimePlaceHolder" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/BuyTickets_MaterialDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_LocationPlaceHolder" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BuyTickets_AddTicketButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimaryFixedDim"
+        app:cornerRadius="4dp"
+        app:icon="@drawable/add_24dp"
+        app:iconTint="?attr/colorOnPrimaryContainer"
+        app:layout_constraintBottom_toBottomOf="@+id/BuyTickets_InputLayout"
+        app:layout_constraintEnd_toStartOf="@+id/BuyTickets_RemoveTicketButton"
+        app:layout_constraintTop_toTopOf="@+id/BuyTickets_InputLayout" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BuyTickets_RemoveTicketButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="?attr/colorPrimaryFixedDim"
+        app:cornerRadius="4dp"
+        app:icon="@drawable/remove_24dp"
+        app:iconTint="?attr/colorOnPrimaryContainer"
+        app:layout_constraintBottom_toBottomOf="@+id/BuyTickets_AddTicketButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/BuyTickets_AddTicketButton" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/BuyTickets_InputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/BuyTickets_AddTicketButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/BuyTickets_MaterialDivider2">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/BuyTickets_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:hint="@string/buy_tickets_amount_textview"
+            android:inputType="number"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/BuyTickets_ContinueToSelectPaymentMethod"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/buy_tickets_continue_to_select_payment"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="12sp"
+        app:icon="@drawable/chevron_right_24dp"
+        app:iconPadding="8dp"
+        app:iconTint="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BuyTickets_InputLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

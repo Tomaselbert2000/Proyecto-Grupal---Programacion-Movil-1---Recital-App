@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:focusable="false"
+    android:clickable="false"
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
@@ -10,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:focusable="false"
+        android:clickable="false"
         android:backgroundTint="?attr/colorPrimaryContainer"
         android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,6 +24,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/EventList_Item_MaterialCardInnerConstraintLayout"
             android:layout_width="match_parent"
+            android:focusable="false"
+            android:clickable="false"
             android:layout_height="wrap_content"
             android:padding="16dp">
 
@@ -45,12 +51,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/Event_ImagePlaceHolder" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/EventList_Item_RightArrowIconButton"
+                android:id="@+id/EventList_Item_goToBuyTicketsButton"
                 style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="?attr/colorPrimary"
                 app:cornerRadius="12dp"
+                android:focusable="true"
+                android:clickable="true"
                 app:icon="@drawable/chevron_right_24dp"
                 app:iconTint="?attr/colorOnPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"

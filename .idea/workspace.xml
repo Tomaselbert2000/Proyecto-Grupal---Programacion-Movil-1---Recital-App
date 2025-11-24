@@ -15,6 +15,11 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_buy_tickets.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_edit_password.xml">
         <config>
           <theme>@style/AppTheme</theme>
@@ -36,6 +41,11 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_payment_method_info.xml">
+        <config>
+          <theme>@style/AppTheme</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_payment_method_selection.xml">
         <config>
           <theme>@style/AppTheme</theme>
         </config>
@@ -179,10 +189,10 @@
       <list>
         <option value="Class" />
         <option value="resourceFile" />
+        <option value="module-info" />
         <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
         <option value="layoutResourceFile" />
-        <option value="module-info" />
       </list>
     </option>
   </component>

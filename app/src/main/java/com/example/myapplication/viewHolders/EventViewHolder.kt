@@ -9,7 +9,7 @@ import com.google.android.material.textview.MaterialTextView
 
 class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val artistName: MaterialTextView = view.findViewById(R.id.EventList_Item_ArtistName)
-    val rightArrowButton: MaterialButton =
-        view.findViewById(R.id.EventList_Item_RightArrowIconButton)
+    val goToByTicketsActivityButton: MaterialButton =
+        view.findViewById(R.id.EventList_Item_goToBuyTicketsButton)
     val artistPhoto: ShapeableImageView = view.findViewById(R.id.Event_ImagePlaceHolder)
 }

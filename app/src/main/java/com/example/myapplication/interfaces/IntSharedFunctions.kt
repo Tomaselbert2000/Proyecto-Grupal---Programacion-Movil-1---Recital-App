@@ -3,6 +3,7 @@ package com.example.myapplication.interfaces
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.myapplication.data.superclass.Event
 import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.snackbar.Snackbar
 

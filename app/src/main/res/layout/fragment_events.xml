@@ -4,8 +4,8 @@
     android:id="@+id/MainActivityEventFragment_ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clickable="true"
-    android:focusable="true"
+    android:clickable="false"
+    android:focusable="false"
     android:padding="16dp">
 
     <com.google.android.material.card.MaterialCardView
@@ -13,13 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="?attr/colorSurface"
+        android:clickable="false"
         android:elevation="4dp"
+        android:focusable="false"
         android:paddingBottom="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/EventFragment_InnerConstraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:focusable="false">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/EventFragment_Banner"
@@ -48,6 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
+                android:focusable="false"
+                android:clickable="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
