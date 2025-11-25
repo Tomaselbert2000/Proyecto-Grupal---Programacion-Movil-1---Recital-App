@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.RadioGroup
@@ -33,7 +32,7 @@ class PaymentMethodSelection : AppCompatActivity(), IntSharedFunctions {
         val seats = intent.getIntExtra("SEATS", 0)
         val seatCategory = intent.getStringExtra("SEAT_CATEGORY")
 
-        val loggedUser: User = UserRepository.getUserById(userId)!!
+        val loggedUser: User? = UserRepository.getUserById(userId)
         val eventSelected: Event = EventRepository.getEventById(eventId)!!
 
         val goBackToBuyTicketsButton: MaterialButton =
@@ -67,17 +66,28 @@ class PaymentMethodSelection : AppCompatActivity(), IntSharedFunctions {
                     paymentMethodsSelectionConstraintLayout
                 )
             } else {
-                paymentMethodInstanceFromRepository =
+                /*paymentMethodInstanceFromRepository =
                     PaymentMethodRepository.searchPaymentMethodById(
                         paymentMethodSelectedRadioButtonId.toLong()
-                    )!!
+                    )!!*/
+                when(paymentMethodSelectedRadioButtonId){
+                    R.id.PaymentMethodSelection_RadioButtonMercadoPago -> {
+                        paymentMethodInstanceFromRepository = PaymentMethodRepository.searchPaymentMethodByName("Mercado Pago")!!
+                    }
+                    R.id.PaymentMethodSelection_RadioButtonVisa -> {
+                        paymentMethodInstanceFromRepository = PaymentMethodRepository.searchPaymentMethodByName("Visa")!!
+                    }
+                    R.id.PaymentMethodSelection_RadioButtonMastercard -> {
+                        paymentMethodInstanceFromRepository = PaymentMethodRepository.searchPaymentMethodByName("Mastercard")!!
+                    }
+                }
                 val newTicketToRegister = Ticket(
                     this.generateRandomTicketID(), eventSelected.id, seats, seatCategory!!,
                     idMedioDePagoUsado = paymentMethodInstanceFromRepository.id,
                     ticketDateTime = LocalDateTime.now()
                 )
 
-                val userFunds = loggedUser.money
+                val userFunds = loggedUser?.money
                 val ticketSubTotal = newTicketToRegister.calculateTicketSubtotal()
                 val feeAsDouble =
                     paymentMethodInstanceFromRepository.calculateFee(newTicketToRegister.calculateTicketSubtotal())
@@ -86,8 +96,8 @@ class PaymentMethodSelection : AppCompatActivity(), IntSharedFunctions {
                 feePlaceHolder.text = feeAsDouble.toString()
                 purchaseTotalPlaceHolder.text = purchaseTotalAsDouble.toString()
 
-                if(userFunds >= purchaseTotalAsDouble){
-                    loggedUser.descontarSaldo(purchaseTotalAsDouble)
+                if(userFunds != null && userFunds >= purchaseTotalAsDouble){
+                    UserRepository.currentUserLogged?.money -= purchaseTotalAsDouble
                     makeAndShowShortLengthSnackBar("Compra realizada con éxito.", paymentMethodsSelectionConstraintLayout)
                     finish()
                 }else{

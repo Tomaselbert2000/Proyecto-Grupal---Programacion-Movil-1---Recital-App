@@ -89,10 +89,6 @@ class UserFundsFragment : Fragment() {
         outState.putBoolean("FUNDS_TOGGLE_VISIBILITY_STATUS", fundsVisibilityToggleStatusIsTrue)
     }
 
-    override fun onResume() {
-        super.onResume()
-        updateUserFundsAndUI()
-    }
     fun updateUserFundsAndUI() {
         if (fundsVisibilityToggleStatusIsTrue) {
 
@@ -107,6 +103,11 @@ class UserFundsFragment : Fragment() {
             currentFundsPlaceHolder.text = userFundsAsString
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        this.updateUserFundsAndUI()
     }
 
     companion object {

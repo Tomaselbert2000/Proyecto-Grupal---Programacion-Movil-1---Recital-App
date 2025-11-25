@@ -5,6 +5,7 @@ import com.example.myapplication.data.superclass.User
 object UserRepository {
 
     private val users = mutableListOf<User>()
+    var currentUserLogged : User ? = null
 
     init {
         users.add(
@@ -74,6 +75,7 @@ object UserRepository {
             if (usr.email == emailOrNicknameInputString || usr.nickname == emailOrNicknameInputString) {
                 if (usr.password == password) {
                     usr.estadoDeSesion = true
+                    currentUserLogged = usr
                     return usr
                 } else {
                     usr.cantidadIniciosDeSesionFallidos++
@@ -161,5 +163,13 @@ object UserRepository {
             takenClientNumbers.add(user.clientNumberAssigned)
         }
         return takenClientNumbers
+    }
+
+    fun discountPurchase(userId: Long, purchaseTotalAsDouble: Double) {
+        for(usr in users){
+            if(usr.personalID == userId){
+                usr.descontarSaldo(purchaseTotalAsDouble)
+            }
+        }
     }
 }

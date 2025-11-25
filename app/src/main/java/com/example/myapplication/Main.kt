@@ -7,6 +7,7 @@ import com.example.myapplication.fragments.SettingsFragment
 import com.example.myapplication.fragments.TicketsHistoryFragment
 import com.example.myapplication.fragments.UserFundsFragment
 import com.example.myapplication.interfaces.IntSharedFunctions
+import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Main : AppCompatActivity(), IntSharedFunctions {
@@ -21,7 +22,7 @@ class Main : AppCompatActivity(), IntSharedFunctions {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val userId = intent.getLongExtra("USER_ID", 0)
+        val userId = intent.getLongExtra("USER_ID", 0L)
 
         bottomNavigationView = findViewById(R.id.BottomNavigationView)
 
@@ -35,9 +36,11 @@ class Main : AppCompatActivity(), IntSharedFunctions {
             ?: fragmentManager.fragments.filterIsInstance<UserFundsFragment>().firstOrNull()
                     ?: UserFundsFragment.newInstance(userId)
 
-        ticketHistoryFragment = fragmentManager.findFragmentByTag("HISTORY") as? TicketsHistoryFragment
-            ?: fragmentManager.fragments.filterIsInstance<TicketsHistoryFragment>().firstOrNull()
-                    ?: TicketsHistoryFragment.newInstance(userId)
+        ticketHistoryFragment =
+            fragmentManager.findFragmentByTag("HISTORY") as? TicketsHistoryFragment
+                ?: fragmentManager.fragments.filterIsInstance<TicketsHistoryFragment>()
+                    .firstOrNull()
+                        ?: TicketsHistoryFragment.newInstance(userId)
 
         settingsFragment = fragmentManager.findFragmentByTag("SETTINGS") as? SettingsFragment
             ?: fragmentManager.fragments.filterIsInstance<SettingsFragment>().firstOrNull()
@@ -47,11 +50,28 @@ class Main : AppCompatActivity(), IntSharedFunctions {
             mutableListOf(eventFragment, userFundsFragment, ticketHistoryFragment, settingsFragment)
 
         val fragmentTransaction = fragmentManager.beginTransaction()
-        if (!fragmentManager.fragments.contains(eventFragment)) fragmentTransaction.add(R.id.Main_FragmentContainerView, eventFragment, "EVENTS")
-        if (!fragmentManager.fragments.contains(userFundsFragment)) fragmentTransaction.add(R.id.Main_FragmentContainerView, userFundsFragment, "FUNDS")
-        if (!fragmentManager.fragments.contains(ticketHistoryFragment)) fragmentTransaction.add(R.id.Main_FragmentContainerView, ticketHistoryFragment, "HISTORY")
-        if (!fragmentManager.fragments.contains(settingsFragment)) fragmentTransaction.add(R.id.Main_FragmentContainerView, settingsFragment, "SETTINGS")
+        if (!fragmentManager.fragments.contains(eventFragment)) fragmentTransaction.add(
+            R.id.Main_FragmentContainerView,
+            eventFragment,
+            "EVENTS"
+        )
+        if (!fragmentManager.fragments.contains(userFundsFragment)) fragmentTransaction.add(
+            R.id.Main_FragmentContainerView,
+            userFundsFragment,
+            "FUNDS"
+        )
+        if (!fragmentManager.fragments.contains(ticketHistoryFragment)) fragmentTransaction.add(
+            R.id.Main_FragmentContainerView,
+            ticketHistoryFragment,
+            "HISTORY"
+        )
+        if (!fragmentManager.fragments.contains(settingsFragment)) fragmentTransaction.add(
+            R.id.Main_FragmentContainerView,
+            settingsFragment,
+            "SETTINGS"
+        )
         fragmentTransaction.commitAllowingStateLoss()
+
         switchFragment(
             eventFragment,
             listOfFragmentsOfMainActivity,
@@ -62,21 +82,41 @@ class Main : AppCompatActivity(), IntSharedFunctions {
             bottomNavigationView.clearFocus()
             when (item.itemId) {
                 R.id.Main_home_icon -> {
-                    switchFragment(eventFragment, listOfFragmentsOfMainActivity, this.supportFragmentManager)
+                    switchFragment(
+                        eventFragment,
+                        listOfFragmentsOfMainActivity,
+                        this.supportFragmentManager
+                    )
                     true
                 }
+
                 R.id.Main_settings_icon -> {
-                    switchFragment(settingsFragment, listOfFragmentsOfMainActivity, this.supportFragmentManager)
+                    switchFragment(
+                        settingsFragment,
+                        listOfFragmentsOfMainActivity,
+                        this.supportFragmentManager
+                    )
                     true
                 }
+
                 R.id.Main_money_icon -> {
-                    switchFragment(userFundsFragment, listOfFragmentsOfMainActivity, this.supportFragmentManager)
+                    switchFragment(
+                        userFundsFragment,
+                        listOfFragmentsOfMainActivity,
+                        this.supportFragmentManager
+                    )
                     true
                 }
+
                 R.id.Main_history_icon -> {
-                    switchFragment(ticketHistoryFragment, listOfFragmentsOfMainActivity, this.supportFragmentManager)
+                    switchFragment(
+                        ticketHistoryFragment,
+                        listOfFragmentsOfMainActivity,
+                        this.supportFragmentManager
+                    )
                     true
                 }
+
                 else -> false
             }
         }

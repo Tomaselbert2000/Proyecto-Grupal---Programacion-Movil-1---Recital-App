@@ -24,5 +24,14 @@ object PaymentMethodRepository {
         return null
     }
 
+    fun searchPaymentMethodByName(name: String): PaymentMethod.MetodoDePago? {
+        for(pm in this.registeredPaymentMethods){
+            if(pm.name == name){
+                return pm
+            }
+        }
+        return null
+    }
+
 }
 

@@ -61,7 +61,7 @@
                     android:text="@string/radio_button_mercado_pago" />
 
                 <RadioButton
-                    android:id="@+id/PaymentMethodSelection_RadioButtonMastercard"
+                    android:id="@+id/PaymentMethodSelection_RadioButtonVisa"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/radio_button_visa" />

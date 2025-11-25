@@ -2,12 +2,14 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.example.myapplication.interfaces.IntSharedFunctions
 import com.example.myapplication.repositories.EventRepository
+import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textfield.TextInputEditText
@@ -19,7 +21,7 @@ class BuyTickets : AppCompatActivity(), IntSharedFunctions{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buy_tickets)
 
-        val userId = intent.getLongExtra("USER_ID", 0L)
+        UserRepository.currentUserLogged?.personalID
         val eventId = intent.getLongExtra("EVENT_ID", 0L)
         val eventClicked = EventRepository.getEventById(eventId)
         val goBackToEventsList : MaterialButton = findViewById(R.id.BuyTickets_BackwardsButton)
@@ -34,6 +36,9 @@ class BuyTickets : AppCompatActivity(), IntSharedFunctions{
         val seatCategoryRadioGroup : RadioGroup = findViewById(R.id.BuyTickets_RadioGroup)
         val goToSelectPaymenMethodButton : MaterialButton = findViewById(R.id.BuyTickets_ContinueToSelectPaymentMethod)
         val buyTicketsConstraintLayout : ConstraintLayout = findViewById(R.id.BuyTickets_ConstraintLayout)
+
+        Log.d("DEBUG", "currentUserLogged en BuyTickets = ${UserRepository.currentUserLogged}")
+
 
         Glide.with(this).load(eventClicked?.image).centerCrop().into(imagePlaceHolder)
         artistNamePlaceHolder.text = eventClicked?.artist.toString()
@@ -79,7 +84,9 @@ class BuyTickets : AppCompatActivity(), IntSharedFunctions{
                         intentSentToPaymentMethodSelection.putExtra("SEAT_CATEGORY", "Palco")
                     }
                 }
-                intentSentToPaymentMethodSelection.putExtra("USER_ID", userId)
+                intentSentToPaymentMethodSelection.putExtra("USER_ID",
+                    UserRepository.currentUserLogged?.personalID ?: 0L
+                )
                 intentSentToPaymentMethodSelection.putExtra("EVENT_ID", eventId)
                 intentSentToPaymentMethodSelection.putExtra("SEATS", seatAmountEditText.text.toString().toInt())
                 startActivity(intentSentToPaymentMethodSelection)
