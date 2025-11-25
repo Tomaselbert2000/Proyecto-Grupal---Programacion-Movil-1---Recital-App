@@ -128,6 +128,19 @@
     <string name="buy_tickets_time_place_holder">20:30</string>
     <string name="buy_tickets_location_place_holder">Ubicación de prueba</string>
     <string name="buy_tickets_amount_textview">Cantidad</string>
+    <string name="buy_tickets_seat_palco">Palco</string>
+    <string name="buy_tickets_seat_platea">Platea</string>
+    <string name="buy_tickets_seat_campo">Campo</string>
     <string name="buy_tickets_continue_to_select_payment">Continuar</string>
+
+    <!-- PaymentMethodSelection Activity -->
+    <string name="payment_method_selection_title">Seleccionar medio de pago para continuar</string>
+    <string name="radio_button_mercado_pago">Mercado Pago</string>
+    <string name="radio_button_mastercard">Mastercard</string>
+    <string name="radio_button_visa">Visa</string>
+    <string name="purchase_confirmation_button">Confirmar compra</string>
+    <string name="payment_methods_selection_fee_textview">Comisión aplicada</string>
+    <string name="payment_methods_selection_total_textview">Total a abonar</string>
+    <string name="payment_methods_selection_seats_textview">Cantidad de asientos</string>
 
 </resources>

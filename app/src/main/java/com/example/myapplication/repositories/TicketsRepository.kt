@@ -415,4 +415,12 @@ object TicketsRepository {
         }
         return result
     }
+
+    fun getListOfTakenTicketsIDs(): MutableList<Long> {
+        val listOfTakenIDs = mutableListOf<Long>()
+        for(ticket in this.tickets){
+            listOfTakenIDs.add(ticket.id)
+        }
+        return listOfTakenIDs
+    }
 }

@@ -89,6 +89,10 @@ class UserFundsFragment : Fragment() {
         outState.putBoolean("FUNDS_TOGGLE_VISIBILITY_STATUS", fundsVisibilityToggleStatusIsTrue)
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateUserFundsAndUI()
+    }
     fun updateUserFundsAndUI() {
         if (fundsVisibilityToggleStatusIsTrue) {
 

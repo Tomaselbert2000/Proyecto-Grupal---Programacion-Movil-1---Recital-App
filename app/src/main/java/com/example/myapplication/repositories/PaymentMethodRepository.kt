@@ -26,20 +26,3 @@ object PaymentMethodRepository {
 
 }
 
-fun PaymentMethodRepository.nombreDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {
-    for (metodo in this.registeredPaymentMethods) {
-        if (metodo.name == nuevoMetodo.name) {
-            return true
-        }
-    }
-    return false
-}
-
-fun PaymentMethodRepository.idDuplicado(nuevoMetodo: PaymentMethod.MetodoDePago): Boolean {
-    for (metodo in this.registeredPaymentMethods) {
-        if (metodo.id == nuevoMetodo.id) {
-            return true
-        }
-    }
-    return false
-}

@@ -1,6 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/PaymentMethodSelection_OuterConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/PaymentMethodSelection_BackwardsButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="?attr/colorSecondary"
+        app:icon="@drawable/chevron_backward_24dp"
+        app:iconTint="?attr/colorOnSecondary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/PaymentMethodSelection_TitleTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/payment_method_selection_title"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PaymentMethodSelection_BackwardsButton" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/PaymentMethodSelection_MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PaymentMethodSelection_TitleTextview">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/PaymentMethodSelection_InnerConstraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:id="@+id/PaymentMethodSelection_RadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorSurfaceVariant"
+                android:padding="16dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RadioButton
+                    android:id="@+id/PaymentMethodSelection_RadioButtonMercadoPago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_mercado_pago" />
+
+                <RadioButton
+                    android:id="@+id/PaymentMethodSelection_RadioButtonMastercard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_visa" />
+
+                <RadioButton
+                    android:id="@+id/PaymentMethodSelection_RadioButtonMastercard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_button_mastercard" />
+            </RadioGroup>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/PaymentMethodSelection_SeatsTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/payment_methods_selection_seats_textview"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PaymentMethodSelection_MaterialCardView" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/PaymentMethodSelection_SeatsPlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:layout_marginStart="16dp"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/PaymentMethodSelection_SeatsTextview"
+        app:layout_constraintStart_toEndOf="@+id/PaymentMethodSelection_SeatsTextview"
+        app:layout_constraintTop_toTopOf="@+id/PaymentMethodSelection_SeatsTextview"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="10" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/PaymentMethodSelection_FeeTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/payment_methods_selection_fee_textview"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PaymentMethodSelection_SeatsTextview" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/PaymentMethodSelection_PurchaseTotalPlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/PaymentMethodSelection_PurchaseTotalTextview"
+        app:layout_constraintStart_toStartOf="@+id/PaymentMethodSelection_FeePlaceHolder"
+        app:layout_constraintTop_toTopOf="@+id/PaymentMethodSelection_PurchaseTotalTextview"
+        tools:text="$ 45000.0" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/PaymentMethodSelection_FeePlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/PaymentMethodSelection_FeeTextview"
+        app:layout_constraintStart_toStartOf="@+id/PaymentMethodSelection_SeatsPlaceHolder"
+        app:layout_constraintTop_toTopOf="@+id/PaymentMethodSelection_FeeTextview"
+        tools:text="100%" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/PaymentMethodSelection_PurchaseTotalTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/payment_methods_selection_total_textview"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PaymentMethodSelection_FeeTextview" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/PaymentMethodSelection_ConfirmPurchaseButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:fontFamily="@font/roboto_medium"
+        android:padding="12dp"
+        android:text="@string/purchase_confirmation_button"
+        android:textColor="?attr/colorOnPrimary"
+        app:icon="@drawable/add_shopping_cart_24dp"
+        app:iconPadding="8dp"
+        app:iconTint="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PaymentMethodSelection_PurchaseTotalPlaceHolder" />
 </androidx.constraintlayout.widget.ConstraintLayout>
