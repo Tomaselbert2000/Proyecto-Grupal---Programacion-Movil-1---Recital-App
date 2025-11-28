@@ -137,7 +137,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=ZY32GVVZ6M)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -154,30 +154,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="My Application" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="My Application" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="My Application" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="My Application" type="f1a62948:ProjectNode" />
-                <item name="app" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="other" type="c8890929:TasksNode$1" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -196,7 +173,7 @@
       </list>
     </option>
   </component>
-  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="E:\Programas\Programacion\Gradle\gradle-9.2.0-all\gradle-9.2.0" javaHome="E:\Programas\Programacion\Java JDK 24" gradleVersion="9.2.0" />
+  <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="$USER_HOME$/Gradle/gradle-9.2.1" javaHome="/usr/lib/jvm/java-1.25.0-openjdk-amd64" gradleVersion="9.2.1" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -208,53 +185,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Android App.CrearUsuarioDatosContacto.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.CrearUsuarioPantalla1.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.CrearUsuarioPantalla2.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.CrearUsuarioUserPassword.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.CreateUserActivity.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.DatosContacto.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.DebuggingConfig.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.InfoUsuario.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.InformacionUsuario.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.Login.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.LoginActivity.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.MainActivity.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.MainMenuActivity.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.UserPassword.executor&quot;: &quot;Run&quot;,
-    &quot;Android App.app.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;DRAWABLE&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Archivos/Tomas/Facultad/Programacion Movil 1/Practicas Android Studio/app/src/main/res/values-night&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;recommended.upgrade.do.not.ask.for.project&quot;: &quot;true&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Android App.CrearUsuarioDatosContacto.executor": "Run",
+    "Android App.CrearUsuarioPantalla1.executor": "Run",
+    "Android App.CrearUsuarioPantalla2.executor": "Run",
+    "Android App.CrearUsuarioUserPassword.executor": "Run",
+    "Android App.CreateUserActivity.executor": "Run",
+    "Android App.DatosContacto.executor": "Run",
+    "Android App.DebuggingConfig.executor": "Run",
+    "Android App.InfoUsuario.executor": "Run",
+    "Android App.InformacionUsuario.executor": "Run",
+    "Android App.Login.executor": "Run",
+    "Android App.LoginActivity.executor": "Run",
+    "Android App.MainActivity.executor": "Run",
+    "Android App.MainMenuActivity.executor": "Run",
+    "Android App.UserPassword.executor": "Run",
+    "Android App.app.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "ResourceManagerPrefKey.ResourceType": "DRAWABLE",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/tomas/Gradle/gradle-9.2.1",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "recommended.upgrade.do.not.ask.for.project": "true",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;android.recentlyUsedThemes&quot;: [
-      &quot;AppTheme&quot;,
-      &quot;Theme.Material3.DayNight.NoActionBar&quot;,
-      &quot;Theme.Design&quot;,
-      &quot;light_mode_personalizado&quot;,
-      &quot;TemaPersonalizado&quot;
+  "keyToStringList": {
+    "android.recentlyUsedThemes": [
+      "AppTheme",
+      "Theme.Material3.DayNight.NoActionBar",
+      "Theme.Design",
+      "light_mode_personalizado",
+      "TemaPersonalizado"
     ]
   }
-}</component>
+}]]></component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>

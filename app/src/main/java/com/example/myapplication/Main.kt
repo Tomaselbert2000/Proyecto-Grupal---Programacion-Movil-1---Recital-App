@@ -2,12 +2,14 @@ package com.example.myapplication
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.myapplication.fragments.EventsFragment
 import com.example.myapplication.fragments.SettingsFragment
 import com.example.myapplication.fragments.TicketsHistoryFragment
 import com.example.myapplication.fragments.UserFundsFragment
 import com.example.myapplication.interfaces.IntSharedFunctions
-import com.example.myapplication.repositories.UserRepository
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class Main : AppCompatActivity(), IntSharedFunctions {
@@ -28,48 +30,65 @@ class Main : AppCompatActivity(), IntSharedFunctions {
 
         val fragmentManager = supportFragmentManager
 
-        eventFragment = fragmentManager.findFragmentByTag("EVENTS") as? EventsFragment
+        eventFragment = (this.searchFragmentByTag(fragmentManager, "EVENTS") as? EventsFragment
             ?: fragmentManager.fragments.filterIsInstance<EventsFragment>().firstOrNull()
-                    ?: EventsFragment.newInstance(userId)
+            ?: EventsFragment.newInstance(userId))
 
-        userFundsFragment = fragmentManager.findFragmentByTag("FUNDS") as? UserFundsFragment
-            ?: fragmentManager.fragments.filterIsInstance<UserFundsFragment>().firstOrNull()
-                    ?: UserFundsFragment.newInstance(userId)
+        userFundsFragment =
+            (this.searchFragmentByTag(fragmentManager, "FUNDS") as? UserFundsFragment
+                ?: fragmentManager.fragments.filterIsInstance<UserFundsFragment>().firstOrNull()
+                ?: UserFundsFragment.newInstance(userId))
 
         ticketHistoryFragment =
-            fragmentManager.findFragmentByTag("HISTORY") as? TicketsHistoryFragment
+            (this.searchFragmentByTag(fragmentManager, "HISTORY")) as? TicketsHistoryFragment
                 ?: fragmentManager.fragments.filterIsInstance<TicketsHistoryFragment>()
-                    .firstOrNull()
-                        ?: TicketsHistoryFragment.newInstance(userId)
+                    .firstOrNull() ?: TicketsHistoryFragment.newInstance(userId)
 
-        settingsFragment = fragmentManager.findFragmentByTag("SETTINGS") as? SettingsFragment
-            ?: fragmentManager.fragments.filterIsInstance<SettingsFragment>().firstOrNull()
-                    ?: SettingsFragment.newInstance(userId)
+        settingsFragment =
+            (this.searchFragmentByTag(fragmentManager, "SETTINGS")) as? SettingsFragment
+                ?: fragmentManager.fragments.filterIsInstance<SettingsFragment>().firstOrNull()
+                        ?: SettingsFragment.newInstance(userId)
 
         val listOfFragmentsOfMainActivity =
             mutableListOf(eventFragment, userFundsFragment, ticketHistoryFragment, settingsFragment)
 
         val fragmentTransaction = fragmentManager.beginTransaction()
-        if (!fragmentManager.fragments.contains(eventFragment)) fragmentTransaction.add(
-            R.id.Main_FragmentContainerView,
-            eventFragment,
-            "EVENTS"
-        )
-        if (!fragmentManager.fragments.contains(userFundsFragment)) fragmentTransaction.add(
-            R.id.Main_FragmentContainerView,
-            userFundsFragment,
-            "FUNDS"
-        )
-        if (!fragmentManager.fragments.contains(ticketHistoryFragment)) fragmentTransaction.add(
-            R.id.Main_FragmentContainerView,
-            ticketHistoryFragment,
-            "HISTORY"
-        )
-        if (!fragmentManager.fragments.contains(settingsFragment)) fragmentTransaction.add(
-            R.id.Main_FragmentContainerView,
-            settingsFragment,
-            "SETTINGS"
-        )
+
+        if (!fragmentManager.fragments.contains(eventFragment)) {
+            this.addFragmentToTransaction(
+                fragmentTransaction,
+                eventFragment,
+                R.id.Main_FragmentContainerView,
+                "EVENTS"
+            )
+        }
+
+        if (!fragmentManager.fragments.contains(userFundsFragment)) {
+            this.addFragmentToTransaction(
+                fragmentTransaction,
+                eventFragment,
+                R.id.Main_FragmentContainerView,
+                "FUNDS"
+            )
+        }
+
+        if (!fragmentManager.fragments.contains(ticketHistoryFragment)) {
+            this.addFragmentToTransaction(
+                fragmentTransaction,
+                eventFragment,
+                R.id.Main_FragmentContainerView,
+                "HISTORY"
+            )
+        }
+        if (!fragmentManager.fragments.contains(settingsFragment)) {
+            this.addFragmentToTransaction(
+                fragmentTransaction,
+                eventFragment,
+                R.id.Main_FragmentContainerView,
+                "SETTINGS"
+            )
+        }
+
         fragmentTransaction.commitAllowingStateLoss()
 
         switchFragment(
@@ -120,6 +139,22 @@ class Main : AppCompatActivity(), IntSharedFunctions {
                 else -> false
             }
         }
+    }
+
+    private fun searchFragmentByTag(
+        fragmentManager: FragmentManager,
+        fragmentTagToSearch: String
+    ): Fragment? {
+        return fragmentManager.findFragmentByTag(fragmentTagToSearch)
+    }
+
+    private fun addFragmentToTransaction(
+        fragmentTransaction: FragmentTransaction,
+        fragmentToAdd: Fragment,
+        fragmentContainerId: Int,
+        fragmentTag: String
+    ) {
+        fragmentTransaction.add(fragmentContainerId, fragmentToAdd, fragmentTag)
     }
 
 
